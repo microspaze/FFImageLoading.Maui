@@ -7,7 +7,7 @@
     <key>CFBundleDisplayName</key>
     <string>FFImageSample</string>
     <key>CFBundleIdentifier</key>
-    <string>com.companyname.ffimagesample</string>
+    <string>com.i7chi.ffimagesample</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>MinimumOSVersion</key>
