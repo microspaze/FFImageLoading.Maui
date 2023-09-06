@@ -36,7 +36,7 @@ namespace FFImageLoading.Maui.Platform
 
             var uriImageSource = source as UriImageSource;
             if (uriImageSource != null)
-            {                
+            {
                 var uri = uriImageSource.Uri?.OriginalString;
                 if (string.IsNullOrWhiteSpace(uri))
                     return null;
@@ -52,6 +52,9 @@ namespace FFImageLoading.Maui.Platform
 
                 if (fileImageSource.File.StartsWith("/", StringComparison.InvariantCultureIgnoreCase) && File.Exists(fileImageSource.File))
                     return new ImageSourceBinding(FFImageLoading.Work.ImageSourceType.Filepath, fileImageSource.File);
+
+                if (File.Exists(fileImageSource.File))
+	                return new ImageSourceBinding(FFImageLoading.Work.ImageSourceType.ApplicationBundle, fileImageSource.File);
 
                 return new ImageSourceBinding(FFImageLoading.Work.ImageSourceType.CompiledResource, fileImageSource.File);
             }
