@@ -12,12 +12,11 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 
     <AssemblyName>FFImageLoading.Maui</AssemblyName>
-    <PackageId>FFImageLoading.Maui</PackageId>
     <Version>1.0.0</Version>
     <Authors>Microspaze, Redth, Daniel Luberda</Authors>
     <Company>Microspaze, Redth, Daniel Luberda</Company>
     <Product>FFImageLoading.Maui</Product>
-    <PackageId>FFImageLoading.Maui</PackageId>
+    <PackageId>FFImageLoadingx.Maui</PackageId>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>
     <NeutralLanguage>en</NeutralLanguage>
