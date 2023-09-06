@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Compat.Maui"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Compat.Transformations"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Maui;assembly=FFImageLoading.Compat.Svg.Maui"
+    xmlns:local="clr-namespace:Sample"
+    x:Class="Sample.SvgSamplePage"
+    x:DataType="local:SvgSamplePageModel"
+    Title="SVG">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ffimageloadingsvg:SvgImageSourceConverter x:Key="SvgImageSourceConverter"></ffimageloadingsvg:SvgImageSourceConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <VerticalStackLayout>
+
+                <!-- FIRST APPROACH (fill): -->
+                <Label Text="First: sample.svg" />
+                <ffimageloadingsvg:SvgCachedImage Source="sample.svg"/>
+            
+                <!-- SECOND APPROACH (PCL EmbeddedResource): -->
+                <Label Text="Second: resource://Sample.sample.svg" Margin="0,20,0,0" />
+                <ffimageloadingsvg:SvgCachedImage WidthRequest="200" HeightRequest="200" Source="resource://Sample.sample.svg"/>
+                
+                <!-- THIRD APPROACH: -->
+                <Label Text="Third: Converter" Margin="0,20,0,0" />
+                <ffimageloading:CachedImage WidthRequest="200" HeightRequest="200"
+                    Source="{Binding Source, Converter={StaticResource SvgImageSourceConverter}}">
+                </ffimageloading:CachedImage>
+            
+                
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

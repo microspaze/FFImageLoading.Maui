@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Compat.Maui"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Compat.Transformations"
+    xmlns:local="clr-namespace:Sample"
+    x:Class="Sample.PlaceholdersPage"
+    x:DataType="local:PlaceholdersPageModel"
+    Title="Placeholders">
+    <ContentPage.Content>
+        <Grid RowDefinitions="Auto,Auto,Auto">
+            <ffimageloading:CachedImage
+                LoadingPlaceholder="loading.png"
+                ErrorPlaceholder="error.png"
+                Grid.Row="0"
+                Source = "{Binding ImageUrl}">
+            </ffimageloading:CachedImage>
+            <Button Text="Loading placeholder" Command="{Binding LoadingPlaceholderCommand}" Grid.Row="1"/>
+            <Button Text="Error placeholder" Command="{Binding ErrorPlaceholderCommand}" Grid.Row="2"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Compat.Maui"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Compat.Transformations"
+    x:Class="Sample.SimpleWebpPage">
+    <ContentPage.Content>
+        <VerticalStackLayout Spacing="10" Margin="15">
+            <Label Text="{Binding ImageUrl}"></Label>
+            <ffimageloading:CachedImage WidthRequest="300" HeightRequest="300"
+                                        DownsampleToViewSize="true" 
+                                        Source="{Binding ImageUrl}">
+            </ffimageloading:CachedImage>
+        </VerticalStackLayout>
+        
+    </ContentPage.Content>
+</ContentPage>
