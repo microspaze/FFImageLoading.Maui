@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Compat.Maui"
     xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Compat.Transformations"
-    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Maui;assembly=FFImageLoading.Compat.Svg.Maui"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Maui;assembly=FFImageLoading.Compat.Maui"
     xmlns:local="clr-namespace:Sample"
     x:Class="Sample.SvgSamplePage"
     x:DataType="local:SvgSamplePageModel"

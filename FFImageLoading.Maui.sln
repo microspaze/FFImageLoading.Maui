@@ -7,11 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFImageLoading", "source\FF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFImageLoading.Transformations", "source\FFImageLoading.Transformations\FFImageLoading.Transformations.csproj", "{698F59B4-B671-4DA8-BB10-430A15174AF5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFImageLoading.Svg", "source\FFImageLoading.Svg\FFImageLoading.Svg.csproj", "{56CAF229-F123-4F4A-8F7F-16B585FBD1A7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFImageLoading.Maui", "source\FFImageLoading.Maui\FFImageLoading.Maui.csproj", "{C5D3816E-BCF1-4387-8EFD-300C90A808CA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFImageLoading.Svg.Maui", "source\FFImageLoading.Svg.Maui\FFImageLoading.Svg.Maui.csproj", "{C81D0B99-E39C-483E-B78B-33C979DAF250}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFImageLoading.Tests", "source\Tests\FFImageLoading.Tests.csproj", "{90F7696E-24DF-4F71-A866-AC8AD0C2EF32}"
 EndProject

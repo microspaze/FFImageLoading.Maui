@@ -39,8 +39,15 @@
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Svg.Skia" Version="0.6.0-preview4" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\FFImageLoading.Transformations\FFImageLoading.Transformations.csproj" />
     <ProjectReference Include="..\FFImageLoading\FFImageLoading.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Svg\" />
+    <Folder Include="Transformations\" />
   </ItemGroup>
  
  

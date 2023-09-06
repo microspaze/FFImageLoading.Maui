@@ -5,10 +5,10 @@ using FFImageLoading.Maui;
 
 namespace FFImageLoading.Svg.Maui
 {
+	/// <summary>
+	/// SvgCachedImage by Daniel Luberda
+	/// </summary>
     [Preserve(AllMembers = true)]
-    /// <summary>
-    /// SvgCachedImage by Daniel Luberda
-    /// </summary>
     public class SvgCachedImage : CachedImage
     {
         public static void Init()
@@ -114,14 +114,14 @@ namespace FFImageLoading.Svg.Maui
         /// You can add additional logic here to configure image loader settings before loading
         /// </summary>
         /// <param name="imageLoader">Image loader.</param>
-        protected override void SetupOnBeforeImageLoading(Work.TaskParameter imageLoader)
+        protected internal override void SetupOnBeforeImageLoading(Work.TaskParameter imageLoader)
         {
             base.SetupOnBeforeImageLoading(imageLoader);
 
             if (ReplaceStringMapHasChanged)
             {
                 ReplaceStringMapHasChanged = false;
-                
+
                 var source = imageLoader.CustomDataResolver as Work.IVectorDataResolver;
                 if (source != null && (Source is AutoSvgImageSource || source.ReplaceStringMap == null))
                     source.ReplaceStringMap = ReplaceStringMap;
