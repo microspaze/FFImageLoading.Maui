@@ -57,6 +57,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Svg.Skia" Version="0.6.0-preview4" />
+    <PackageReference Include="Svg.Skia" Version="1.0.0.1" />
   </ItemGroup>
 </Project>
