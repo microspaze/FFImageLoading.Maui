@@ -14,7 +14,6 @@
                 <ffimageloading:CachedImage x:Name="image" HorizontalOptions="Center" VerticalOptions="Center"
                     LoadingPlaceholder="loading.png" ErrorPlaceholder="error.png" DownsampleToViewSize="true"
                     Aspect="AspectFit" HeightRequest="400" WidthRequest="400" Source="{Binding ImageUrl}">
-                    
                 </ffimageloading:CachedImage>
 
                 <Label Text="ColorSpaceTransformation" HorizontalTextAlignment="Center"/>

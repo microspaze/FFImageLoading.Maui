@@ -12,6 +12,8 @@
                                         DownsampleToViewSize="true" 
                                         Source="{Binding ImageUrl}">
             </ffimageloading:CachedImage>
+            <Image WidthRequest="300" HeightRequest="300"
+                   Source="{Binding ImageUrl}"></Image>
         </VerticalStackLayout>
         
     </ContentPage.Content>
