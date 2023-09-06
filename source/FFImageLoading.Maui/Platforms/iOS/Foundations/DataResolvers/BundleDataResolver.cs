@@ -79,7 +79,7 @@ namespace FFImageLoading.DataResolvers
 						token.ThrowIfCancellationRequested();
 
 						var tmpFile = string.Format("{0}@{1}x", fileName, scale);
-						bundle = NSBundle._AllBundles.FirstOrDefault(bu =>
+						bundle = NSBundle.AllBundles.FirstOrDefault(bu =>
 						{
 							lastPath = string.IsNullOrWhiteSpace(filenamePath) ?
 											 bu.PathForResource(tmpFile, fileType) :
@@ -102,7 +102,7 @@ namespace FFImageLoading.DataResolvers
 
 				if (file == null)
 				{
-					bundle = NSBundle._AllBundles.FirstOrDefault(bu =>
+					bundle = NSBundle.AllBundles.FirstOrDefault(bu =>
 					{
 						lastPath = string.IsNullOrWhiteSpace(filenamePath) ?
 										 bu.PathForResource(fileName, fileType) :
@@ -114,7 +114,7 @@ namespace FFImageLoading.DataResolvers
 
 				token.ThrowIfCancellationRequested();
 
-				if (bundle != null)
+				if (bundle != null && !string.IsNullOrEmpty(lastPath))
 				{
 					var stream = FileStore.GetInputStream(lastPath, true);
 					var imageInformation = new ImageInformation();

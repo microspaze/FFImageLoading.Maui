@@ -228,7 +228,7 @@ namespace FFImageLoading.Work
 			=> ImageService.Configuration;
 
 		protected readonly IImageService<TImageContainer> ImageService;
-		
+
 		protected CancellationTokenSource CancellationTokenSource { get; private set; }
 
 
@@ -514,7 +514,7 @@ namespace FFImageLoading.Work
 					DataResolverResult loadImageData;
 					TImageContainer loadImage;
 
-					if (!await _placeholdersResolveLock.WaitAsync(TimeSpan.FromSeconds(10), CancellationTokenSource.Token).ConfigureAwait(false))
+					if (!await _placeholdersResolveLock.WaitAsync(TimeSpan.FromMilliseconds(1000), CancellationTokenSource.Token).ConfigureAwait(false))
 						return;
 
 					try

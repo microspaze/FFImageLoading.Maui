@@ -43,7 +43,7 @@ namespace FFImageLoading.DataResolvers
 			}
 
 			// Let's check the bundle and bundle resource paths too
-			foreach (var bu in NSBundle._AllBundles)
+			foreach (var bu in NSBundle.AllBundles)
 			{
 				var path = Path.Combine(bu.ResourcePath, identifier);
 
