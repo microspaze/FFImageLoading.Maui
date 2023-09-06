@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <Configurations>Debug;Release</Configurations>
+    <Platforms>AnyCPU;Device;Simulator</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
