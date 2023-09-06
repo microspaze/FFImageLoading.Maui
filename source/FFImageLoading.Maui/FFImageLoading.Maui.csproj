@@ -11,15 +11,15 @@
 
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 
-    <AssemblyName>FFImageLoading.Compat.Maui</AssemblyName>
-    <PackageId>FFImageLoadingCompat.Maui</PackageId>
-    <Version>3.0.0</Version>
-    <Authors>Redth, Daniel Luberda</Authors>
-    <Company>Redth, Daniel Luberda</Company>
-    <Product>FFImageLoading.Compat.Maui</Product>
-    <PackageId>FFImageLoadingCompat.Maui</PackageId>
-    <AssemblyVersion>3.0.0.0</AssemblyVersion>
-    <FileVersion>3.0.0.0</FileVersion>
+    <AssemblyName>FFImageLoading.Maui</AssemblyName>
+    <PackageId>FFImageLoading.Maui</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Microspaze, Redth, Daniel Luberda</Authors>
+    <Company>Microspaze, Redth, Daniel Luberda</Company>
+    <Product>FFImageLoading.Maui</Product>
+    <PackageId>FFImageLoading.Maui</PackageId>
+    <AssemblyVersion>5.0.0.0</AssemblyVersion>
+    <FileVersion>5.0.0.0</FileVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <Copyright>Daniel Luberda</Copyright>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -35,11 +35,27 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
     <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU;Device;Simulator</Platforms>
+    <PackageProjectUrl>https://github.com/microspaze/FFImageLoading.Maui</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/microspaze/FFImageLoading.Maui</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Svg.Skia" Version="0.6.0-preview4" />
   </ItemGroup>
