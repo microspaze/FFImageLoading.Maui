@@ -15,7 +15,7 @@ This *Maui* version which merges all Transformations & SVG library parts into ON
 
 ## Usage
 
-1. Install NuGet package: [FFImageLoading.Maui](http://www.nuget.org/packages/FFImageLoadingx.Maui) [![NuGet](https://img.shields.io/nuget/v/FFImageLoadingx.Maui.svg?label=NuGet)](https://www.nuget.org/packages/FFImageLoadingx.Maui)
+1. Install NuGet package: [FFImageLoadingx.Maui](http://www.nuget.org/packages/FFImageLoadingx.Maui) [![NuGet](https://img.shields.io/nuget/v/FFImageLoadingx.Maui.svg?label=NuGet)](https://www.nuget.org/packages/FFImageLoadingx.Maui)
 2. Add `.UseFFImageLoading()` to your MAUI app builder.
 
 ```csharp
