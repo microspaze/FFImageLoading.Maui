@@ -7,7 +7,7 @@ namespace Sample
     {
 		public void Reload()
 		{
-			ImageUrl = "https://www.gstatic.com/webp/gallery/1.sm.webp";
+			ImageUrl = "https://gastaticqn.gatime.cn/1.sm.webp";
 		}
 
 		[ObservableProperty]

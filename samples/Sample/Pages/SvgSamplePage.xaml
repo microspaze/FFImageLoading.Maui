@@ -20,7 +20,7 @@
 
                 <!-- FIRST APPROACH (fill): -->
                 <Label Text="First: sample.svg" />
-                <ffimageloading:SvgCachedImage Source="sample.svg"/>
+                <ffimageloading:SvgCachedImage WidthRequest="200" HeightRequest="200" Source="sample.svg"/>
             
                 <!-- SECOND APPROACH (PCL EmbeddedResource): -->
                 <Label Text="Second: resource://Sample.sample.svg" Margin="0,20,0,0" />
