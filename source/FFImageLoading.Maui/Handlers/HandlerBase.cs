@@ -20,7 +20,7 @@ namespace FFImageLoading.Maui.Handlers
 		{
 			TaskParameter parameters = default;
 
-			if (binding.ImageSource == Work.ImageSource.Url)
+			if (binding.ImageSourceType == Work.ImageSourceType.Url)
 			{
 				var urlSource = (Microsoft.Maui.Controls.UriImageSource)((imageSource as IVectorImageSource)?.ImageSource ?? imageSource);
 				parameters = ImageService.LoadUrl(binding.Path, urlSource.CacheValidity);
@@ -30,23 +30,23 @@ namespace FFImageLoading.Maui.Handlers
 					parameters.WithCache(Cache.CacheType.None);
 				}
 			}
-			else if (binding.ImageSource == Work.ImageSource.CompiledResource)
+			else if (binding.ImageSourceType == Work.ImageSourceType.CompiledResource)
 			{
 				parameters = ImageService.LoadCompiledResource(binding.Path);
 			}
-			else if (binding.ImageSource == Work.ImageSource.ApplicationBundle)
+			else if (binding.ImageSourceType == Work.ImageSourceType.ApplicationBundle)
 			{
 				parameters = ImageService.LoadFileFromApplicationBundle(binding.Path);
 			}
-			else if (binding.ImageSource == Work.ImageSource.Filepath)
+			else if (binding.ImageSourceType == Work.ImageSourceType.Filepath)
 			{
 				parameters = ImageService.LoadFile(binding.Path);
 			}
-			else if (binding.ImageSource == Work.ImageSource.Stream)
+			else if (binding.ImageSourceType == Work.ImageSourceType.Stream)
 			{
 				parameters = ImageService.LoadStream(binding.Stream);
 			}
-			else if (binding.ImageSource == Work.ImageSource.EmbeddedResource)
+			else if (binding.ImageSourceType == Work.ImageSourceType.EmbeddedResource)
 			{
 				parameters = ImageService.LoadEmbeddedResource(binding.Path);
 			}

@@ -9,7 +9,7 @@ namespace FFImageLoading.Maui
     [Preserve(AllMembers = true)]
     public interface IImageSourceBinding
     {
-        Work.ImageSource ImageSource { get; }
+        Work.ImageSourceType ImageSourceType { get; }
 
         string Path { get; }
 

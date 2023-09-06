@@ -30,6 +30,7 @@ namespace FFImageLoading.Maui
 
 			FFImageLoading.HostingExtensions.RegisterServices(mauiAppBuilder.Services);
 
+			#if ANDROID || WINDOWS || IOS || TIZEN || MACCATALYST
 			mauiAppBuilder.ConfigureMauiHandlers(c =>
 			{
 				c.AddHandler(typeof(FFImageLoading.Maui.CachedImage), typeof(FFImageLoading.Maui.Platform.CachedImageHandler));
@@ -38,8 +39,7 @@ namespace FFImageLoading.Maui
 			//{
 			//	imageSourceServices.UseFFImageLoading(mauiAppBuilder.Services);
 			//});
-
-
+			#endif
 
 			return mauiAppBuilder;
 		}

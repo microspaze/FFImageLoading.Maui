@@ -31,14 +31,14 @@ namespace Sample
                 }
             }
 
-            public IBitmap Transform(IBitmap sourceBitmap, string path, FFImageLoading.Work.ImageSource source, bool isPlaceholder, string key)
+            public IBitmap Transform(IBitmap sourceBitmap, string path, FFImageLoading.Work.ImageSourceType sourceType, bool isPlaceholder, string key)
             {
                 if (isPlaceholder)
                 {
-                    return PlaceholderTransformation.Transform(sourceBitmap, path, source, isPlaceholder, key);
+                    return PlaceholderTransformation.Transform(sourceBitmap, path, sourceType, isPlaceholder, key);
                 }
 
-                return ImageTransformation.Transform(sourceBitmap, path, source, isPlaceholder, key);
+                return ImageTransformation.Transform(sourceBitmap, path, sourceType, isPlaceholder, key);
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks>net7.0;net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
     <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
     <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
@@ -41,14 +41,4 @@
   <ItemGroup>
     <PackageReference Include="Svg.Skia" Version="0.6.0-preview4" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FFImageLoading.Transformations\FFImageLoading.Transformations.csproj" />
-    <ProjectReference Include="..\FFImageLoading\FFImageLoading.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Svg\" />
-    <Folder Include="Transformations\" />
-  </ItemGroup>
- 
- 
 </Project>

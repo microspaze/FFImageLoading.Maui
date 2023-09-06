@@ -29,6 +29,6 @@
     <Folder Include="Cache\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FFImageLoading\FFImageLoading.csproj" />
+    <ProjectReference Include="..\FFImageLoading.Maui\FFImageLoading.Maui.csproj" />
   </ItemGroup>
 </Project>

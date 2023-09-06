@@ -841,27 +841,27 @@ namespace FFImageLoading.Maui
 		/// <param name="errorPlaceholderSource">Error placeholder source.</param>
 		protected internal virtual void SetupOnBeforeImageLoading(out Work.TaskParameter imageLoader, IImageSourceBinding source, IImageSourceBinding loadingPlaceholderSource, IImageSourceBinding errorPlaceholderSource)
 		{
-			if (source.ImageSource == Work.ImageSource.Url)
+			if (source.ImageSourceType == Work.ImageSourceType.Url)
 			{
 				imageLoader = ImageService.LoadUrl(source.Path, CacheDuration);
 			}
-			else if (source.ImageSource == Work.ImageSource.CompiledResource)
+			else if (source.ImageSourceType == Work.ImageSourceType.CompiledResource)
 			{
 				imageLoader = ImageService.LoadCompiledResource(source.Path);
 			}
-			else if (source.ImageSource == Work.ImageSource.ApplicationBundle)
+			else if (source.ImageSourceType == Work.ImageSourceType.ApplicationBundle)
 			{
 				imageLoader = ImageService.LoadFileFromApplicationBundle(source.Path);
 			}
-			else if (source.ImageSource == Work.ImageSource.Filepath)
+			else if (source.ImageSourceType == Work.ImageSourceType.Filepath)
 			{
 				imageLoader = ImageService.LoadFile(source.Path);
 			}
-			else if (source.ImageSource == Work.ImageSource.Stream)
+			else if (source.ImageSourceType == Work.ImageSourceType.Stream)
 			{
 				imageLoader = ImageService.LoadStream(source.Stream);
 			}
-			else if (source.ImageSource == Work.ImageSource.EmbeddedResource)
+			else if (source.ImageSourceType == Work.ImageSourceType.EmbeddedResource)
 			{
 				imageLoader = ImageService.LoadEmbeddedResource(source.Path);
 			}
@@ -887,7 +887,7 @@ namespace FFImageLoading.Maui
 			if (LoadingPlaceholder != null)
 			{
 				if (loadingPlaceholderSource != null)
-					imageLoader.LoadingPlaceholder(loadingPlaceholderSource.Path, loadingPlaceholderSource.ImageSource);
+					imageLoader.LoadingPlaceholder(loadingPlaceholderSource.Path, loadingPlaceholderSource.ImageSourceType);
 			}
 
 			// ErrorPlaceholder
@@ -895,7 +895,7 @@ namespace FFImageLoading.Maui
 			{
 
 				if (errorPlaceholderSource != null)
-					imageLoader.ErrorPlaceholder(errorPlaceholderSource.Path, errorPlaceholderSource.ImageSource);
+					imageLoader.ErrorPlaceholder(errorPlaceholderSource.Path, errorPlaceholderSource.ImageSourceType);
 			}
 
 			// Enable vector image source

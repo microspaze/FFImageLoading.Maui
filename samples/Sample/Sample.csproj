@@ -85,8 +85,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\source\FFImageLoading.Maui\FFImageLoading.Maui.csproj" />
-    <ProjectReference Include="..\..\source\FFImageLoading.Transformations\FFImageLoading.Transformations.csproj" />
-    <ProjectReference Include="..\..\source\FFImageLoading\FFImageLoading.csproj" />
     <ProjectReference Include="..\..\source\Tests\FFImageLoading.Tests.csproj" />
   </ItemGroup>
 

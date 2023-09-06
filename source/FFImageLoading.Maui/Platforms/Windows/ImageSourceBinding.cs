@@ -8,19 +8,19 @@ namespace FFImageLoading.Maui.Platform
 {
     public class ImageSourceBinding : IImageSourceBinding
     {
-        public ImageSourceBinding(FFImageLoading.Work.ImageSource imageSource, string path)
+        public ImageSourceBinding(FFImageLoading.Work.ImageSourceType imageSourceType, string path)
         {
-            ImageSource = imageSource;
+            ImageSourceType = imageSourceType;
             Path = path;
         }
 
         public ImageSourceBinding(Func<CancellationToken, Task<Stream>> stream)
         {
-            ImageSource = FFImageLoading.Work.ImageSource.Stream;
+            ImageSourceType = FFImageLoading.Work.ImageSourceType.Stream;
             Stream = stream;
         }
 
-        public FFImageLoading.Work.ImageSource ImageSource { get; private set; }
+        public FFImageLoading.Work.ImageSourceType ImageSourceType { get; private set; }
 
         public string Path { get; private set; }
 
@@ -40,7 +40,7 @@ namespace FFImageLoading.Maui.Platform
                 if (string.IsNullOrWhiteSpace(uri))
                     return null;
 
-                return new ImageSourceBinding(Work.ImageSource.Url, uri);
+                return new ImageSourceBinding(Work.ImageSourceType.Url, uri);
             }
 
             var fileImageSource = source as FileImageSource;
@@ -66,10 +66,10 @@ namespace FFImageLoading.Maui.Platform
 
                 if (file != null)
                 {
-                    return new ImageSourceBinding(Work.ImageSource.Filepath, fileImageSource.File);
+                    return new ImageSourceBinding(Work.ImageSourceType.Filepath, fileImageSource.File);
                 }
 
-                return new ImageSourceBinding(Work.ImageSource.ApplicationBundle, fileImageSource.File);
+                return new ImageSourceBinding(Work.ImageSourceType.ApplicationBundle, fileImageSource.File);
             }
 
             var streamImageSource = source as StreamImageSource;
@@ -85,7 +85,7 @@ namespace FFImageLoading.Maui.Platform
                 if (string.IsNullOrWhiteSpace(uri))
                     return null;
 
-                return new ImageSourceBinding(FFImageLoading.Work.ImageSource.EmbeddedResource, uri);
+                return new ImageSourceBinding(FFImageLoading.Work.ImageSourceType.EmbeddedResource, uri);
             }
 
             var dataUrlSource = source as DataUrlImageSource;
@@ -94,7 +94,7 @@ namespace FFImageLoading.Maui.Platform
                 if (string.IsNullOrWhiteSpace(dataUrlSource.DataUrl))
                     return null;
 
-                return new ImageSourceBinding(FFImageLoading.Work.ImageSource.Url, dataUrlSource.DataUrl);
+                return new ImageSourceBinding(FFImageLoading.Work.ImageSourceType.Url, dataUrlSource.DataUrl);
             }
 
             var vectorSource = source as IVectorImageSource;
@@ -149,7 +149,7 @@ namespace FFImageLoading.Maui.Platform
                 return false;
             }
 
-            return this.ImageSource == item.ImageSource && this.Path == item.Path && this.Stream == item.Stream;
+            return this.ImageSourceType == item.ImageSourceType && this.Path == item.Path && this.Stream == item.Stream;
         }
 
         public override int GetHashCode()
@@ -157,7 +157,7 @@ namespace FFImageLoading.Maui.Platform
             unchecked
             {
                 int hash = 17;
-                hash = hash * 23 + this.ImageSource.GetHashCode();
+                hash = hash * 23 + this.ImageSourceType.GetHashCode();
                 hash = hash * 23 + Path.GetHashCode();
                 hash = hash * 23 + Stream.GetHashCode();
                 return hash;

@@ -4,16 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Compat.Maui"
     xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Compat.Transformations"
-    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Maui;assembly=FFImageLoading.Compat.Maui"
     x:Class="Sample.SvgReplacePage">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <ffimageloadingsvg:SvgCachedImage WidthRequest="200" HeightRequest="200" 
+                <ffimageloading:SvgCachedImage WidthRequest="200" HeightRequest="200" 
                     ReplaceStringMap="{Binding ReplaceMap}"
                     Source="resource://Sample.replace.svg" />
                 
-                <ffimageloadingsvg:SvgCachedImage WidthRequest="200" HeightRequest="200" 
+                <ffimageloading:SvgCachedImage WidthRequest="200" HeightRequest="200" 
                     Source="{Binding ImageSource}" />                
                 
                 <Button Text="Replace" Command="{Binding ReplaceCommand}"/>

@@ -20,23 +20,23 @@ namespace FFImageLoading
 		protected readonly IConfiguration Configuration;
 		protected readonly IDownloadCache DownloadCache;
 
-		public IDataResolver GetResolver(string identifier, Work.ImageSource source, TaskParameter parameters)
+		public IDataResolver GetResolver(string identifier, Work.ImageSourceType source, TaskParameter parameters)
         {
             switch (source)
             {
-                case Work.ImageSource.ApplicationBundle:
+                case Work.ImageSourceType.ApplicationBundle:
                     throw new NotImplementedException();
-                case Work.ImageSource.CompiledResource:
+                case Work.ImageSourceType.CompiledResource:
                     throw new NotImplementedException();
-                case Work.ImageSource.Filepath:
+                case Work.ImageSourceType.Filepath:
                     throw new NotImplementedException();
-                case Work.ImageSource.Url:
+                case Work.ImageSourceType.Url:
                     if (!string.IsNullOrWhiteSpace(identifier) && identifier.IsDataUrl())
                         return new DataUrlResolver();
                     return new UrlDataResolver(Configuration, DownloadCache);
-                case Work.ImageSource.Stream:
+                case Work.ImageSourceType.Stream:
                     return new StreamDataResolver();
-                case Work.ImageSource.EmbeddedResource:
+                case Work.ImageSourceType.EmbeddedResource:
                     return new EmbeddedResourceResolver();
                 default:
                     throw new NotSupportedException("Unknown type of ImageSource");

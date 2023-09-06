@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FFImageLoading.Svg.Maui;
+using FFImageLoading.Maui;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
 using Microsoft.Maui.Layouts;
@@ -26,7 +26,7 @@ namespace Sample.Pages
 
 
 			listView.SetBinding(ListView.ItemsSourceProperty, nameof(SvgListHeavyPageModel.Items));
-			
+
             listView.ItemSelected += (sender, e) => { listView.SelectedItem = null; };
 
             Content = listView;

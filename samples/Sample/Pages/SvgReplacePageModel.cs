@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FFImageLoading.Svg.Maui;
+using FFImageLoading.Maui;
 
 namespace Sample
 {

@@ -35,7 +35,7 @@ namespace FFImageLoading.Work
             return Task.FromResult(false);
         }
 
-        protected override Task<MockBitmap> TransformAsync(MockBitmap bitmap, IList<ITransformation> transformations, string path, ImageSource source, bool isPlaceholder)
+        protected override Task<MockBitmap> TransformAsync(MockBitmap bitmap, IList<ITransformation> transformations, string path, ImageSourceType source, bool isPlaceholder)
         {
             return Task.FromResult(new MockBitmap());
         }

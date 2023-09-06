@@ -9,7 +9,7 @@ namespace FFImageLoading.Decoders
 {
     public class MockDecoder : IDecoder<MockBitmap>
     {
-        public Task<IDecodedImage<MockBitmap>> DecodeAsync(Stream stream, string path, Work.ImageSource source, ImageInformation imageInformation, TaskParameter parameters)
+        public Task<IDecodedImage<MockBitmap>> DecodeAsync(Stream stream, string path, Work.ImageSourceType source, ImageInformation imageInformation, TaskParameter parameters)
         {
             var result = new DecodedImage<MockBitmap>()
             {
