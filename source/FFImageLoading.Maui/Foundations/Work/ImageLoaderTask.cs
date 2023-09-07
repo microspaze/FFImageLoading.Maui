@@ -359,19 +359,19 @@ namespace FFImageLoading.Work
 				Image = decoded.Image as TDecoderContainer,
 				AnimatedImages = decoded.AnimatedImages?.Select(
 					v => new AnimatedImage<TDecoderContainer> { Delay = v.Delay, Image = v.Image as TDecoderContainer })
-										.ToArray()
+										.ToArray() as IAnimatedImage<TDecoderContainer>[]
 			};
 
 			if (enableTransformations && Parameters.Transformations != null && Parameters.Transformations.Count > 0)
 			{
 				var transformations = Parameters.Transformations.ToList();
 
-				if (decoderContainer.IsAnimated)
+				if (decoderContainer.IsAnimated && decoderContainer.AnimatedImages != null)
 				{
-					for (var i = 0; i < decoderContainer.AnimatedImages.Length; i++)
+					foreach (var animatedImage in decoderContainer.AnimatedImages)
 					{
-						decoderContainer.AnimatedImages[i].Image = await TransformAsync(
-							decoderContainer.AnimatedImages[i].Image, transformations, path, sourceType, isPlaceholder).ConfigureAwait(false);
+						animatedImage.Image = await TransformAsync(
+							animatedImage.Image, transformations, path, sourceType, isPlaceholder).ConfigureAwait(false);
 					}
 				}
 				else
@@ -384,14 +384,15 @@ namespace FFImageLoading.Work
 			return await GenerateImageFromDecoderContainerAsync(decoderContainer, imageInformation, isPlaceholder).ConfigureAwait(false);
 		}
 
-		public async virtual Task<bool> TryLoadFromMemoryCacheAsync()
+		public virtual async Task<bool> TryLoadFromMemoryCacheAsync()
 		{
 			try
 			{
-				var cacheType = Parameters?.CacheType ?? CacheType.All;
+				if (Parameters == null) return false;
 
+				var cacheType = Parameters.CacheType ?? CacheType.All;
 				if (Parameters.Preload &&
-					(cacheType == CacheType.Disk || cacheType == CacheType.None))
+				    (cacheType == CacheType.Disk || cacheType == CacheType.None))
 					return false;
 
 				ThrowIfCancellationRequested();
@@ -401,7 +402,7 @@ namespace FFImageLoading.Work
 
 				if (result)
 				{
-					ImageService.Logger.Debug(string.Format("Image loaded from cache: {0}", Key));
+					ImageService.Logger.Debug($"Image loaded from cache: {Key}");
 					IsCompleted = true;
 
 					if (Configuration.ExecuteCallbacksOnUIThread && (Parameters?.OnSuccess != null || Parameters?.OnFinish != null))
@@ -442,12 +443,12 @@ namespace FFImageLoading.Work
 				{
 					if (Configuration.VerboseLoadingCancelledLogging)
 					{
-						ImageService.Logger.Debug(string.Format("Image loading cancelled: {0}", Key));
+						ImageService.Logger.Debug($"Image loading cancelled: {Key}");
 					}
 				}
 				else
 				{
-					ImageService.Logger.Error(string.Format("Image loading failed: {0}", Key), ex);
+					ImageService.Logger.Error($"Image loading failed: {Key}", ex);
 
 					if (Configuration.ExecuteCallbacksOnUIThread && Parameters?.OnError != null)
 					{
@@ -508,14 +509,13 @@ namespace FFImageLoading.Work
 			{
 				try
 				{
+					if (!await _placeholdersResolveLock.WaitAsync(TimeSpan.FromSeconds(10), CancellationTokenSource.Token).ConfigureAwait(false))
+						return;
+
 					var customResolver = isLoadingPlaceholder ? Parameters.CustomLoadingPlaceholderDataResolver : Parameters.CustomErrorPlaceholderDataResolver;
 					var loadResolver = customResolver ?? ImageService.DataResolverFactory.GetResolver(path, sourceType, Parameters);
 					loadResolver = new WrappedDataResolver(loadResolver);
-					DataResolverResult loadImageData;
 					TImageContainer loadImage;
-
-					if (!await _placeholdersResolveLock.WaitAsync(TimeSpan.FromMilliseconds(1000), CancellationTokenSource.Token).ConfigureAwait(false))
-						return;
 
 					try
 					{
@@ -533,12 +533,12 @@ namespace FFImageLoading.Work
 						}
 
 						ThrowIfCancellationRequested();
-						loadImageData = await loadResolver.Resolve(path, Parameters, CancellationTokenSource.Token).ConfigureAwait(false);
+						var loadImageData = await loadResolver.Resolve(path, Parameters, CancellationTokenSource.Token).ConfigureAwait(false);
 						ThrowIfCancellationRequested();
 
 						if (loadImageData.Stream != null)
 						{
-							//using (loadImageData.Stream)
+							await using (loadImageData.Stream)
 							{
 								loadImage = await GenerateImageAsync(path, sourceType, loadImageData.Stream, loadImageData.ImageInformation, TransformPlaceholders, true).ConfigureAwait(false);
 							}
@@ -604,7 +604,7 @@ namespace FFImageLoading.Work
 						await Task.Delay(Configuration.DelayInMs).ConfigureAwait(false);
 					}
 
-					ImageService.Logger.Debug(string.Format("Generating/retrieving image: {0}", Key));
+					ImageService.Logger.Debug($"Generating/retrieving image: {Key}");
 					var resolver = Parameters.CustomDataResolver ?? ImageService.DataResolverFactory.GetResolver(Parameters.Path, Parameters.SourceType, Parameters);
 					resolver = new WrappedDataResolver(resolver);
 					var imageData = await resolver.Resolve(Parameters.Path, Parameters, CancellationTokenSource.Token).ConfigureAwait(false);
@@ -617,7 +617,7 @@ namespace FFImageLoading.Work
 					if (Parameters.Preload && Parameters.CacheType.HasValue && Parameters.CacheType.Value == CacheType.Disk)
 					{
 						if (loadingResult == LoadingResult.Internet)
-							ImageService.Logger?.Debug(string.Format("DownloadOnly success: {0}", Key));
+							ImageService.Logger?.Debug($"DownloadOnly success: {Key}");
 
 						success = true;
 
@@ -630,7 +630,7 @@ namespace FFImageLoading.Work
 
 					if (imageData.Stream != null)
 					{
-						using (imageData.Stream)
+						await using (imageData.Stream)
 						{
 							image = await GenerateImageAsync(Parameters.Path, Parameters.SourceType, imageData.Stream, imageData.ImageInformation, true, false).ConfigureAwait(false);
 						}
@@ -670,7 +670,7 @@ namespace FFImageLoading.Work
 				{
 					if (Configuration.VerboseLoadingCancelledLogging)
 					{
-						ImageService.Logger.Debug(string.Format("Image loading cancelled: {0}", Key));
+						ImageService.Logger.Debug($"Image loading cancelled: {Key}");
 					}
 				}
 				else
@@ -680,7 +680,7 @@ namespace FFImageLoading.Work
 						ImageService.MemoryCache.Clear();
 					}
 
-					ImageService.Logger.Error(string.Format("Image loading failed: {0}", Key), ex);
+					ImageService.Logger.Error($"Image loading failed: {Key}", ex);
 
 					if (Configuration.ExecuteCallbacksOnUIThread && Parameters?.OnError != null)
 					{
@@ -705,9 +705,9 @@ namespace FFImageLoading.Work
 					}
 					catch (Exception ex2)
 					{
-						if (!(ex2 is OperationCanceledException))
+						if (ex2 is not OperationCanceledException)
 						{
-							ImageService.Logger.Error(string.Format("Image loading failed: {0}", Key), ex);
+							ImageService.Logger.Error($"Image loading failed: {Key}", ex);
 						}
 					}
 				}
@@ -719,7 +719,10 @@ namespace FFImageLoading.Work
 					if (CancellationTokenSource?.IsCancellationRequested == false)
 						CancellationTokenSource.Cancel();
 				}
-				catch { }
+				catch
+				{
+					// ignored
+				}
 
 				IsCompleted = true;
 
@@ -756,6 +759,7 @@ namespace FFImageLoading.Work
 
 				Parameters.TryDispose();
 				CancellationTokenSource.TryDispose();
+				GC.SuppressFinalize(this);
 			}
 		}
 	}
