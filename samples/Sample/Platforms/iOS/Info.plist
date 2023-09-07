@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key>
-    <string>FFImageSample</string>
+    <string>FFImage</string>
     <key>CFBundleDisplayName</key>
-    <string>FFImageSample</string>
+    <string>FFImage</string>
     <key>CFBundleIdentifier</key>
     <string>com.i7chi.ffimagesample</string>
     <key>LSRequiresIPhoneOS</key>
