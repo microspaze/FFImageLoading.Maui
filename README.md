@@ -7,7 +7,7 @@ This *Maui* version which merges all Transformations & SVG library parts into ON
 
 ## The Most *CRITICAL* bugs it aims to fix：
 
-1. [iOS] App Reloading Issue. (When a page contains a CachedImage which use local image file as LoadingPlaceholder, after tombstone the app to background and then recover it to forground, the app will be reloaded to the home page)
+1. [iOS] App Reloading Bug. (When a page contains a CachedImage which use local image file as LoadingPlaceholder, after tombstone the app to background and then recover it to forground, the app will be reloaded to the home page)[Fixed in 1.0.1]
 2. [iOS] Google webp format image support. (It works in Xamarin.Forms version, but not in FFImageLoading.Compat)
 
 
@@ -74,4 +74,9 @@ public static class MauiProgram
 [Xamarin]https://github.com/luberda-molinet/FFImageLoading
 
 [Maui]https://github.com/Redth/FFImageLoading.Compat
+
+## Release Notes
+## 1.0.1
+
+1.Fix App Reloading Bug.
 
