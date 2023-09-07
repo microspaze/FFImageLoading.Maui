@@ -116,7 +116,7 @@ namespace FFImageLoading.Work
 						KeyRaw,
 						vect.UseDipUnits ? DpiToPixels(vect.VectorWidth, Parameters.Scale) : vect.VectorWidth,
 						vect.UseDipUnits ? DpiToPixels(vect.VectorHeight, Parameters.Scale) : vect.VectorHeight,
-						string.Join(",", vect.ReplaceStringMap.Select(x => string.Format("{0}/{1}", x.Key, x.Value)).OrderBy(v => v)),
+						string.Join(",", vect.ReplaceStringMap.Select(x => $"{x.Key}/{x.Value}").OrderBy(v => v)),
 						vect.GetType().Name);
 				}
 			}
@@ -175,7 +175,7 @@ namespace FFImageLoading.Work
 							KeyForLoadingPlaceholder,
 							vectLo.UseDipUnits ? DpiToPixels(vectLo.VectorWidth, Parameters.Scale) : vectLo.VectorWidth,
 							vectLo.UseDipUnits ? DpiToPixels(vectLo.VectorHeight, Parameters.Scale) : vectLo.VectorHeight,
-							string.Join(",", vectLo.ReplaceStringMap.Select(x => string.Format("{0}/{1}", x.Key, x.Value)).OrderBy(v => v)));
+							string.Join(",", vectLo.ReplaceStringMap.Select(x => $"{x.Key}/{x.Value}").OrderBy(v => v)));
 				}
 			}
 

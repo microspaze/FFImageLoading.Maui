@@ -163,7 +163,7 @@ namespace FFImageLoading
             return TaskParameter.FromUrl(url, cacheDuration);
         }
 
-        public TaskParameter LoadString(string data, DataEncodingType encoding = DataEncodingType.RAW)
+        public TaskParameter LoadString(string data, DataEncodingType encoding = DataEncodingType.Raw)
         {
             return TaskParameter.FromString(data, encoding);
         }

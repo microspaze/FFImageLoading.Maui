@@ -26,7 +26,7 @@ namespace FFImageLoading.Work
     public class PlatformImageLoaderTask<TImageView> : ImageLoaderTask<PImage, PImage, TImageView> where TImageView : class
     {
 #pragma warning disable RECS0108 // Warns about static fields in generic types
-		readonly IDecoder<PImage> _webpDecoder;
+		//readonly IDecoder<PImage> _webpDecoder;
 #pragma warning restore RECS0108 // Warns about static fields in generic types
 
 		public PlatformImageLoaderTask(
@@ -35,7 +35,7 @@ namespace FFImageLoading.Work
 			TaskParameter parameters)
 			: base(imageService, target, parameters)
 		{
-			_webpDecoder= new WebPDecoder(imageService);
+			//_webpDecoder= new WebPDecoder(imageService);//use apple system webp decoder
 		}
 
 		public async override Task Init()
@@ -66,10 +66,6 @@ namespace FFImageLoading.Work
             {
                 case ImageInformation.ImageType.GIF:
                     return new GifDecoder(ImageService);
-
-                case ImageInformation.ImageType.WEBP:
-                    return _webpDecoder;
-
                 default:
                     return new BaseDecoder(ImageService);
             }
@@ -156,7 +152,7 @@ namespace FFImageLoading.Work
                     // TODO I really don't know why representations count is 1, anyone?
                     // var test = result.Representations();
                 }
-#endif                
+#endif
             }
             else
             {

@@ -123,7 +123,6 @@ namespace FFImageLoading
             {
                 case ImageInformation.ImageType.GIF:
                     return new GifDecoder(ImageService);
-
                 default:
                     return new BaseDecoder(ImageService);
             }

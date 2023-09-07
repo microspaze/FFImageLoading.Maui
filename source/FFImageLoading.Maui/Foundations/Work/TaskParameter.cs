@@ -210,7 +210,7 @@ namespace FFImageLoading.Work
 		public CacheType? CacheType { get; private set; }
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		public DataEncodingType DataEncoding { get; private set; } = DataEncodingType.RAW;
+		public DataEncodingType DataEncoding { get; private set; } = DataEncodingType.Raw;
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		public int? DelayInMs { get; private set; }

@@ -4,7 +4,7 @@ namespace FFImageLoading.Work
 {
     public enum DataEncodingType
     {
-        RAW,
+        Raw,
         Base64Encoded,
     }
 }

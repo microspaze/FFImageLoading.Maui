@@ -78,7 +78,7 @@ namespace FFImageLoading
         /// <returns>The string.</returns>
         /// <param name="data">Data.</param>
         /// <param name="encoding">Encoding.</param>
-        TaskParameter LoadString(string data, DataEncodingType encoding = DataEncodingType.RAW);
+        TaskParameter LoadString(string data, DataEncodingType encoding = DataEncodingType.Raw);
 
         /// <summary>
         /// Loads the base64 string.
