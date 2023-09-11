@@ -16,7 +16,7 @@
     <Authors>Microspaze, Redth, Daniel Luberda</Authors>
     <Company>Microspaze, Redth, Daniel Luberda</Company>
     <Product>FFImageLoading.Maui</Product>
-    <PackageId>FFImageLoadingx.Maui</PackageId>
+    <PackageId>FFImageLoading.Maui</PackageId>
     <PackageTags>Maui;FFImageLoading;FFImageLoading.Maui;FFImageLoading Maui;Image Cache;Image Loading;Webp Image;</PackageTags>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>

@@ -7,7 +7,7 @@ This *Maui* version which merges all Transformations & SVG library parts into ON
 
 ## The Most *CRITICAL* bugs it aims to fix：
 
-1. [Fixed in 1.0.1][iOS]App Reloading Bug. (When a page contains a CachedImage which use local image file as LoadingPlaceholder, after tombstone the app to background and then recover it to forground, the app will be reloaded to the home page)
+1. [Fixed in 1.0.1][iOS] App Reloading Bug. (When a page contains a CachedImage which use local image file as LoadingPlaceholder, after tombstone the app to background and then recover it to forground, the app will be reloaded to the home page)
 2. [Fixed in 1.0.3][iOS] Google webp format image support. (It works in Xamarin.Forms version, but not in FFImageLoading.Compat)
 
 
@@ -15,7 +15,7 @@ This *Maui* version which merges all Transformations & SVG library parts into ON
 
 ## Usage
 
-1. Install NuGet package: [FFImageLoadingx.Maui](http://www.nuget.org/packages/FFImageLoadingx.Maui) [![NuGet](https://img.shields.io/nuget/v/FFImageLoadingx.Maui.svg?label=NuGet)](https://www.nuget.org/packages/FFImageLoadingx.Maui)
+1. Install NuGet package: [FFImageLoading.Maui](http://www.nuget.org/packages/FFImageLoading.Maui) [![NuGet](https://img.shields.io/nuget/v/FFImageLoading.Maui.svg?label=NuGet)](https://www.nuget.org/packages/FFImageLoading.Maui)
 2. Add `.UseFFImageLoading()` to your MAUI app builder.
 
 ```csharp
