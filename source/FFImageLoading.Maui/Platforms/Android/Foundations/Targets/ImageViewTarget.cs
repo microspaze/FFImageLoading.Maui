@@ -34,17 +34,21 @@ namespace FFImageLoading.Targets
 					{
 						try
 						{
-							if (control == null || control.Handle == IntPtr.Zero
-							|| !drawable.IsValidAndHasValidBitmap())
+							if (control == null
+							    || control.Handle == null
+							    || control.Handle == IntPtr.Zero
+							    || !drawable.IsValidAndHasValidBitmap())
 							{
 								StopAnimation(control);
 								return;
 							}
 
-							control.Handler.Post(() =>
+							control.Handler?.Post(() =>
 							{
-								if (control == null || control.Handle == IntPtr.Zero
-								|| !drawable.IsValidAndHasValidBitmap())
+								if (control == null
+								    || control.Handle == null
+								    || control.Handle == IntPtr.Zero
+								    || !drawable.IsValidAndHasValidBitmap())
 								{
 									StopAnimation(control);
 									return;
@@ -129,7 +133,7 @@ namespace FFImageLoading.Targets
         {
             if (task == null || task.IsCancelled)
                 return;
-            
+
             var control = Control;
             if (control == null || control.Drawable == image)
                 return;
