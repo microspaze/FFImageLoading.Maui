@@ -77,6 +77,10 @@ public static class MauiProgram
 
 ## Release Notes
 
+## 1.0.5
+
+1.Add .NET 8 support.
+
 ## 1.0.3
 
 1.Fix Webp image not showing Bug.

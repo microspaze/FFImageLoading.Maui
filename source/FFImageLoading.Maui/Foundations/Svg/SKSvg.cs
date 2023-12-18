@@ -1446,11 +1446,11 @@ namespace FFImageLoading.Svg.Platform
 
 		private SKMatrix ReadTransform(string raw, SKPoint xy = default)
 		{
-			var t = SKMatrix.MakeIdentity();
+			var t = SKMatrix.CreateIdentity();
 
 			if (xy != default && (string.IsNullOrWhiteSpace(raw) || !raw.Contains("translate")))
 			{
-				var m = SKMatrix.MakeTranslation(xy.X, xy.Y);
+				var m = SKMatrix.CreateTranslation(xy.X, xy.Y);
 				SKMatrix.Concat(ref t, t, m);
 			}
 
@@ -1463,7 +1463,7 @@ namespace FFImageLoading.Svg.Platform
 			foreach (var c in calls)
 			{
 				var args = c.Split(new[] { '(', ',', ' ', '\t', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-				var nt = SKMatrix.MakeIdentity();
+				var nt = SKMatrix.CreateIdentity();
 				switch (args[0])
 				{
 					case "matrix":
@@ -1484,22 +1484,22 @@ namespace FFImageLoading.Svg.Platform
 					case "translate":
 						if (args.Length >= 3)
 						{
-							nt = SKMatrix.MakeTranslation(ReadNumber(args[1]) + xy.X, ReadNumber(args[2]) + xy.Y);
+							nt = SKMatrix.CreateTranslation(ReadNumber(args[1]) + xy.X, ReadNumber(args[2]) + xy.Y);
 						}
 						else if (args.Length >= 2)
 						{
-							nt = SKMatrix.MakeTranslation(ReadNumber(args[1]) + xy.X, xy.Y);
+							nt = SKMatrix.CreateTranslation(ReadNumber(args[1]) + xy.X, xy.Y);
 						}
 						break;
 					case "scale":
 						if (args.Length >= 3)
 						{
-							nt = SKMatrix.MakeScale(ReadNumber(args[1]), ReadNumber(args[2]));
+							nt = SKMatrix.CreateScale(ReadNumber(args[1]), ReadNumber(args[2]));
 						}
 						else if (args.Length >= 2)
 						{
 							var sx = ReadNumber(args[1]);
-							nt = SKMatrix.MakeScale(sx, sx);
+							nt = SKMatrix.CreateScale(sx, sx);
 						}
 						break;
 					case "rotate":
@@ -1508,15 +1508,15 @@ namespace FFImageLoading.Svg.Platform
 						{
 							var x = ReadNumber(args[2]);
 							var y = ReadNumber(args[3]);
-							var t1 = SKMatrix.MakeTranslation(x, y);
-							var t2 = SKMatrix.MakeRotationDegrees(a);
-							var t3 = SKMatrix.MakeTranslation(-x, -y);
+							var t1 = SKMatrix.CreateTranslation(x, y);
+							var t2 = SKMatrix.CreateRotationDegrees(a);
+							var t3 = SKMatrix.CreateTranslation(-x, -y);
 							SKMatrix.Concat(ref nt, ref t1, ref t2);
 							SKMatrix.Concat(ref nt, ref nt, ref t3);
 						}
 						else
 						{
-							nt = SKMatrix.MakeRotationDegrees(a);
+							nt = SKMatrix.CreateRotationDegrees(a);
 						}
 						break;
 					default:

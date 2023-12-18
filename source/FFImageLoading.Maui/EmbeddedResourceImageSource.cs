@@ -22,12 +22,12 @@ namespace FFImageLoading.Maui
                 if (_cachedMainAssembly == null)
                     _cachedMainAssembly = Application.Current?.GetType()?.GetTypeAssemblyFullName();
 
-                Uri = new Uri(_cachedMainAssembly == null ? text : $"{text}?assembly={Uri.EscapeUriString(_cachedMainAssembly)}");
+                Uri = new Uri(_cachedMainAssembly == null ? text : $"{text}?assembly={Uri.EscapeDataString(_cachedMainAssembly)}");
             }
             else if (!uri.Query.Contains("assembly=", StringComparison.OrdinalIgnoreCase))
             {
                 var assemblyName = Application.Current?.GetType()?.GetTypeAssemblyFullName();
-                Uri = new Uri(assemblyName == null ? text : $"{text}?assembly={Uri.EscapeUriString(assemblyName)}");
+                Uri = new Uri(assemblyName == null ? text : $"{text}?assembly={Uri.EscapeDataString(assemblyName)}");
             }
             else
             {
@@ -37,7 +37,7 @@ namespace FFImageLoading.Maui
 
         public EmbeddedResourceImageSource(string resourceName, Assembly assembly)
         {
-            Uri = new Uri($"resource://{resourceName}?assembly={Uri.EscapeUriString(assembly.FullName)}");
+            Uri = new Uri($"resource://{resourceName}?assembly={Uri.EscapeDataString(assembly.FullName)}");
         }
 
         public static readonly BindableProperty UriProperty = BindableProperty.Create(nameof(Uri), typeof(Uri), typeof(EmbeddedResourceImageSource), default(Uri));
