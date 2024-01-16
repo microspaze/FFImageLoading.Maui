@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst;</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
     <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
     <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
     <OutputType>Exe</OutputType>
@@ -33,10 +33,10 @@
     <Platforms>Device;Simulator;AnyCPU</Platforms>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -52,9 +52,9 @@
 
   <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
     <!--DEBUG ON DEVICE-->
-    <RuntimeIdentifier Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">ios-arm64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="'$(Configuration)|$(Platform)'=='Release|Device'">ios-arm64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="'$(Configuration)|$(Platform)'=='Debug|Device'">ios-arm64</RuntimeIdentifier>
+    <!--<RuntimeIdentifier Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">ios-arm64</RuntimeIdentifier>-->
+    <!--<RuntimeIdentifier Condition="'$(Configuration)|$(Platform)'=='Release|Device'">ios-arm64</RuntimeIdentifier>-->
+    <!--<RuntimeIdentifier Condition="'$(Configuration)|$(Platform)'=='Debug|Device'">ios-arm64</RuntimeIdentifier>-->
     <!--DEBUG ON SIMULATOR-->
     <RuntimeIdentifier Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">iossimulator-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="'$(Configuration)|$(Platform)'=='Debug|Simulator'">iossimulator-x64</RuntimeIdentifier>

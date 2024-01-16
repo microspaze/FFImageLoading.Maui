@@ -190,7 +190,7 @@ namespace FFImageLoading
 
         public TaskParameter LoadEmbeddedResource(string resourceName, Assembly resourceAssembly)
         {
-            var uri = $"resource://{resourceName}?assembly={Uri.EscapeUriString(resourceAssembly.FullName)}";
+            var uri = $"resource://{resourceName}?assembly={Uri.EscapeDataString(resourceAssembly.FullName)}";
             return TaskParameter.FromEmbeddedResource(uri);
         }
 
