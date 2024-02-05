@@ -11,6 +11,7 @@
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,Auto,Auto">
             <ffimageloading:CachedImage
+                MaximumWidthRequest="300"
                 LoadingPlaceholder="loading.png"
                 ErrorPlaceholder="error.png"
                 Grid.Row="0"
