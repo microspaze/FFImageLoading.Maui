@@ -16,6 +16,8 @@ using Android.Views;
 using System.Reflection;
 using Android.Content;
 using Microsoft.Maui.Handlers;
+using Android.OS;
+using Microsoft.Maui.Platform;
 
 namespace FFImageLoading.Maui.Platform
 {
@@ -100,7 +102,14 @@ namespace FFImageLoading.Maui.Platform
                 return;
 
             if (VirtualView.Aspect == Aspect.AspectFill)
+			{
 				PlatformView.SetScaleType(ImageView.ScaleType.CenterCrop);
+				if ((int)Build.VERSION.SdkInt >= 18)
+				{
+					var density = DeviceDisplay.Current.MainDisplayInfo.Density;
+					PlatformView.ClipBounds = new Android.Graphics.Rect(0, 0, (int)(VirtualView.WidthRequest * density), (int)(VirtualView.HeightRequest * density));
+				}
+			} 
 
             else if (VirtualView.Aspect == Aspect.Fill)
 				PlatformView.SetScaleType(ImageView.ScaleType.FitXy);
