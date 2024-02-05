@@ -321,7 +321,7 @@ namespace FFImageLoading.Work
 
 		protected virtual async Task<TImageContainer> GenerateImageAsync(string path, ImageSourceType sourceType, Stream imageData, ImageInformation imageInformation, bool enableTransformations, bool isPlaceholder)
 		{
-			//using (imageData)
+			using (imageData)
 			{
 				var decoder = ResolveDecoder(imageInformation.Type);
 				var decoderContainer = await decoder.DecodeAsync(

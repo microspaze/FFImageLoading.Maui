@@ -46,11 +46,14 @@ namespace FFImageLoading.Extensions
             if (imageStream == null)
                 return null;
 
-            using (IRandomAccessStream image = imageStream.AsRandomAccessStream())
-            {
+			//NO NEED TO FREE RandomAccessStream, OTHERWISE Bitmap WILL NOT SHOW
+			var image = imageStream.AsRandomAccessStream();
+			if (image != null)
+			{
                 if (downscale != null && (downscale.Item1 > 0 || downscale.Item2 > 0))
                 {
-                    using (var downscaledImage = await image.ResizeImage(imageService, scale, downscale.Item1, downscale.Item2, mode, downscaleDipUnits, allowUpscale, imageInformation).ConfigureAwait(false))
+					var downscaledImage = await image.ResizeImage(imageService, scale, downscale.Item1, downscale.Item2, mode, downscaleDipUnits, allowUpscale, imageInformation).ConfigureAwait(false);
+					if (downscaledImage != null)
                     {
                         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(downscaledImage);
                         downscaledImage.Seek(0);
@@ -86,6 +89,7 @@ namespace FFImageLoading.Extensions
                     return bitmap;
                 }
             }
+			return null;
         }
 
         public async static Task<BitmapHolder> ToBitmapHolderAsync(this Stream imageStream, IImageService<BitmapSource> imageService, double scale, Tuple<int, int> downscale, bool downscaleDipUnits, InterpolationMode mode, bool allowUpscale, ImageInformation imageInformation = null)
