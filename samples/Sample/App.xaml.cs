@@ -6,8 +6,11 @@
 		{
 			InitializeComponent();
 
-			var m = new MenuPage();
+			//Issue #3 Reproduce Sample
+			//Set MainPage by Page with CachedImage may cause ImageService NRE
+			//MainPage = new BasicPage();
 
+			var m = new MenuPage();
 			MainPage = new NavigationPage(m);
 		}
 	}
