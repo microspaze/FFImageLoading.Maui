@@ -81,10 +81,15 @@ public static class MauiProgram
 ## 1.0.7
 
 1.Use Svg.Skia instead of custom code. (Thanks PR by https://github.com/PavloLukianets)
+
 2.Fix Android MemoryCache re-creation issue. (Thanks PR by https://github.com/MichaelFrenkel)
+
 3.Fixed NRE on ImageService caused before ready. (Thanks PR by https://github.com/NishiokaTakeo)
+
 4.Fixed Local images files will not show on Windows. (Thanks Report by https://github.com/Inrego)
+
 5.Fixed AspectFill not working on Android for CachedImage control. (Thanks Report by https://github.com/brendan-holly-modea)
+
 6.Add Sample.Win project file.
 
 ## 1.0.5
