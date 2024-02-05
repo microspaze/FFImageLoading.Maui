@@ -12,6 +12,7 @@ using System.Text;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FFImageLoading.Helpers;
+using Svg.Skia;
 
 #if __IOS__
 using Foundation;
@@ -86,7 +87,7 @@ namespace FFImageLoading.Svg.Platform
 			try
 			{
 #if __IOS__
-                var info = bitmap.Info;            
+                var info = bitmap.Info;
 				using (var provider = new CGDataProvider(bitmap.GetPixels(out var size), size.ToInt32()))
 				using (var cgImage = new CGImage(info.Width, info.Height, 8, info.BitsPerPixel, info.RowBytes,
 						_colorSpace, CGBitmapFlags.PremultipliedLast | CGBitmapFlags.ByteOrder32Big,
@@ -220,17 +221,14 @@ namespace FFImageLoading.Svg.Platform
             if (resolvedData?.Stream == null)
                 throw new FileNotFoundException(identifier);
 
-            var svg = new SKSvg()
-            {
-                ThrowOnUnsupportedElement = false,
-            };
+            var svg = new SKSvg();
             SKPicture picture;
 
             if (ReplaceStringMap == null || ReplaceStringMap.Count == 0)
             {
                 using (var svgStream = resolvedData.Stream)
                 {
-                    picture = svg.Load(svgStream, token);
+                    picture = svg.Load(svgStream);
                 }
             }
             else
