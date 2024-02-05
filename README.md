@@ -9,6 +9,7 @@ This *Maui* version which merges all Transformations & SVG library parts into ON
 
 1. [Fixed in 1.0.1][iOS] App Reloading Bug. (When a page contains a CachedImage which use local image file as LoadingPlaceholder, after tombstone the app to background and then recover it to forground, the app will be reloaded to the home page)
 2. [Fixed in 1.0.3][iOS] Google webp format image support. (It works in Xamarin.Forms version, but not in FFImageLoading.Compat)
+3. [Fixed in 1.0.7][Windows] Local images files will not show on Windows.
 
 
 *Thanks to the Original Authors: Daniel Luberda, Fabien Molinet & Redth.*
@@ -76,6 +77,15 @@ public static class MauiProgram
 [Maui]https://github.com/Redth/FFImageLoading.Compat
 
 ## Release Notes
+
+## 1.0.7
+
+1.Use Svg.Skia instead of custom code. (Thanks PR by https://github.com/PavloLukianets)
+2.Fix Android MemoryCache re-creation issue. (Thanks PR by https://github.com/MichaelFrenkel)
+3.Fixed NRE on ImageService caused before ready. (Thanks PR by https://github.com/NishiokaTakeo)
+4.Fixed Local images files will not show on Windows. (Thanks Report by https://github.com/Inrego)
+5.Fixed AspectFill not working on Android for CachedImage control. (Thanks Report by https://github.com/brendan-holly-modea)
+6.Add Sample.Win project file.
 
 ## 1.0.5
 
