@@ -35,7 +35,7 @@ namespace FFImageLoading
 
 		ImageCache imageCache;
 
-		public override IMemoryCache<SelfDisposingBitmapDrawable> MemoryCache => imageCache ?? new ImageCache(Configuration, Logger);
+		public override IMemoryCache<SelfDisposingBitmapDrawable> MemoryCache => imageCache ??= new ImageCache(Configuration, Logger);
 
 
         public override IImageLoaderTask CreateTask<TImageView>(TaskParameter parameters, ITarget<SelfDisposingBitmapDrawable, TImageView> target) where TImageView : class
