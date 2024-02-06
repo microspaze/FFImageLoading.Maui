@@ -29,6 +29,7 @@ namespace FFImageLoading.Maui.Platform
     {
 
 		private bool _isDisposed;
+		private double _imageSizeRatio = 0;
 		private IScheduledWork _currentTask;
         private ImageSourceBinding _lastImageSource;
 
@@ -83,33 +84,35 @@ namespace FFImageLoading.Maui.Platform
 			base.DisconnectHandler(platformView);
 		}
 
-		private void VirtualView_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		public override Size GetDesiredSize(double widthConstraint, double heightConstraint)
 		{
-			if (e.PropertyName == CachedImage.SourceProperty.PropertyName)
+			var widthRequest = VirtualView.WidthRequest;
+			var heightRequest = VirtualView.HeightRequest;
+			var hasWidthRequest = widthRequest > 0;
+			var hasHeightRequest = heightRequest > 0;
+			if (!hasWidthRequest || !hasHeightRequest)
 			{
-				UpdateBitmap(PlatformView, VirtualView, null);
+				if (_imageSizeRatio <= 0)
+				{
+					return base.GetDesiredSize(widthConstraint, heightConstraint);
+				}
+
+				if (!hasWidthRequest && !hasHeightRequest)
+				{
+					widthRequest = widthConstraint;
+					heightRequest = widthRequest / _imageSizeRatio;
+				}
+				else if (!hasWidthRequest)
+				{
+					widthRequest = heightRequest * _imageSizeRatio;
+				}
+				else if (!hasHeightRequest)
+				{
+					heightRequest = widthRequest / _imageSizeRatio;
+				}
 			}
-			if (e.PropertyName == CachedImage.AspectProperty.PropertyName)
-			{
-				UpdateAspect();
-			}
-		}
 
-		private void UpdateAspect()
-		{
-			if (PlatformView == null || PlatformView.Handle == IntPtr.Zero || VirtualView == null || _isDisposed)
-				return;
-
-			if (VirtualView.Aspect == Aspect.AspectFill)
-			{
-				PlatformView.SetScaleType(ImageView.ScaleType.CenterCrop);
-			}
-
-			else if (VirtualView.Aspect == Aspect.Fill)
-				PlatformView.SetScaleType(ImageView.ScaleType.FitXy);
-
-			else
-				PlatformView.SetScaleType(ImageView.ScaleType.FitCenter);
+			return new Size(widthRequest, heightRequest);
 		}
 
 		public override void PlatformArrange(Microsoft.Maui.Graphics.Rect frame)
@@ -121,7 +124,7 @@ namespace FFImageLoading.Maui.Platform
 			{
 				if ((int)Build.VERSION.SdkInt >= 18)
 				{
-					var (left, top, right, bottom) = PlatformView.Context!.ToPixels(VirtualView.Frame);
+					var (left, top, right, bottom) = PlatformView.Context!.ToPixels(frame);
 					var clipRect = new Android.Graphics.Rect(0, 0, right - left, bottom - top);
 					PlatformView.ClipBounds = clipRect;
 				}
@@ -130,7 +133,38 @@ namespace FFImageLoading.Maui.Platform
 			base.PlatformArrange(frame);
 		}
 
-		private void UpdateBitmap(CachedImageView imageView, CachedImage image, CachedImage previousImage)
+		private void VirtualView_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == CachedImage.SourceProperty.PropertyName
+				|| e.PropertyName == CachedImage.WidthProperty.PropertyName
+				|| e.PropertyName == CachedImage.HeightProperty.PropertyName)
+			{
+				UpdateBitmap(PlatformView, VirtualView, null);
+			}
+			else if (e.PropertyName == CachedImage.AspectProperty.PropertyName)
+			{
+				UpdateAspect();
+			}
+		}
+
+		private void UpdateAspect()
+        {
+            if (PlatformView == null || PlatformView.Handle == IntPtr.Zero || VirtualView == null || _isDisposed)
+                return;
+
+            if (VirtualView.Aspect == Aspect.AspectFill)
+			{
+				PlatformView.SetScaleType(ImageView.ScaleType.CenterCrop);
+			}
+
+            else if (VirtualView.Aspect == Aspect.Fill)
+				PlatformView.SetScaleType(ImageView.ScaleType.FitXy);
+
+            else
+				PlatformView.SetScaleType(ImageView.ScaleType.FitCenter);
+        }
+
+        private void UpdateBitmap(CachedImageView imageView, CachedImage image, CachedImage previousImage)
         {
             lock (_updateBitmapLock)
             {
@@ -202,6 +236,15 @@ namespace FFImageLoading.Maui.Platform
 			{
 				if (element == null || _isDisposed)
 					return;
+
+				if (PlatformView.Drawable is BitmapDrawable bitmapDrawable)
+				{
+					var bitmap = bitmapDrawable.Bitmap;
+					if (bitmap != null && bitmap.Height > 0)
+					{
+						_imageSizeRatio = bitmap.Width / bitmap.Height;
+					}
+				}
 
 				((IVisualElementController)element).InvalidateMeasure(Microsoft.Maui.Controls.Internals.InvalidationTrigger.MeasureChanged);
 
