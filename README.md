@@ -78,6 +78,10 @@ public static class MauiProgram
 
 ## Release Notes
 
+## 1.0.8
+
+1.Fix AspectFill images with an implicit height (Thanks PR by https://github.com/brendan-holly-modea)
+
 ## 1.0.7
 
 1.Use Svg.Skia instead of custom code. (Thanks PR by https://github.com/PavloLukianets)
