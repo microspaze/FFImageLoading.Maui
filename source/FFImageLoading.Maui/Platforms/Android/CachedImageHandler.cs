@@ -95,30 +95,42 @@ namespace FFImageLoading.Maui.Platform
 			}
 		}
 
-
 		private void UpdateAspect()
-        {
-            if (PlatformView == null || PlatformView.Handle == IntPtr.Zero || VirtualView == null || _isDisposed)
-                return;
+		{
+			if (PlatformView == null || PlatformView.Handle == IntPtr.Zero || VirtualView == null || _isDisposed)
+				return;
 
-            if (VirtualView.Aspect == Aspect.AspectFill)
+			if (VirtualView.Aspect == Aspect.AspectFill)
 			{
 				PlatformView.SetScaleType(ImageView.ScaleType.CenterCrop);
-				if ((int)Build.VERSION.SdkInt >= 18)
-				{
-					var density = DeviceDisplay.Current.MainDisplayInfo.Density;
-					PlatformView.ClipBounds = new Android.Graphics.Rect(0, 0, (int)(VirtualView.WidthRequest * density), (int)(VirtualView.HeightRequest * density));
-				}
-			} 
+			}
 
-            else if (VirtualView.Aspect == Aspect.Fill)
+			else if (VirtualView.Aspect == Aspect.Fill)
 				PlatformView.SetScaleType(ImageView.ScaleType.FitXy);
 
-            else
+			else
 				PlatformView.SetScaleType(ImageView.ScaleType.FitCenter);
-        }
+		}
 
-        private void UpdateBitmap(CachedImageView imageView, CachedImage image, CachedImage previousImage)
+		public override void PlatformArrange(Microsoft.Maui.Graphics.Rect frame)
+		{
+			if (PlatformView == null || PlatformView.Handle == IntPtr.Zero || VirtualView == null || _isDisposed)
+				return;
+
+			if (VirtualView.Aspect == Aspect.AspectFill)
+			{
+				if ((int)Build.VERSION.SdkInt >= 18)
+				{
+					var (left, top, right, bottom) = PlatformView.Context!.ToPixels(VirtualView.Frame);
+					var clipRect = new Android.Graphics.Rect(0, 0, right - left, bottom - top);
+					PlatformView.ClipBounds = clipRect;
+				}
+			}
+
+			base.PlatformArrange(frame);
+		}
+
+		private void UpdateBitmap(CachedImageView imageView, CachedImage image, CachedImage previousImage)
         {
             lock (_updateBitmapLock)
             {
