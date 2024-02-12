@@ -7,6 +7,7 @@
     xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Maui"
         Title="Basic">
     <ContentPage.Content>
+        <ScrollView>
         <StackLayout Spacing="20">
             <ffimageloading:CachedImage WidthRequest="250" HeightRequest="250"
                   Aspect="AspectFit"
@@ -20,6 +21,12 @@
 
             <ffimageloading:CachedImage WidthRequest="100" HeightRequest="100"
                   Source="maui_beach_wikimedia.png"
+                  IsVisible="true"
+                  DownsampleToViewSize="True" 
+                  AutomationProperties.IsInAccessibleTree="False"></ffimageloading:CachedImage>
+
+            <ffimageloading:CachedImage WidthRequest="100" HeightRequest="100"
+                  Source="maui_beach_wikimedia.png"
                   Aspect="AspectFill" IsVisible="true"
                   AutomationProperties.IsInAccessibleTree="False"></ffimageloading:CachedImage>
 
@@ -28,5 +35,6 @@
                   AutomationProperties.IsInAccessibleTree="False">
             </Image>
         </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

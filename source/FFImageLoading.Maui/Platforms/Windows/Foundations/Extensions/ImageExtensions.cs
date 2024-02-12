@@ -97,11 +97,14 @@ namespace FFImageLoading.Extensions
             if (imageStream == null)
                 return null;
 
-            using (IRandomAccessStream image = imageStream.AsRandomAccessStream())
-            {
+			//NO NEED TO FREE RandomAccessStream, OTHERWISE Bitmap WILL NOT SHOW
+			var image = imageStream.AsRandomAccessStream();
+			if (image != null)
+			{
                 if (downscale != null && (downscale.Item1 > 0 || downscale.Item2 > 0))
                 {
-                    using (var downscaledImage = await image.ResizeImage(imageService, scale, downscale.Item1, downscale.Item2, mode, downscaleDipUnits, allowUpscale, imageInformation).ConfigureAwait(false))
+					var downscaledImage = await image.ResizeImage(imageService, scale, downscale.Item1, downscale.Item2, mode, downscaleDipUnits, allowUpscale, imageInformation).ConfigureAwait(false);
+					if (downscaledImage != null)
                     {
                         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(downscaledImage);
                         PixelDataProvider pixelDataProvider = await decoder.GetPixelDataAsync(
@@ -131,6 +134,7 @@ namespace FFImageLoading.Extensions
                     return new BitmapHolder(bytes, (int)decoder.PixelWidth, (int)decoder.PixelHeight);
                 }
             }
+			return null;
         }
 
         private static unsafe void CopyPixels(byte[] data, int[] pixels)
@@ -164,9 +168,10 @@ namespace FFImageLoading.Extensions
             var decoder = await BitmapDecoder.CreateAsync(imageStream);
             if ((height > 0 && decoder.PixelHeight > height) || (width > 0 && decoder.PixelWidth > width) || allowUpscale)
             {
-                using (imageStream)
-                {
-                    resizedStream = new InMemoryRandomAccessStream();
+				//NO NEED TO FREE RandomAccessStream, OTHERWISE Bitmap WILL NOT SHOW
+				//using (imageStream)
+				{
+					resizedStream = new InMemoryRandomAccessStream();
                     BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
                     
                     double widthRatio = (double)width / decoder.PixelWidth;
