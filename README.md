@@ -78,6 +78,10 @@ public static class MauiProgram
 
 ## Release Notes
 
+## 1.0.9
+
+1.Fix Local file images do not appear when DownsampleToViewSize is set to true (Thanks Reported by https://github.com/CraigTenn)
+
 ## 1.0.8
 
 1.Fix AspectFill images with an implicit height (Thanks PR by https://github.com/brendan-holly-modea)
