@@ -78,6 +78,10 @@ public static class MauiProgram
 
 ## Release Notes
 
+## 1.1.0
+
+1.Fix Windows Application start up crash when DispatcherQueue in MainThreadDispatcher is null.
+
 ## 1.0.9
 
 1.Fix Local file images do not appear when DownsampleToViewSize is set to true (Thanks Reported by https://github.com/CraigTenn)
