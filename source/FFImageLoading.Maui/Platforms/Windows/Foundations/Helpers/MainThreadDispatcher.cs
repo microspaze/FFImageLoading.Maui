@@ -22,9 +22,12 @@ namespace FFImageLoading.Helpers
                 return;
 
 			var dispatcherQueue = TryGetDispatcherQueue();
-
 			if (dispatcherQueue == null)
-				throw new InvalidOperationException("Unable to find main thread.");
+			{
+				//throw new InvalidOperationException("Unable to find main thread.");
+				await Application.Current?.Dispatcher.DispatchAsync(action);
+				return;
+			}
 
 			if (PlatformIsMainThread)
 			{

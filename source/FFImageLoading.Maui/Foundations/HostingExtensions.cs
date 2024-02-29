@@ -28,7 +28,6 @@ namespace FFImageLoading
 #if ANDROID || WINDOWS || IOS || MACCATALYST || TIZEN
 			services.AddSingleton<IMainThreadDispatcher, MainThreadDispatcher>();
 			services.AddSingleton<IPlatformPerformance, PlatformPerformance>();
-			services.AddSingleton<IMainThreadDispatcher, MainThreadDispatcher>();
 			services.AddSingleton<IDataResolverFactory, DataResolverFactory>();
 #endif
 		}
