@@ -17,31 +17,31 @@ namespace FFImageLoading.Maui.Platform
 {
 	public class StreamImageSourceService : ProxyImageSourceService<IStreamImageSource>
 	{
-		public StreamImageSourceService(IImageService<TImageContainer> imageService)
+		public StreamImageSourceService(IImageService imageService)
 			: base(imageService) { }
 	}
 
 	public class UriImageSourceService : ProxyImageSourceService<IUriImageSource>
 	{
-		public UriImageSourceService(IImageService<TImageContainer> imageService)
+		public UriImageSourceService(IImageService imageService)
 			: base(imageService) { }
 	}
 
 	public class FileImageSourceService : ProxyImageSourceService<IFileImageSource>
 	{
-		public FileImageSourceService(IImageService<TImageContainer> imageService)
+		public FileImageSourceService(IImageService imageService)
 			: base(imageService) { }
 	}
 
 	public class ProxyImageSourceService<TImageSource> : HandlerBase<object, TImageSource> where TImageSource : IImageSource
 	{
-		public ProxyImageSourceService(IImageService<TImageContainer> imageService)
+		public ProxyImageSourceService(IImageService imageService)
 			: base(imageService)
 		{
 			ImageService = imageService;
 		}
 
-		protected readonly IImageService<TImageContainer> ImageService;
+		protected readonly IImageService ImageService;
 
 		public override async Task<IImageSourceServiceResult<PImage>> GetImageAsync(IImageSource imageSource, float scale = 1, CancellationToken cancellationToken = default)
 		{
@@ -66,7 +66,7 @@ namespace FFImageLoading.Maui.Platform
 		protected override IImageLoaderTask GetImageLoaderTask(TaskParameter parameters, object imageView)
 		{
 			var target = new PImageTarget();
-			var task = ImageService.CreateTask(parameters, target);
+			var task = FFImageLoading.ImageService.CreateTask(parameters, target);
 			ImageService.LoadImage(task);
 			return task;
 		}

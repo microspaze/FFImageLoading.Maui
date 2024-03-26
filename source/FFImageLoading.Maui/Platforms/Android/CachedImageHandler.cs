@@ -45,8 +45,7 @@ namespace FFImageLoading.Maui.Platform
 		{
 		}
 
-		IImageService<TImageContainer> ImageService
-			=> MauiContext.Services.GetRequiredService<IImageService<TImageContainer>>();
+		IImageService ImageService => MauiContext.Services.GetRequiredService<IImageService>();
 
 		protected override CachedImageView CreatePlatformView()
 		{

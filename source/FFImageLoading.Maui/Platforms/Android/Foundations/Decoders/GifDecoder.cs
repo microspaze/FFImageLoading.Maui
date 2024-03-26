@@ -13,12 +13,12 @@ namespace FFImageLoading.Decoders
 {
 	public class GifDecoder : IDecoder<Bitmap>
 	{
-		public GifDecoder(IImageService<SelfDisposingBitmapDrawable> imageService)
+		public GifDecoder(IImageService imageService)
 		{
 			ImageService = imageService;
 		}
 
-		protected readonly IImageService<SelfDisposingBitmapDrawable> ImageService;
+		protected readonly IImageService ImageService;
 
 		public async Task<IDecodedImage<Bitmap>> DecodeAsync(Stream stream, string path, Work.ImageSourceType sourceType, ImageInformation imageInformation, TaskParameter parameters)
 		{

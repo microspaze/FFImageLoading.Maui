@@ -12,24 +12,26 @@ using System.Net;
 
 namespace FFImageLoading
 {
-	public abstract class ImageServiceBase<TImageContainer> : IImageService<TImageContainer>
+	public abstract class ImageServiceBase<TImageContainer> : IImageService
     {
 		public ImageServiceBase(
 			IConfiguration configuration,
-			IMD5Helper mD5Helper,
+			IMD5Helper md5Helper,
 			IMiniLogger miniLogger,
 			IPlatformPerformance platformPerformance,
 			IMainThreadDispatcher mainThreadDispatcher,
 			IDataResolverFactory dataResolverFactory,
+			IDiskCache diskCache,
 			IDownloadCache downloadCache,
             IWorkScheduler workScheduler)
 		{
 			_config = configuration;
-			Md5Helper = mD5Helper;
+			Md5Helper = md5Helper;
 			Logger = miniLogger;
 			PlatformPerformance = platformPerformance;
 			Dispatcher = mainThreadDispatcher;
 			DataResolverFactory = dataResolverFactory;
+			DiskCache = diskCache;
 			DownloadCache = downloadCache;
             Scheduler = workScheduler;
 		}
@@ -42,7 +44,6 @@ namespace FFImageLoading
 		public IDiskCache DiskCache { get; }
 		public IWorkScheduler Scheduler { get; }
 		public IMD5Helper MD5Helper { get; }
-
 		public IDownloadCache DownloadCache { get; }
 
 		public abstract IMemoryCache<TImageContainer> MemoryCache { get; }
@@ -55,14 +56,7 @@ namespace FFImageLoading
 
         protected abstract void SetTaskForTarget(IImageLoaderTask currentTask);
         public abstract void CancelWorkForView(object view);
-
 		public abstract IImageLoaderTask CreateTask(TaskParameter parameters);
-
-		public abstract IImageLoaderTask CreateTask<TImageView>(TaskParameter parameters, ITarget<TImageContainer, TImageView> target) where TImageView : class;
-
-
-
-
 		public abstract int DpToPixels(double dp, double scale);
         public abstract double PixelsToDp(double px, double scale);
 
@@ -284,5 +278,5 @@ namespace FFImageLoading
         {
             Scheduler.Cancel(task => task.Parameters != null && predicate(task.Parameters));
         }
-    }
+	}
 }

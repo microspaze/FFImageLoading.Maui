@@ -16,20 +16,21 @@ using Android.Widget;
 namespace FFImageLoading
 {
     public class PlatformImageLoaderTask<TImageView> : ImageLoaderTask<Bitmap, SelfDisposingBitmapDrawable, TImageView> where TImageView : class
-    {
+	{
 #pragma warning disable RECS0108 // Warns about static fields in generic types
         private static readonly Android.Graphics.Color _placeholderHelperColor = Android.Graphics.Color.Argb(1, 255, 255, 255);
 #pragma warning restore RECS0108 // Warns about static fields in generic types
 
         public PlatformImageLoaderTask(
-			IImageService<SelfDisposingBitmapDrawable> imageService,
+			IImageService imageService,
 			ITarget<SelfDisposingBitmapDrawable, TImageView> target,
 			TaskParameter parameters)
 			: base(imageService, target, parameters)
         {
-        }
+			MemoryCache = ImageCache.Instance;
+		}
 
-        protected Context Context => new ContextWrapper(Android.App.Application.Context);
+		protected Context Context => new ContextWrapper(Android.App.Application.Context);
 
         protected async override Task SetTargetAsync(SelfDisposingBitmapDrawable image, bool animated)
         {

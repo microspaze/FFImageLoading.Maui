@@ -9,12 +9,12 @@ namespace FFImageLoading.Maui.Handlers
 		where TNativeView: class
 		where TImageSource : IImageSource
 	{
-		public HandlerBase(IImageService<TImageContainer> imageService)
+		public HandlerBase(IImageService imageService)
 		{
 			ImageService = imageService;
 		}
 
-		protected readonly IImageService<TImageContainer> ImageService;
+		protected readonly IImageService ImageService;
 
 		protected virtual Task<IImageLoaderTask> LoadImageAsync(IImageSourceBinding binding, IImageSource imageSource, TNativeView imageView, CancellationToken cancellationToken)
 		{

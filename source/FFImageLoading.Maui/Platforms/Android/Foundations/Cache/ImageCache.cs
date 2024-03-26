@@ -20,7 +20,10 @@ namespace FFImageLoading.Cache
 			: base(configuration, logger)
         {
         }
-    }
+
+		private static IImageCache<SelfDisposingBitmapDrawable> _instance;
+		public static IImageCache<SelfDisposingBitmapDrawable> Instance => _instance ??= new ImageCache<SelfDisposingBitmapDrawable>(ImageService.Instance.Configuration, ImageService.Instance.Logger);
+	}
 
     public class ImageCache<TValue> : IImageCache<TValue> where TValue: Java.Lang.Object, ISelfDisposingBitmapDrawable
     {

@@ -61,7 +61,7 @@ namespace FFImageLoading.Svg.Platform
 		/// <param name="vectorHeight">Vector height.</param>
 		/// <param name="useDipUnits">If set to <c>true</c> use dip units.</param>
 		/// <param name="replaceStringMap">Replace string map.</param>
-		public SvgDataResolver(IImageService<TImageContainer> imageService, int vectorWidth = 0, int vectorHeight = 0, bool useDipUnits = true, Dictionary<string, string> replaceStringMap = null)
+		public SvgDataResolver(IImageService imageService, int vectorWidth = 0, int vectorHeight = 0, bool useDipUnits = true, Dictionary<string, string> replaceStringMap = null)
         {
 			ImageService = imageService;
 			VectorWidth = vectorWidth;
@@ -70,7 +70,7 @@ namespace FFImageLoading.Svg.Platform
             ReplaceStringMap = replaceStringMap;
         }
 
-		public IImageService<TImageContainer> ImageService { get; }
+		public IImageService ImageService { get; }
 
         public bool UseDipUnits { get; private set; }
 

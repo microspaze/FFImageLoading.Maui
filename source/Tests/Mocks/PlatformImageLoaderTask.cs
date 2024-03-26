@@ -10,7 +10,7 @@ namespace FFImageLoading.Work
 {
     public class PlatformImageLoaderTask<TImageView> : ImageLoaderTask<MockBitmap, MockBitmap, TImageView> where TImageView : class
     {
-        public PlatformImageLoaderTask(ITarget<MockBitmap, TImageView> target, TaskParameter parameters, IImageService<MockBitmap> imageService)
+        public PlatformImageLoaderTask(ITarget<MockBitmap, TImageView> target, TaskParameter parameters, IImageService imageService)
             : base(imageService, target, parameters)
         {
         }

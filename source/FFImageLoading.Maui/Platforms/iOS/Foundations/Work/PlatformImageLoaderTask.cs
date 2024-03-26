@@ -32,12 +32,13 @@ namespace FFImageLoading.Work
 #pragma warning restore RECS0108 // Warns about static fields in generic types
 
 		public PlatformImageLoaderTask(
-			IImageService<PImage> imageService,
+			IImageService imageService,
 			ITarget<PImage, TImageView> target,
 			TaskParameter parameters)
 			: base(imageService, target, parameters)
 		{
 			//_webpDecoder = new WebPDecoder(imageService); //use apple system webp decoder
+			MemoryCache = ImageCache.Instance;
 		}
 
 		public async override Task Init()

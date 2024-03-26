@@ -17,24 +17,28 @@ namespace FFImageLoading
     public class ImageService : ImageServiceBase<UIImage>
     {
         static ConditionalWeakTable<object, IImageLoaderTask> _viewsReferences = new ConditionalWeakTable<object, IImageLoaderTask>();
+		static IImageService _instance;
 
-		public ImageService(IConfiguration configuration, IMD5Helper md5Helper, IMiniLogger miniLogger, IPlatformPerformance platformPerformance, IMainThreadDispatcher mainThreadDispatcher, IDataResolverFactory dataResolverFactory, IDownloadCache downloadCache,
-			IWorkScheduler workScheduler) : base(configuration, md5Helper, miniLogger, platformPerformance, mainThreadDispatcher, dataResolverFactory, downloadCache, workScheduler)
+		public static IImageService Instance => _instance ??= ServiceHelper.GetService<IImageService>();
+
+		public ImageService(IConfiguration configuration, IMD5Helper md5Helper, IMiniLogger miniLogger, IPlatformPerformance platformPerformance, IMainThreadDispatcher mainThreadDispatcher, IDataResolverFactory dataResolverFactory, IDiskCache diskCache, IDownloadCache downloadCache,
+			IWorkScheduler workScheduler) : base(configuration, md5Helper, miniLogger, platformPerformance, mainThreadDispatcher, dataResolverFactory, diskCache, downloadCache, workScheduler)
 		{
 		}
 
-		ImageCache imageCache;
+		public override IMemoryCache<UIImage> MemoryCache => ImageCache.Instance;
 
-		public override IMemoryCache<UIImage> MemoryCache => imageCache ??= new ImageCache(Configuration, Logger);
-
-
-        public override IImageLoaderTask CreateTask<TImageView>(TaskParameter parameters, ITarget<UIImage, TImageView> target) where TImageView : class
-			=> new PlatformImageLoaderTask<TImageView>(this, target, parameters);
+		public static IImageLoaderTask CreateTask<TImageView>(TaskParameter parameters, ITarget<UIImage, TImageView> target) where TImageView : class
+		{
+			return new PlatformImageLoaderTask<TImageView>(Instance, target, parameters);
+		}
 
 		public override IImageLoaderTask CreateTask(TaskParameter parameters)
-			=> new PlatformImageLoaderTask<object>(this, null, parameters);
+		{
+			return new PlatformImageLoaderTask<object>(this, null, parameters);
+		}
 
-        protected override void SetTaskForTarget(IImageLoaderTask currentTask)
+		protected override void SetTaskForTarget(IImageLoaderTask currentTask)
         {
             var targetView = currentTask?.Target?.TargetControl;
 

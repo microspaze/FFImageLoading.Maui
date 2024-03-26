@@ -41,7 +41,7 @@ namespace FFImageLoading.Extensions
             return writeableBitmap;
         }
 
-        public async static Task<WriteableBitmap> ToBitmapImageAsync(this Stream imageStream, IImageService<BitmapSource> imageService, double scale, Tuple<int, int> downscale, bool downscaleDipUnits, InterpolationMode mode, bool allowUpscale, ImageInformation imageInformation = null)
+        public async static Task<WriteableBitmap> ToBitmapImageAsync(this Stream imageStream, IImageService imageService, double scale, Tuple<int, int> downscale, bool downscaleDipUnits, InterpolationMode mode, bool allowUpscale, ImageInformation imageInformation = null)
         {
             if (imageStream == null)
                 return null;
@@ -92,7 +92,7 @@ namespace FFImageLoading.Extensions
 			return null;
         }
 
-        public async static Task<BitmapHolder> ToBitmapHolderAsync(this Stream imageStream, IImageService<BitmapSource> imageService, double scale, Tuple<int, int> downscale, bool downscaleDipUnits, InterpolationMode mode, bool allowUpscale, ImageInformation imageInformation = null)
+        public async static Task<BitmapHolder> ToBitmapHolderAsync(this Stream imageStream, IImageService imageService, double scale, Tuple<int, int> downscale, bool downscaleDipUnits, InterpolationMode mode, bool allowUpscale, ImageInformation imageInformation = null)
         {
             if (imageStream == null)
                 return null;
@@ -156,7 +156,7 @@ namespace FFImageLoading.Extensions
             }
         }
 
-        public static async Task<IRandomAccessStream> ResizeImage(this IRandomAccessStream imageStream, IImageService<BitmapSource> imageService, double scale, int width, int height, InterpolationMode interpolationMode, bool useDipUnits, bool allowUpscale, ImageInformation imageInformation = null)
+        public static async Task<IRandomAccessStream> ResizeImage(this IRandomAccessStream imageStream, IImageService imageService, double scale, int width, int height, InterpolationMode interpolationMode, bool useDipUnits, bool allowUpscale, ImageInformation imageInformation = null)
         {
             if (useDipUnits)
             {

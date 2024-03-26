@@ -11,7 +11,7 @@ namespace FFImageLoading.Cache
 {
     internal class EvasImageCache : IMemoryCache<SharedEvasImage>
     {
-        static Lazy<IMemoryCache<SharedEvasImage>> s_instance = new Lazy<IMemoryCache<SharedEvasImage>>(() =>
+        static Lazy<IMemoryCache<SharedEvasImage>> _instance = new Lazy<IMemoryCache<SharedEvasImage>>(() =>
         {
             return new EvasImageCache(ImageService.Instance.Config.MaxMemoryCacheSize, ImageService.Instance.Config.Logger);
         });
@@ -40,7 +40,7 @@ namespace FFImageLoading.Cache
         {
             get
             {
-                return s_instance.Value;
+                return _instance.Value;
             }
         }
 

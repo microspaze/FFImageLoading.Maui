@@ -47,8 +47,7 @@ namespace FFImageLoading.Maui.Platform
 		{
 		}
 
-		IImageService<TImageContainer> ImageService
-			=> this.VirtualView.FindMauiContext()?.Services.GetRequiredService<IImageService<TImageContainer>>();
+		IImageService ImageService => this.VirtualView.FindMauiContext()?.Services.GetRequiredService<IImageService>();
 
 		protected override PImageView CreatePlatformView()
 		{

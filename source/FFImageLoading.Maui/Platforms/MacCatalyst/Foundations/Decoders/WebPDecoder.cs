@@ -21,12 +21,12 @@ namespace FFImageLoading.Decoders
 	public class WebPDecoder : IDecoder<PImage>
 	{
 		//WebPCodec _decoder;
-		public WebPDecoder(IImageService<PImage> imageService)
+		public WebPDecoder(IImageService imageService)
 		{
 			this.imageService = imageService;
 		}
 
-		protected readonly IImageService<PImage> imageService;
+		protected readonly IImageService imageService;
 
 		public Task<IDecodedImage<PImage>> DecodeAsync(Stream stream, string path, Work.ImageSourceType sourceType, ImageInformation imageInformation, TaskParameter parameters)
 		{

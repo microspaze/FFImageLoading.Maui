@@ -16,11 +16,12 @@ namespace FFImageLoading.Work
     public class PlatformImageLoaderTask<TImageView> : ImageLoaderTask<BitmapHolder, BitmapSource, TImageView> where TImageView : class
     {
 		public PlatformImageLoaderTask(
-			IImageService<BitmapSource> imageService,
+			IImageService imageService,
 			ITarget<BitmapSource, TImageView> target,
 			TaskParameter parameters)
 			: base(imageService, target, parameters)
 		{
+			MemoryCache = ImageCache.Instance;
 		}
 
         public async override Task Init()

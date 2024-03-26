@@ -11,12 +11,12 @@ namespace FFImageLoading.Decoders
 {
     public class BaseDecoder : IDecoder<BitmapHolder>
     {
-		public BaseDecoder(IImageService<BitmapSource> imageService)
+		public BaseDecoder(IImageService imageService)
 		{
 			this.imageService = imageService;
 		}
 
-		protected IImageService<BitmapSource> imageService;
+		protected IImageService imageService;
 
         public async Task<IDecodedImage<BitmapHolder>> DecodeAsync(Stream imageData, string path, Work.ImageSourceType sourceType, ImageInformation imageInformation, TaskParameter parameters)
         {

@@ -17,7 +17,7 @@ namespace FFImageLoading
         /// </summary>
         /// <param name="parameters">Image parameters.</param>
         /// <param name="cacheType">Cache type.</param>
-        public static async Task InvalidateAsync<TImageContainer>(this TaskParameter parameters, CacheType cacheType, IImageService<TImageContainer> imageService)
+        public static async Task InvalidateAsync<TImageContainer>(this TaskParameter parameters, CacheType cacheType, IImageService imageService)
         {
             using (var task = imageService.CreateTask(parameters))
             {
@@ -30,7 +30,7 @@ namespace FFImageLoading
 		/// Preloads the image request into memory cache/disk cache for future use.
 		/// </summary>
 		/// <param name="parameters">Image parameters.</param>
-        public static IImageLoaderTask Preload<TImageContainer>(this TaskParameter parameters, IImageService<TImageContainer> imageService)
+        public static IImageLoaderTask Preload(this TaskParameter parameters, IImageService imageService)
         {
             if (parameters.Priority == null)
             {
@@ -48,7 +48,7 @@ namespace FFImageLoading
         /// IMPORTANT: It throws image loading exceptions - you should handle them
         /// </summary>
         /// <param name="parameters">Image parameters.</param>
-        public static Task PreloadAsync<TImageContainer>(this TaskParameter parameters, IImageService<TImageContainer> imageService)
+        public static Task PreloadAsync(this TaskParameter parameters, IImageService imageService)
         {
             var tcs = new TaskCompletionSource<IScheduledWork>();
 
@@ -85,7 +85,7 @@ namespace FFImageLoading
         /// Only Url Source supported.
         /// </summary>
         /// <param name="parameters">Image parameters.</param>
-        public static IImageLoaderTask DownloadOnly<TImageContainer>(this TaskParameter parameters, IImageService<TImageContainer> imageService)
+        public static IImageLoaderTask DownloadOnly<TImageContainer>(this TaskParameter parameters, IImageService imageService)
         {
             if (parameters.SourceType == Work.ImageSourceType.Url)
             {
@@ -101,7 +101,7 @@ namespace FFImageLoading
         /// IMPORTANT: It throws image loading exceptions - you should handle them
         /// </summary>
         /// <param name="parameters">Image parameters.</param>
-        public async static Task DownloadOnlyAsync<TImageContainer>(this TaskParameter parameters, IImageService<TImageContainer> imageService)
+        public async static Task DownloadOnlyAsync<TImageContainer>(this TaskParameter parameters, IImageService imageService)
         {
             if (parameters.SourceType == Work.ImageSourceType.Url)
             {

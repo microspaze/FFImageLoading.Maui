@@ -25,6 +25,7 @@ namespace FFImageLoading
 			IPlatformPerformance platformPerformance,
 			IMainThreadDispatcher mainThreadDispatcher,
 			IDataResolverFactory dataResolverFactory,
+			IDiskCache diskCache,
 			IDownloadCache downloadCache,
 			IWorkScheduler workScheduler)
 			: base(
@@ -34,15 +35,15 @@ namespace FFImageLoading
 				  platformPerformance,
 				  mainThreadDispatcher,
 				  dataResolverFactory,
+				  diskCache,
 				  downloadCache, workScheduler)
 		{
-			ImageCache = new ImageCache(miniLogger, configuration);
 		}
 
 		static ConditionalWeakTable<object, IImageLoaderTask> _viewsReferences = new ConditionalWeakTable<object, IImageLoaderTask>();
+		static IImageService _instance;
 
-
-		protected readonly ImageCache ImageCache;
+		public static IImageService Instance => _instance ??= ServiceHelper.GetService<IImageService>();
 
         protected override void PlatformSpecificConfiguration(Config.IConfiguration configuration)
         {
@@ -50,15 +51,19 @@ namespace FFImageLoading
 
             configuration.ClearMemoryCacheOnOutOfMemory = false;
             configuration.ExecuteCallbacksOnUIThread = true;
-        }
+		}
 
-        public override IMemoryCache<BitmapSource> MemoryCache => this.ImageCache;
+		public override IMemoryCache<BitmapSource> MemoryCache => ImageCache.Instance;
 
-        public override IImageLoaderTask CreateTask<TImageView>(TaskParameter parameters, ITarget<BitmapSource, TImageView> target) where TImageView : class
-			=> new PlatformImageLoaderTask<TImageView>(this, target, parameters);
+		public static IImageLoaderTask CreateTask<TImageView>(TaskParameter parameters, ITarget<BitmapSource, TImageView> target) where TImageView : class
+		{
+			return new PlatformImageLoaderTask<TImageView>(Instance, target, parameters);
+		}
 
 		public override IImageLoaderTask CreateTask(TaskParameter parameters)
-			=> new PlatformImageLoaderTask<object>(this, null, parameters);
+		{
+			return new PlatformImageLoaderTask<object>(this, null, parameters);
+		}
 
         protected override void SetTaskForTarget(IImageLoaderTask currentTask)
         {

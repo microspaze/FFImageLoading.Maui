@@ -19,7 +19,7 @@ namespace FFImageLoading
 		/// </summary>
 		/// <returns>The PNG Stream async.</returns>
 		/// <param name="parameters">Parameters.</param>
-		public static async Task<Stream> AsPNGStreamAsync(this TaskParameter parameters, IImageService<SelfDisposingBitmapDrawable> imageService)
+		public static async Task<Stream> AsPNGStreamAsync(this TaskParameter parameters, IImageService imageService)
 		{
 			using (var result = await AsBitmapDrawableAsync(parameters, imageService).ConfigureAwait(false))
 			{
@@ -35,7 +35,7 @@ namespace FFImageLoading
 		/// <returns>The JPG Stream async.</returns>
 		/// <param name="parameters">Parameters.</param>
 		/// <param name="quality">Quality.</param>
-		public static async Task<Stream> AsJPGStreamAsync(this TaskParameter parameters, IImageService<SelfDisposingBitmapDrawable> imageService, int quality = 80)
+		public static async Task<Stream> AsJPGStreamAsync(this TaskParameter parameters, IImageService imageService, int quality = 80)
 		{
 			using (var result = await AsBitmapDrawableAsync(parameters, imageService).ConfigureAwait(false))
 			{
@@ -53,7 +53,7 @@ namespace FFImageLoading
 		/// </summary>
 		/// <returns>The bitmap drawable async.</returns>
 		/// <param name="parameters">Parameters.</param>
-		public static Task<SelfDisposingBitmapDrawable> AsBitmapDrawableAsync(this TaskParameter parameters, IImageService<SelfDisposingBitmapDrawable> imageService)
+		public static Task<SelfDisposingBitmapDrawable> AsBitmapDrawableAsync(this TaskParameter parameters, IImageService imageService)
 		{
 			var target = new BitmapTarget();
 			var userErrorCallback = parameters.OnError;
@@ -79,7 +79,7 @@ namespace FFImageLoading
 				return null;
 			}
 
-			var task = imageService.CreateTask(parameters, target);
+			var task = ImageService.CreateTask(parameters, target);
 			imageService.LoadImage(task);
 
 			return tcs.Task;
@@ -90,7 +90,7 @@ namespace FFImageLoading
 		/// </summary>
 		/// <param name="parameters">Parameters for loading the image.</param>
 		/// <param name="imageView">Image view that should receive the image.</param>
-		public static IScheduledWork Into(this TaskParameter parameters, ImageView imageView, IImageService<SelfDisposingBitmapDrawable> imageService)
+		public static IScheduledWork Into(this TaskParameter parameters, ImageView imageView, IImageService imageService)
 		{
 			var target = new ImageViewTarget(imageView, imageService.Logger);
 			return parameters.Into(target, imageService);
@@ -103,7 +103,7 @@ namespace FFImageLoading
 		/// <returns>An awaitable Task.</returns>
 		/// <param name="parameters">Parameters for loading the image.</param>
 		/// <param name="imageView">Image view that should receive the image.</param>
-		public static Task<IScheduledWork> IntoAsync(this TaskParameter parameters, ImageView imageView, IImageService<SelfDisposingBitmapDrawable> imageService)
+		public static Task<IScheduledWork> IntoAsync(this TaskParameter parameters, ImageView imageView, IImageService imageService)
 		{
 			return parameters.IntoAsync(param => param.Into(imageView, imageService));
 		}
@@ -115,7 +115,7 @@ namespace FFImageLoading
 		/// <param name="parameters">Parameters.</param>
 		/// <param name="target">Target.</param>
 		/// <typeparam name="TImageView">The 1st type parameter.</typeparam>
-		public static IScheduledWork Into<TImageView>(this TaskParameter parameters, ITarget<SelfDisposingBitmapDrawable, TImageView> target, IImageService<SelfDisposingBitmapDrawable> imageService) where TImageView : class
+		public static IScheduledWork Into<TImageView>(this TaskParameter parameters, ITarget<SelfDisposingBitmapDrawable, TImageView> target, IImageService imageService) where TImageView : class
 		{
 			if (parameters.SourceType != Work.ImageSourceType.Stream && string.IsNullOrWhiteSpace(parameters.Path))
 			{
@@ -124,7 +124,7 @@ namespace FFImageLoading
 				return null;
 			}
 
-			var task = imageService.CreateTask(parameters, target);
+			var task = ImageService.CreateTask(parameters, target);
 			imageService.LoadImage(task);
 			return task;
 		}
@@ -137,7 +137,7 @@ namespace FFImageLoading
 		/// <param name="parameters">Parameters.</param>
 		/// <param name="target">Target.</param>
 		/// <typeparam name="TImageView">The 1st type parameter.</typeparam>
-		public static Task<IScheduledWork> IntoAsync<TImageView>(this TaskParameter parameters, ITarget<SelfDisposingBitmapDrawable, TImageView> target, IImageService<SelfDisposingBitmapDrawable> imageService) where TImageView : class
+		public static Task<IScheduledWork> IntoAsync<TImageView>(this TaskParameter parameters, ITarget<SelfDisposingBitmapDrawable, TImageView> target, IImageService imageService) where TImageView : class
 		{
 			return parameters.IntoAsync(param => param.Into(target, imageService));
 		}

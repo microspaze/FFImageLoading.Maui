@@ -21,7 +21,7 @@ namespace FFImageLoading.Work
 #pragma warning restore RECS0108 // Warns about static fields in generic types
 
 		public ImageLoaderTask(
-			IImageService<TImageContainer> imageService,
+			IImageService imageService,
 			ITarget<TImageContainer, TImageView> target,
 			TaskParameter parameters)
 		{
@@ -224,11 +224,9 @@ namespace FFImageLoading.Work
 
 		public ITarget Target => PlatformTarget as ITarget;
 
-		public IConfiguration Configuration
-			=> ImageService.Configuration;
-
-		protected readonly IImageService<TImageContainer> ImageService;
-
+		public IConfiguration Configuration => ImageService.Configuration;
+		protected readonly IImageService ImageService;
+		protected IMemoryCache<TImageContainer> MemoryCache { get; set; }
 		protected CancellationTokenSource CancellationTokenSource { get; private set; }
 
 
@@ -436,7 +434,7 @@ namespace FFImageLoading.Work
 			{
 				if (Configuration.ClearMemoryCacheOnOutOfMemory && ex is OutOfMemoryException)
 				{
-					ImageService.MemoryCache.Clear();
+					MemoryCache.Clear();
 				}
 
 				if (ex is OperationCanceledException)
@@ -469,7 +467,7 @@ namespace FFImageLoading.Work
 
 		private async Task<bool> TryLoadFromMemoryCacheAsync(string key, bool updateImageInformation, bool animated, bool isLoadingPlaceholder)
 		{
-			var found = ImageService.MemoryCache.Get(key);
+			var found = MemoryCache.Get(key);
 			if (found?.Item1 != null)
 			{
 				try
@@ -549,7 +547,7 @@ namespace FFImageLoading.Work
 						}
 
 						if (loadImage != default(TImageContainer))
-							ImageService.MemoryCache.Add(key, loadImageData.ImageInformation, loadImage);
+							MemoryCache.Add(key, loadImageData.ImageInformation, loadImage);
 					}
 					finally
 					{
@@ -647,7 +645,7 @@ namespace FFImageLoading.Work
 						BeforeLoading(image, false);
 
 						if (image != default(TImageContainer) && CanUseMemoryCache)
-							ImageService.MemoryCache.Add(Key, imageData.ImageInformation, image);
+							MemoryCache.Add(Key, imageData.ImageInformation, image);
 
 						ThrowIfCancellationRequested();
 
@@ -677,7 +675,7 @@ namespace FFImageLoading.Work
 				{
 					if (Configuration.ClearMemoryCacheOnOutOfMemory && ex is OutOfMemoryException)
 					{
-						ImageService.MemoryCache.Clear();
+						MemoryCache.Clear();
 					}
 
 					ImageService.Logger.Error($"Image loading failed: {Key}", ex);

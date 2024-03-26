@@ -17,7 +17,7 @@ namespace FFImageLoading
 	/// FFImageLoading by Daniel Luberda
 	/// </summary>
 	[Preserve(AllMembers = true)]
-	public interface IImageService<TImageContainer>
+	public interface IImageService
 	{
 		/// <summary>
 		/// Gets FFImageLoading configuration
@@ -37,13 +37,13 @@ namespace FFImageLoading
 
 		IDownloadCache DownloadCache { get; }
 
-        IMemoryCache<TImageContainer> MemoryCache { get; }
+		public abstract IImageLoaderTask CreateTask(TaskParameter parameters);
 
-        /// <summary>
-        /// Initializes FFImageLoading with a default Configuration.
-        /// Also forces to run disk cache cleaning routines (avoiding delay for first image loading tasks)
-        /// </summary>
-        void Initialize();
+		/// <summary>
+		/// Initializes FFImageLoading with a default Configuration.
+		/// Also forces to run disk cache cleaning routines (avoiding delay for first image loading tasks)
+		/// </summary>
+		void Initialize();
 
         /// <summary>
         /// Initializes FFImageLoading with a given Configuration. It allows to configure and override most of it.
@@ -51,11 +51,6 @@ namespace FFImageLoading
         /// </summary>
         /// <param name="configuration">Configuration.</param>
         void Initialize(IConfiguration configuration);
-
-		IImageLoaderTask CreateTask(TaskParameter parameters);
-
-		IImageLoaderTask CreateTask<TImageView>(TaskParameter parameters, ITarget<TImageContainer, TImageView> target) where TImageView : class;
-
 
 		/// <summary>
 		/// Constructs a new TaskParameter to load an image from a file.

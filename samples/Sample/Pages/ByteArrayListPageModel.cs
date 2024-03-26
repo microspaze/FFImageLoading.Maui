@@ -62,7 +62,7 @@ namespace Sample
                 "https://farm4.staticflickr.com/3201/3070391067_c80fb9e942.jpg"
             };
 
-			var imageService = MauiProgram.Services.GetRequiredService<IImageService<TImageContainer>>();
+			var imageService = MauiProgram.Services.GetRequiredService<IImageService>();
 
             for (int j = 0; j < 5; j++)
             {

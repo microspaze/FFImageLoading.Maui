@@ -36,7 +36,7 @@ namespace FFImageLoading.Maui
 
         public IVectorDataResolver GetVectorDataResolver()
         {
-			var imageService = this.FindMauiContext()?.Services?.GetRequiredService<IImageService<TImageContainer>>();
+			var imageService = this.FindMauiContext()?.Services?.GetRequiredService<IImageService>();
 
             return new SvgDataResolver<TImageContainer>(imageService, VectorWidth, VectorHeight, UseDipUnits, ReplaceStringMap);
         }

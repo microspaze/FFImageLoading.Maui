@@ -58,8 +58,7 @@ namespace FFImageLoading.Maui.Platform
 			return Control;
 		}
 
-		IImageService<TImageContainer> ImageService
-			=> this.VirtualView.FindMauiContext()?.Services.GetRequiredService<IImageService<TImageContainer>>();
+		IImageService ImageService => this.VirtualView.FindMauiContext()?.Services.GetRequiredService<IImageService>();
 
 		protected override void ConnectHandler(Microsoft.UI.Xaml.Controls.Image platformView)
 		{

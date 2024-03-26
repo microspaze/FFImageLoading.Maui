@@ -25,6 +25,8 @@ namespace FFImageLoading.Cache
 		private readonly IMiniLogger _logger;
 		private readonly object _lock = new object();
 
+		public static IMemoryCache<PImage> Instance => _instance ??= new ImageCache(ImageService.Instance.Configuration, ImageService.Instance.Logger);
+
 		protected readonly IConfiguration Configuration;
 
 		public ImageCache(IConfiguration configuration, IMiniLogger miniLogger)

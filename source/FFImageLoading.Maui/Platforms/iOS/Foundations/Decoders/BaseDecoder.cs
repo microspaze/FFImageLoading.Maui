@@ -2,7 +2,7 @@
 {
     public class BaseDecoder : GifDecoder
     {
-		public BaseDecoder(IImageService<UIKit.UIImage> imageService)
+		public BaseDecoder(IImageService imageService)
 			:base(imageService)
 		{
 

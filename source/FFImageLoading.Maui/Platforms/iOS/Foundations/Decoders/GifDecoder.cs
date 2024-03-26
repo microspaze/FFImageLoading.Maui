@@ -28,12 +28,12 @@ namespace FFImageLoading.Decoders
 	{
 		private static readonly SemaphoreSlim _gifLock = new SemaphoreSlim(1, 1);
 
-		public GifDecoder(IImageService<PImage> imageService)
+		public GifDecoder(IImageService imageService)
 		{
 			ImageService = imageService;
 		}
 
-		protected readonly IImageService<PImage> ImageService;
+		protected readonly IImageService ImageService;
 
 		public async Task<IDecodedImage<PImage>> DecodeAsync(Stream stream, string path, Work.ImageSourceType sourceType, ImageInformation imageInformation, TaskParameter parameters)
 		{
@@ -55,7 +55,7 @@ namespace FFImageLoading.Decoders
 			}
 		}
 
-		public static async Task<IDecodedImage<PImage>> SourceRegfToDecodedImageAsync(NSData nsdata, CGSize destSize, nfloat destScale, IImageService<PImage> imageService, TaskParameter parameters, RCTResizeMode resizeMode = RCTResizeMode.ScaleAspectFit, ImageInformation imageinformation = null, bool allowUpscale = false)
+		public static async Task<IDecodedImage<PImage>> SourceRegfToDecodedImageAsync(NSData nsdata, CGSize destSize, nfloat destScale, IImageService imageService, TaskParameter parameters, RCTResizeMode resizeMode = RCTResizeMode.ScaleAspectFit, ImageInformation imageinformation = null, bool allowUpscale = false)
 		{
 			using (var sourceRef = CGImageSource.FromData(nsdata))
 			{

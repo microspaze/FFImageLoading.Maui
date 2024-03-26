@@ -16,12 +16,12 @@ namespace FFImageLoading.Decoders
 {
     public class BaseDecoder : IDecoder<Bitmap>
     {
-		public BaseDecoder(IImageService<SelfDisposingBitmapDrawable> imageService)
+		public BaseDecoder(IImageService imageService)
 		{
 			ImageService = imageService;
 		}
 
-		protected readonly IImageService<SelfDisposingBitmapDrawable> ImageService;
+		protected readonly IImageService ImageService;
 
         public async Task<IDecodedImage<Bitmap>> DecodeAsync(Stream imageData, string path, Work.ImageSourceType sourceType, ImageInformation imageInformation, TaskParameter parameters)
         {
@@ -182,7 +182,7 @@ namespace FFImageLoading.Decoders
             ISelfDisposingBitmapDrawable bitmapDrawable = null;
             try
             {
-                bitmapDrawable = (ImageService.MemoryCache as ImageCache)?.GetBitmapDrawableFromReusableSet(options);
+                bitmapDrawable = ImageCache.Instance?.GetBitmapDrawableFromReusableSet(options);
                 var bitmap = bitmapDrawable?.Bitmap;
 
                 if (bitmap != null && bitmap.Handle != IntPtr.Zero && !bitmap.IsRecycled)

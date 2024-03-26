@@ -19,7 +19,10 @@ namespace FFImageLoading.Cache
         private readonly WriteableBitmapLRUCache _reusableBitmaps;
         private readonly IMiniLogger _logger;
 
-		public ImageCache(IMiniLogger logger, IConfiguration configuration)
+		private static IImageCache _instance;
+		public static IImageCache Instance => _instance ??= new ImageCache(ImageService.Instance.Configuration, ImageService.Instance.Logger);
+
+		public ImageCache(IConfiguration configuration, IMiniLogger logger)
 		{
 			_logger = logger;
 

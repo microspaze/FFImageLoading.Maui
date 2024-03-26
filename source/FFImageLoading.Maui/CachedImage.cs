@@ -48,7 +48,7 @@ namespace FFImageLoading.Maui
 
 		private bool _reloadBecauseOfMissingSize;
 
-		protected IImageService<TImageContainer> ImageService { get; private set; }
+		protected IImageService ImageService { get; private set; }
 
 
 		/// <summary>
@@ -64,7 +64,7 @@ namespace FFImageLoading.Maui
 				_visualProperty.SetValue(this, _visualMarkerProperty.GetValue(null));
 			}
 
-			ImageService = this.FindMauiContext()?.Services?.GetRequiredService<IImageService<TImageContainer>>();
+			ImageService = this.FindMauiContext()?.Services?.GetRequiredService<IImageService>();
 		}
 
 		internal IMauiContext FindMauiContext()
@@ -85,7 +85,7 @@ namespace FFImageLoading.Maui
 		{
 			base.OnHandlerChanged();
 
-			ImageService = this.FindMauiContext()?.Services?.GetRequiredService<IImageService<TImageContainer>>();
+			ImageService = this.FindMauiContext()?.Services?.GetRequiredService<IImageService>();
 			if (ImageService != null)
 			{
 				ReloadImage();

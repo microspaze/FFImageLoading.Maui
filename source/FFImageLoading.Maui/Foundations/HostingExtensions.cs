@@ -18,11 +18,11 @@ namespace FFImageLoading
 			services.AddSingleton<IWorkScheduler, WorkScheduler>();
 
 #if IOS || MACCATALYST
-			services.AddSingleton<IImageService<UIKit.UIImage>, ImageService>();
+			services.AddSingleton<IImageService, ImageService>();
 #elif ANDROID
-			services.AddSingleton<IImageService<FFImageLoading.Drawables.SelfDisposingBitmapDrawable>, ImageService>();
+			services.AddSingleton<IImageService, ImageService>();
 #elif WINDOWS
-			services.AddSingleton<IImageService<Microsoft.UI.Xaml.Media.Imaging.BitmapSource>, ImageService>();
+			services.AddSingleton<IImageService, ImageService>();
 #endif
 
 #if ANDROID || WINDOWS || IOS || MACCATALYST || TIZEN
