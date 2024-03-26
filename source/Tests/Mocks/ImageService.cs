@@ -17,6 +17,9 @@ namespace FFImageLoading
     public class ImageService : ImageServiceBase<MockBitmap>
     {
         const string DoNotReference = "You are referencing the portable assembly - you need to reference the platform specific assembly";
+		static IImageService _instance;
+
+		public static IImageService Instance => _instance ??= ServiceHelper.GetService<IImageService>();
 
 		public ImageService(
 			IConfiguration configuration,
@@ -34,9 +37,9 @@ namespace FFImageLoading
 
         public override IMemoryCache<MockBitmap> MemoryCache => new MockImageCache();
 
-        public override IImageLoaderTask CreateTask<TImageView>(TaskParameter parameters, ITarget<MockBitmap, TImageView> target) where TImageView : class
+        public static IImageLoaderTask CreateTask<TImageView>(TaskParameter parameters, ITarget<MockBitmap, TImageView> target) where TImageView : class
         {
-            return new PlatformImageLoaderTask<TImageView>(target, parameters, this);
+            return new PlatformImageLoaderTask<TImageView>(target, parameters, Instance);
         }
 
         public override IImageLoaderTask CreateTask(TaskParameter parameters)

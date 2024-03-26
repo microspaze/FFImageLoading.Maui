@@ -7,6 +7,7 @@ using FFImageLoading;
 using FFImageLoading.Work;
 using FFImageLoading.Cache;
 using System.Linq;
+using FFImageLoading.Mock;
 
 namespace FFImageLoading.Tests.ImageServiceTests
 {
@@ -49,7 +50,7 @@ namespace FFImageLoading.Tests.ImageServiceTests
             var cachedDisk = await ImageService.DiskCache.ExistsAsync(diskCacheKey);
             Assert.True(cachedDisk);
 
-            var cachedMemory = ImageService.MemoryCache.Get(RemoteImage);
+            var cachedMemory = MockImageCache.Instance.Get(RemoteImage);
             Assert.NotNull(cachedMemory);
         }
 
@@ -65,7 +66,7 @@ namespace FFImageLoading.Tests.ImageServiceTests
             var cachedDisk = await ImageService.DiskCache.ExistsAsync(diskCacheKey);
             Assert.False(cachedDisk);
 
-            var cachedMemory = ImageService.MemoryCache.Get(RemoteImage);
+            var cachedMemory = MockImageCache.Instance.Get(RemoteImage);
             Assert.Null(cachedMemory);
         }
 
@@ -81,7 +82,7 @@ namespace FFImageLoading.Tests.ImageServiceTests
             var cachedDisk = await ImageService.DiskCache.ExistsAsync(diskCacheKey);
             Assert.False(cachedDisk);
 
-            var cachedMemory = ImageService.MemoryCache.Get(RemoteImage);
+            var cachedMemory = MockImageCache.Instance.Get(RemoteImage);
             Assert.Null(cachedMemory);
         }
 

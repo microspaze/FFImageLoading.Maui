@@ -11,8 +11,11 @@ namespace FFImageLoading.Mock
     {
         readonly Dictionary<string, Tuple<MockBitmap, ImageInformation>> _cache = new Dictionary<string, Tuple<MockBitmap, ImageInformation>>();
         readonly object _lock = new object();
+		private static IMemoryCache<MockBitmap> _instance;
 
-        public void Add(string key, ImageInformation imageInformation, MockBitmap bitmap)
+		public static IMemoryCache<MockBitmap> Instance => _instance ??= new MockImageCache();
+
+		public void Add(string key, ImageInformation imageInformation, MockBitmap bitmap)
         {
             lock (_lock)
             {

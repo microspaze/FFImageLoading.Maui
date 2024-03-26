@@ -2,6 +2,7 @@
 using Xunit;
 using System.Threading.Tasks;
 using FFImageLoading;
+using FFImageLoading.Mock;
 
 namespace FFImageLoading.Tests.Cache
 {
@@ -10,7 +11,7 @@ namespace FFImageLoading.Tests.Cache
         [Fact]
         public Task CanAddGet()
         {
-            var memoryCache = ImageService.MemoryCache;
+            var memoryCache = MockImageCache.Instance;
             var key = Guid.NewGuid().ToString();
             byte[] bytes = new byte[] { 00, 01, 00, 01 };
             var bitmap = new Mock.MockBitmap();

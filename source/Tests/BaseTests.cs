@@ -31,12 +31,12 @@ namespace FFImageLoading.Tests
 
             ImageService = new ImageService(
                 config, md5, logger, null, new MockMainThreadDispatcher(),
-                dataResolver, downloadCache, scheduler);
+                dataResolver, diskCache, downloadCache, scheduler);
 
 			ImageService.Initialize();
 		}
 
-		protected readonly IImageService<MockBitmap> ImageService;
+		protected readonly IImageService ImageService;
 
 		protected const string RemoteImage = "https://loremflickr.com/320/240/nature?random=0";
         protected static string[] Images { get; private set; }
