@@ -78,6 +78,10 @@ public static class MauiProgram
 
 ## Release Notes
 
+## 1.1.1
+
+1.Fix DiskCache is null within the ImageService object. (Thanks Reported by https://github.com/kpespisa)
+
 ## 1.1.0
 
 1.Fix Windows Application start up crash when DispatcherQueue in MainThreadDispatcher is null.
