@@ -6,21 +6,19 @@ namespace Sample
 {
     public partial class BasicPage : ContentPage
     {
-        BasicPageModel viewModel;
+        BasicPageModel viewModel = new BasicPageModel();
 
 		private readonly IImageService _imageService = FFImageLoading.Helpers.ServiceHelper.GetService<IImageService>();
 
 		public BasicPage()
         {
             InitializeComponent();
-			BindingContext = viewModel = new BasicPageModel();
+			BindingContext = viewModel;
 		}
 
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-
-			viewModel.Reload();
 		}
 
 		/// <summary>
