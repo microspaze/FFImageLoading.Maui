@@ -78,6 +78,10 @@ public static class MauiProgram
 
 ## Release Notes
 
+## 1.1.2
+
+1.Fix Android app is continue to load the same image. #21 (Thanks Reported by https://github.com/BoungSeokKim)
+
 ## 1.1.1
 
 1.Fix DiskCache is null within the ImageService object. (Thanks Reported by https://github.com/kpespisa)
