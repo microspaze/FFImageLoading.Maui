@@ -85,8 +85,9 @@ namespace FFImageLoading.Maui
 		{
 			base.OnHandlerChanged();
 
+			var serviceInvalid = ImageService == null;
 			ImageService = this.FindMauiContext()?.Services?.GetRequiredService<IImageService>();
-			if (ImageService != null)
+			if (ImageService != null && serviceInvalid)
 			{
 				ReloadImage();
 			}

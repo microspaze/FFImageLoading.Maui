@@ -134,13 +134,13 @@ namespace FFImageLoading.Maui.Platform
 
 		private void VirtualView_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == CachedImage.SourceProperty.PropertyName
-				|| e.PropertyName == CachedImage.WidthProperty.PropertyName
-				|| e.PropertyName == CachedImage.HeightProperty.PropertyName)
+			if (e.PropertyName == CachedImage.SourceProperty.PropertyName)
 			{
 				UpdateBitmap(PlatformView, VirtualView, null);
 			}
-			else if (e.PropertyName == CachedImage.AspectProperty.PropertyName)
+			else if (e.PropertyName == CachedImage.AspectProperty.PropertyName
+				|| e.PropertyName == CachedImage.WidthRequestProperty.PropertyName
+				|| e.PropertyName == CachedImage.HeightRequestProperty.PropertyName)
 			{
 				UpdateAspect();
 			}
