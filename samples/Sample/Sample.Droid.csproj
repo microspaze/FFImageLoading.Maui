@@ -56,6 +56,30 @@
     <RuntimeIdentifier Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">iossimulator-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="'$(Configuration)|$(Platform)'=='Debug|Simulator'">iossimulator-x64</RuntimeIdentifier>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|Device'">
+    <ApplicationTitle>FFImage</ApplicationTitle>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|Simulator'">
+    <ApplicationTitle>FFImage</ApplicationTitle>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+    <ApplicationTitle>FFImage</ApplicationTitle>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|Device'">
+    <ApplicationTitle>FFImage</ApplicationTitle>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|Simulator'">
+    <ApplicationTitle>FFImage</ApplicationTitle>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
+    <ApplicationTitle>FFImage</ApplicationTitle>
+  </PropertyGroup>
   <ItemGroup>
     <!-- App Icon -->
     <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -77,6 +101,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.7" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
   </ItemGroup>
 

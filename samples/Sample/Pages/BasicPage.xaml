@@ -40,9 +40,9 @@
 
             <!--NEVER PUT CollectionView OR ListView IN ScrollView, Performance IS TERRIBLE-->
             <CollectionView ItemsSource="{Binding Items}"
-				ItemsUpdatingScrollMode="KeepItemsInView"
-				MinimumWidthRequest="200"
-				VerticalOptions="FillAndExpand">
+                ItemsUpdatingScrollMode="KeepItemsInView"
+                MinimumWidthRequest="200"
+                VerticalOptions="FillAndExpand">
                 <CollectionView.ItemsLayout >
                     <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="5" HorizontalItemSpacing="5" />
                 </CollectionView.ItemsLayout>
@@ -50,7 +50,7 @@
                     <DataTemplate >
                         <Border HeightRequest="190">
                             <Grid RowDefinitions="10,140,*">
-                                <ffimageloading:CachedImage Grid.Row="1" Source="{Binding Image}" Aspect="AspectFit" Margin="3,3,3,0" >
+                                <ffimageloading:CachedImage Grid.Row="1" Source="{Binding Image}" Aspect="AspectFit" Margin="3,3,3,0" LoadingPlaceholder="loading.png" ErrorPlaceholder="error.png" DownsampleToViewSize="true" HeightRequest="137" WidthRequest="137" >
                                     <ffimageloading:CachedImage.Transformations>
                                         <fftransformations:RoundedTransformation Radius="20"/>
                                     </ffimageloading:CachedImage.Transformations>
@@ -58,9 +58,9 @@
 
                                 <VerticalStackLayout Grid.Row="2" Margin="10" Spacing="5" InputTransparent="True">
                                     <Label HorizontalOptions="Center"
-							                   VerticalOptions="End"
-							                   Text="{Binding Price, StringFormat='{0:C}'}"
-							                   MaxLines="1"/>
+                                               VerticalOptions="End"
+                                               Text="{Binding Price, StringFormat='{0:C}'}"
+                                               MaxLines="1"/>
                                 </VerticalStackLayout>
                             </Grid>
                         </Border>
