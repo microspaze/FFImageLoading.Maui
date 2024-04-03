@@ -29,6 +29,8 @@ namespace FFImageLoading.Maui.Platform
     {
 
 		private bool _isDisposed;
+		private double _imageWidth = 0;
+		private double _imageHeight = 0;
 		private double _imageSizeRatio = 0;
 		private IScheduledWork _currentTask;
         private ImageSourceBinding _lastImageSource;
@@ -51,7 +53,6 @@ namespace FFImageLoading.Maui.Platform
 		{
 			return new CachedImageView(Context);
 		}
-
 
 		protected override void ConnectHandler(CachedImageView platformView)
 		{
@@ -87,27 +88,30 @@ namespace FFImageLoading.Maui.Platform
 		{
 			var widthRequest = VirtualView.WidthRequest;
 			var heightRequest = VirtualView.HeightRequest;
-			var hasWidthRequest = widthRequest > 0;
-			var hasHeightRequest = heightRequest > 0;
+			var hasWidthRequest = widthRequest >= 0;
+			var hasHeightRequest = heightRequest >= 0;
 			if (!hasWidthRequest || !hasHeightRequest)
 			{
-				if (_imageSizeRatio <= 0)
+				var aspect = VirtualView.Aspect;
+				var isFill = aspect == Aspect.Fill;
+				var isAspectFill = aspect == Aspect.AspectFill;
+				if (!hasWidthRequest)
 				{
-					return base.GetDesiredSize(widthConstraint, heightConstraint);
+					widthRequest = !double.IsInfinity(widthConstraint) && (isFill || isAspectFill) ? widthConstraint : _imageWidth;
 				}
 
-				if (!hasWidthRequest && !hasHeightRequest)
+				if (!hasHeightRequest)
 				{
-					widthRequest = widthConstraint;
-					heightRequest = widthRequest / _imageSizeRatio;
+					heightRequest = !double.IsInfinity(heightConstraint) ? heightConstraint : _imageHeight;
+					if (!isFill && !isAspectFill && _imageSizeRatio != 0)
+					{
+						heightRequest = widthRequest / _imageSizeRatio;
+					}
 				}
-				else if (!hasWidthRequest)
+
+				if (widthRequest < 0 || heightRequest < 0)
 				{
-					widthRequest = heightRequest * _imageSizeRatio;
-				}
-				else if (!hasHeightRequest)
-				{
-					heightRequest = widthRequest / _imageSizeRatio;
+					return base.GetDesiredSize(widthConstraint, heightConstraint);
 				}
 			}
 
@@ -121,12 +125,13 @@ namespace FFImageLoading.Maui.Platform
 
 			if (VirtualView.Aspect == Aspect.AspectFill)
 			{
-				if ((int)Build.VERSION.SdkInt >= 18)
-				{
-					var (left, top, right, bottom) = PlatformView.Context!.ToPixels(frame);
-					var clipRect = new Android.Graphics.Rect(0, 0, right - left, bottom - top);
-					PlatformView.ClipBounds = clipRect;
-				}
+				var (left, top, right, bottom) = PlatformView.Context!.ToPixels(frame);
+				var clipRect = new Android.Graphics.Rect(0, 0, right - left, bottom - top);
+				PlatformView.ClipBounds = clipRect;
+			}
+			else
+			{
+				PlatformView.ClipBounds = null;
 			}
 
 			base.PlatformArrange(frame);
@@ -155,12 +160,14 @@ namespace FFImageLoading.Maui.Platform
 			{
 				PlatformView.SetScaleType(ImageView.ScaleType.CenterCrop);
 			}
-
-            else if (VirtualView.Aspect == Aspect.Fill)
+			else if (VirtualView.Aspect == Aspect.Fill)
+			{
 				PlatformView.SetScaleType(ImageView.ScaleType.FitXy);
-
-            else
+			}
+			else
+			{
 				PlatformView.SetScaleType(ImageView.ScaleType.FitCenter);
+			}
         }
 
         private void UpdateBitmap(CachedImageView imageView, CachedImage image, CachedImage previousImage)
@@ -241,7 +248,9 @@ namespace FFImageLoading.Maui.Platform
 					var bitmap = bitmapDrawable.Bitmap;
 					if (bitmap != null && bitmap.Height > 0)
 					{
-						_imageSizeRatio = bitmap.Width / bitmap.Height;
+						_imageWidth = bitmap.Width;
+						_imageHeight = bitmap.Height;
+						_imageSizeRatio = _imageWidth / _imageHeight;
 					}
 				}
 
