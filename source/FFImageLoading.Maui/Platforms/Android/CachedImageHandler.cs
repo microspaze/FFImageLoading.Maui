@@ -221,6 +221,12 @@ namespace FFImageLoading.Maui.Platform
 
                     imageLoader.Success((imageInformation, loadingResult) =>
                     {
+	                    if (imageInformation != null && imageInformation.OriginalHeight > 0)
+	                    {
+		                    _imageWidth = imageInformation.OriginalWidth;
+		                    _imageHeight = imageInformation.OriginalHeight;
+		                    _imageSizeRatio = _imageWidth / _imageHeight;
+	                    }
                         sucessAction?.Invoke(imageInformation, loadingResult);
                         _lastImageSource = ffSource;
                     });
@@ -242,17 +248,6 @@ namespace FFImageLoading.Maui.Platform
 			{
 				if (element == null || _isDisposed)
 					return;
-
-				if (PlatformView.Drawable is BitmapDrawable bitmapDrawable)
-				{
-					var bitmap = bitmapDrawable.Bitmap;
-					if (bitmap != null && bitmap.Height > 0)
-					{
-						_imageWidth = bitmap.Width;
-						_imageHeight = bitmap.Height;
-						_imageSizeRatio = _imageWidth / _imageHeight;
-					}
-				}
 
 				((IVisualElementController)element).InvalidateMeasure(Microsoft.Maui.Controls.Internals.InvalidationTrigger.MeasureChanged);
 

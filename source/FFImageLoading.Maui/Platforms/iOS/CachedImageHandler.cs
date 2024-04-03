@@ -35,6 +35,9 @@ namespace FFImageLoading.Maui.Platform
     public class CachedImageHandler : ViewHandler<CachedImage, PImageView>
     {
         private bool _isDisposed;
+        private double _imageWidth = 0;
+        private double _imageHeight = 0;
+        private double _imageSizeRatio = 0;
 		private IScheduledWork _currentTask;
         private ImageSourceBinding _lastImageSource;
         private readonly object _updateBitmapLock = new object();
@@ -86,6 +89,40 @@ namespace FFImageLoading.Maui.Platform
 			CancelIfNeeded();
 
 			base.DisconnectHandler(platformView);
+		}
+
+		public override Size GetDesiredSize(double widthConstraint, double heightConstraint)
+		{
+			var widthRequest = VirtualView.WidthRequest;
+			var heightRequest = VirtualView.HeightRequest;
+			var hasWidthRequest = widthRequest >= 0;
+			var hasHeightRequest = heightRequest >= 0;
+			if (!hasWidthRequest || !hasHeightRequest)
+			{
+				var aspect = VirtualView.Aspect;
+				var isFill = aspect == Aspect.Fill;
+				var isAspectFill = aspect == Aspect.AspectFill;
+				if (!hasWidthRequest)
+				{
+					widthRequest = !double.IsInfinity(widthConstraint) && (isFill || isAspectFill) ? widthConstraint : _imageWidth;
+				}
+
+				if (!hasHeightRequest)
+				{
+					heightRequest = !double.IsInfinity(heightConstraint) ? heightConstraint : _imageHeight;
+					if (!isFill && !isAspectFill && _imageSizeRatio != 0)
+					{
+						heightRequest = widthRequest / _imageSizeRatio;
+					}
+				}
+
+				if (widthRequest < 0 || heightRequest < 0)
+				{
+					return base.GetDesiredSize(widthConstraint, heightConstraint);
+				}
+			}
+
+			return new Size(widthRequest, heightRequest);
 		}
 
 		void VirtualView_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -195,6 +232,12 @@ namespace FFImageLoading.Maui.Platform
 
                     imageLoader.Success((imageInformation, loadingResult) =>
                     {
+	                    if (imageInformation != null && imageInformation.OriginalHeight > 0)
+	                    {
+		                    _imageWidth = imageInformation.OriginalWidth;
+		                    _imageHeight = imageInformation.OriginalHeight;
+		                    _imageSizeRatio = _imageWidth / _imageHeight;
+	                    }
                         sucessAction?.Invoke(imageInformation, loadingResult);
                         _lastImageSource = ffSource;
                     });
