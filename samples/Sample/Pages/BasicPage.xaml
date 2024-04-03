@@ -8,9 +8,9 @@
         Title="Basic">
     <ContentPage.Content>
         <StackLayout Spacing="20">
-            <ScrollView HeightRequest="400">
+            <ScrollView HeightRequest="600">
                 <StackLayout Spacing="20">
-                    <ffimageloading:CachedImage WidthRequest="250" HeightRequest="250"
+                    <ffimageloading:CachedImage WidthRequest="250" Margin="0,20,0,0"
                           Aspect="AspectFit"
                           DownsampleToViewSize="False" Source="{Binding ImageUrl}"></ffimageloading:CachedImage>
 
@@ -19,7 +19,7 @@
                           Aspect="AspectFit" IsVisible="true"
                           AutomationProperties.IsInAccessibleTree="False"></ffimageloading:CachedImage>
 
-                    <ffimageloading:CachedImage WidthRequest="100" HeightRequest="100"
+                    <ffimageloading:CachedImage WidthRequest="100"
                           Source="maui_beach_wikimedia.png"
                           IsVisible="true"
                           DownsampleToViewSize="True" 
@@ -34,12 +34,23 @@
                           Aspect="AspectFill" IsVisible="true"
                           AutomationProperties.IsInAccessibleTree="False"></Image>
 
+                    <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                        <Label Grid.Row="0"  Text="FFImageLoading image:"/>
+                        <ffimageloading:CachedImage BackgroundColor="Transparent" Grid.Row="1"
+                                    Aspect="AspectFit"
+                                    Source = "no_avatar.png">
+                        </ffimageloading:CachedImage>
+                        <Label Grid.Row="2" Text="Should keep its original size"/>
+                        <Image Grid.Row="3" Aspect="AspectFit" Source="no_avatar.png"/>
+                        <Label Grid.Row="4" Text="As it is on Xamarin/MAUI image"/>
+                    </Grid>
+
                     <Button Text="Invalidate Cache" Clicked="InvalidateCache" ></Button>
                 </StackLayout>
             </ScrollView>
 
             <!--NEVER PUT CollectionView OR ListView IN ScrollView, Performance IS TERRIBLE-->
-            <CollectionView ItemsSource="{Binding Items}"
+            <!--<CollectionView ItemsSource="{Binding Items}"
                 ItemsUpdatingScrollMode="KeepItemsInView"
                 MinimumWidthRequest="200"
                 VerticalOptions="FillAndExpand">
@@ -66,7 +77,7 @@
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-            </CollectionView>
+            </CollectionView>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
