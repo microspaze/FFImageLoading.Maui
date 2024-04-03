@@ -78,6 +78,10 @@ public static class MauiProgram
 
 ## Release Notes
 
+## 1.1.3
+
+1.Broken CachedImage scaling on Android #22 (Sync to iOS/MacOs/Windows) (Thanks Reported by https://github.com/rafalka)
+
 ## 1.1.2
 
 1.Fix Android app is continue to load the same image. #21 (Thanks Reported by https://github.com/BoungSeokKim)
