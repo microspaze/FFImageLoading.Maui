@@ -97,6 +97,20 @@
     <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Platforms\Android\Resources\drawable-hdpi\lake1.webp" />
+    <None Remove="Platforms\Android\Resources\drawable-mdpi\lake2.webp" />
+    <None Remove="Platforms\Android\Resources\drawable-xhdpi\lake3.webp" />
+    <None Remove="Platforms\Android\Resources\drawable-xxhdpi\lake4.webp" />
+    <None Remove="Platforms\Android\Resources\drawable-xxxhdpi\lake5.webp" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Platforms\Android\Resources\drawable-hdpi\lake1.webp" />
+    <AndroidResource Include="Platforms\Android\Resources\drawable-mdpi\lake2.webp" />
+    <AndroidResource Include="Platforms\Android\Resources\drawable-xhdpi\lake3.webp" />
+    <AndroidResource Include="Platforms\Android\Resources\drawable-xxhdpi\lake4.webp" />
+    <AndroidResource Include="Platforms\Android\Resources\drawable-xxxhdpi\lake5.webp" />
+  </ItemGroup>
 
 
   <ItemGroup>

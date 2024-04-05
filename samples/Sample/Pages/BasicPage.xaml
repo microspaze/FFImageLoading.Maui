@@ -34,14 +34,26 @@
                           Aspect="AspectFill" IsVisible="true"
                           AutomationProperties.IsInAccessibleTree="False"></Image>
 
+
                     <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                         <Label Grid.Row="0"  Text="FFImageLoading image:"/>
-                        <ffimageloading:CachedImage BackgroundColor="Transparent" Grid.Row="1"
+                        <ffimageloading:CachedImage Grid.Row="1"
                                     Aspect="AspectFit"
-                                    Source = "no_avatar.png">
+                                    Source = "no-photo.png">
                         </ffimageloading:CachedImage>
                         <Label Grid.Row="2" Text="Should keep its original size"/>
-                        <Image Grid.Row="3" Aspect="AspectFit" Source="no_avatar.png"/>
+                        <Image Grid.Row="3" Aspect="AspectFit" Source="no-photo.png" />
+                        <Label Grid.Row="4" Text="As it is on Xamarin/MAUI image"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                        <Label Grid.Row="0"  Text="FFImageLoading image:"/>
+                        <ffimageloading:CachedImage Grid.Row="1"
+                                    Aspect="AspectFit"
+                                    Source = "lake1.webp">
+                        </ffimageloading:CachedImage>
+                        <Label Grid.Row="2" Text="Should keep its original size"/>
+                        <Image Grid.Row="3" Aspect="AspectFit" Source="lake1.webp" />
                         <Label Grid.Row="4" Text="As it is on Xamarin/MAUI image"/>
                     </Grid>
 

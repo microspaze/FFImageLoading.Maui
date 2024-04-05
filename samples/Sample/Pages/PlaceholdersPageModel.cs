@@ -14,7 +14,7 @@ namespace Sample
 		[RelayCommand]
 		public void LoadingPlaceholder()
 		{
-			ImageUrl = Helpers.GetRandomImageUrl();
+			ImageUrl = "no_avatar.png";// Helpers.GetRandomImageUrl();
 		}
 
 		[RelayCommand]
