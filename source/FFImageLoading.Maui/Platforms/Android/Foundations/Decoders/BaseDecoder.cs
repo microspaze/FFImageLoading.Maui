@@ -37,7 +37,7 @@ namespace FFImageLoading.Decoders
                 options = new BitmapFactory.Options
                 {
                     InJustDecodeBounds = true,
-                };
+				};
                 await BitmapFactory.DecodeStreamAsync(imageData, null, options).ConfigureAwait(false);
             }
 
@@ -45,10 +45,10 @@ namespace FFImageLoading.Decoders
             options.InJustDecodeBounds = false;
             options.InDither = true;
             options.InScaled = false;
-            options.InDensity = 0;
-            options.InTargetDensity = 0;
-
-            imageInformation.SetOriginalSize(options.OutWidth, options.OutHeight);
+			options.InDensity = (int)Math.Round(imageInformation.Density * (imageInformation.OriginalHeight > 0 ? options.OutHeight * 1.0 / imageInformation.OriginalHeight : 0), 0);
+			options.InTargetDensity = 0;
+			
+			imageInformation.SetOriginalSize(options.OutWidth, options.OutHeight);
             imageInformation.SetCurrentSize(options.OutWidth, options.OutHeight);
 
             if (!ImageService.Configuration.BitmapOptimizations || (parameters.BitmapOptimizationsEnabled.HasValue && !parameters.BitmapOptimizationsEnabled.Value))
@@ -113,7 +113,7 @@ namespace FFImageLoading.Decoders
             try
             {
                 bitmap = await BitmapFactory.DecodeStreamAsync(imageData, null, options).ConfigureAwait(false);
-            }
+			}
             catch (Java.Lang.IllegalArgumentException)
             {
                 var old = options.InBitmap as object as ISelfDisposingBitmapDrawable;

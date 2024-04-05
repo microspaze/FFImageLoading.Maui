@@ -4,12 +4,13 @@ using Android.Runtime;
 using Android.Util;
 using Android.Graphics.Drawables;
 using Android.Widget;
+using AndroidX.AppCompat.Widget;
 
 namespace FFImageLoading.Maui.Platform
 {
     [Preserve(AllMembers = true)]
-    public class CachedImageView : ImageView
-    {
+    public class CachedImageView : AppCompatImageView
+	{
         bool _skipInvalidate;
 
         public CachedImageView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)

@@ -23,6 +23,11 @@ namespace FFImageLoading.Work
             OriginalHeight = height;
         }
 
+		internal void SetDensity(int density)
+		{
+			Density = density;
+		}
+
         internal void SetPath(string path)
         {
             Path = path;
@@ -50,6 +55,8 @@ namespace FFImageLoading.Work
         }
 
         public IList<Directory> Exif { get; private set;  }
+
+		public int Density { get; private set; }
 
         public int CurrentWidth { get; private set; }
 

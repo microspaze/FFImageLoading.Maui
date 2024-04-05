@@ -4,6 +4,8 @@ using Android.Content;
 using System.IO;
 using System.Collections.Concurrent;
 using System.Threading;
+using AndroidX.Core.Content;
+using Android.Graphics.Drawables;
 
 namespace FFImageLoading.DataResolvers
 {
@@ -27,17 +29,34 @@ namespace FFImageLoading.DataResolvers
                 throw new FileNotFoundException(identifier);
 
             token.ThrowIfCancellationRequested();
-            Stream stream  = Context.Resources.OpenRawResource(resourceId);
+			Stream stream = Context.Resources.OpenRawResource(resourceId);
 
-            if (stream == null)
-                throw new FileNotFoundException(identifier);
+			if (stream == null)
+				throw new FileNotFoundException(identifier);
 
-            var imageInformation = new ImageInformation();
+			var density = 0;
+			var bitmapWidth = 0;
+			var bitmapHeight = 0;
+			var drawable = ContextCompat.GetDrawable(Context, resourceId);
+			if (drawable != null && drawable is BitmapDrawable bitmapDrawable)
+			{
+				var bitmap = bitmapDrawable.Bitmap;
+				if (bitmap != null)
+				{
+					density = bitmap.Density;
+					bitmapWidth = bitmap.Width;
+					bitmapHeight = bitmap.Height;
+				}
+			}
+
+			var imageInformation = new ImageInformation();
             imageInformation.SetPath(identifier);
             imageInformation.SetFilePath(identifier);
+			imageInformation.SetDensity(density);
+			imageInformation.SetOriginalSize(bitmapWidth, bitmapHeight);
 
-            return Task.FromResult(new DataResolverResult(
-                stream, LoadingResult.CompiledResource, imageInformation));
+			return Task.FromResult(new DataResolverResult(
+				stream, LoadingResult.CompiledResource, imageInformation));
         }
 
         protected Context Context => new ContextWrapper(Android.App.Application.Context);

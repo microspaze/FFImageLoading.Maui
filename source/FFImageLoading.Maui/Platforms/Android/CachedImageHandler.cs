@@ -27,11 +27,7 @@ namespace FFImageLoading.Maui.Platform
     [Preserve(AllMembers=true)]
     public class CachedImageHandler : ViewHandler<CachedImage, CachedImageView>
     {
-
 		private bool _isDisposed;
-		private double _imageWidth = 0;
-		private double _imageHeight = 0;
-		private double _imageSizeRatio = 0;
 		private IScheduledWork _currentTask;
         private ImageSourceBinding _lastImageSource;
 
@@ -51,7 +47,9 @@ namespace FFImageLoading.Maui.Platform
 
 		protected override CachedImageView CreatePlatformView()
 		{
-			return new CachedImageView(Context);
+			var imageView = new CachedImageView(Context);
+			imageView.SetAdjustViewBounds(true);
+			return imageView;
 		}
 
 		protected override void ConnectHandler(CachedImageView platformView)
@@ -82,40 +80,6 @@ namespace FFImageLoading.Maui.Platform
 			CancelIfNeeded();
 
 			base.DisconnectHandler(platformView);
-		}
-
-		public override Size GetDesiredSize(double widthConstraint, double heightConstraint)
-		{
-			var widthRequest = VirtualView.WidthRequest;
-			var heightRequest = VirtualView.HeightRequest;
-			var hasWidthRequest = widthRequest >= 0;
-			var hasHeightRequest = heightRequest >= 0;
-			if (!hasWidthRequest || !hasHeightRequest)
-			{
-				var aspect = VirtualView.Aspect;
-				var isFill = aspect == Aspect.Fill;
-				var isAspectFill = aspect == Aspect.AspectFill;
-				if (!hasWidthRequest)
-				{
-					widthRequest = !double.IsInfinity(widthConstraint) && (isFill || isAspectFill) ? widthConstraint : _imageWidth;
-				}
-
-				if (!hasHeightRequest)
-				{
-					heightRequest = !double.IsInfinity(heightConstraint) ? heightConstraint : _imageHeight;
-					if (!isFill && !isAspectFill && _imageSizeRatio != 0)
-					{
-						heightRequest = widthRequest / _imageSizeRatio;
-					}
-				}
-
-				if (widthRequest < 0 || heightRequest < 0)
-				{
-					return base.GetDesiredSize(widthConstraint, heightConstraint);
-				}
-			}
-
-			return new Size(widthRequest, heightRequest);
 		}
 
 		public override void PlatformArrange(Microsoft.Maui.Graphics.Rect frame)
@@ -217,25 +181,19 @@ namespace FFImageLoading.Maui.Platform
                     {
                         finishAction?.Invoke(work);
                         ImageLoadingSizeChanged(image, false);
-                    });
+					});
 
                     imageLoader.Success((imageInformation, loadingResult) =>
                     {
-	                    if (imageInformation != null && imageInformation.OriginalHeight > 0)
-	                    {
-		                    _imageWidth = imageInformation.OriginalWidth;
-		                    _imageHeight = imageInformation.OriginalHeight;
-		                    _imageSizeRatio = _imageWidth / _imageHeight;
-	                    }
                         sucessAction?.Invoke(imageInformation, loadingResult);
                         _lastImageSource = ffSource;
                     });
 
                     imageLoader.LoadingPlaceholderSet(() => ImageLoadingSizeChanged(image, true));
 
-                    if (!_isDisposed)
-                        _currentTask = imageLoader.Into(imageView, ImageService);
-                }
+					if (!_isDisposed)
+						_currentTask = imageLoader.Into(imageView, ImageService);
+				}
             }
         }
 
