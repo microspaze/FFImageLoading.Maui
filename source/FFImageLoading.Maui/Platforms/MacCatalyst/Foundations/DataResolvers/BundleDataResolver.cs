@@ -96,6 +96,7 @@ namespace FFImageLoading.DataResolvers
 
                         scale--;
                     }
+                    parameters.Scale = scale;
                 }
 
                 token.ThrowIfCancellationRequested();

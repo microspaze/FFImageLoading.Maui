@@ -93,9 +93,9 @@ namespace FFImageLoading.DataResolvers
 							file = tmpFile;
 							break;
 						}
-
 						scale--;
 					}
+					parameters.Scale = scale;
 				}
 
 				token.ThrowIfCancellationRequested();
