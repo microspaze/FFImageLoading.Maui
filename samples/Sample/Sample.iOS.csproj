@@ -66,6 +66,7 @@
     <!-- Images -->
     <MauiImage Include="Resources\Images\*" />
     <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+	<MauiImage Update="Resources\Images\no_avatar_4x.png" BaseSize="89,89" />
 
     <!-- Custom Fonts -->
     <MauiFont Include="Resources\Fonts\*" />
