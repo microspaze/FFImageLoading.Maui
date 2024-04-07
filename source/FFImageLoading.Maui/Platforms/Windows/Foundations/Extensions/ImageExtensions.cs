@@ -8,12 +8,65 @@ using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Foundation;
+using System.Text;
 
 namespace FFImageLoading.Extensions
 {
     public static class ImageExtensions
     {
-        public static async Task<WriteableBitmap> ToBitmapImageAsync(this BitmapHolder holder, IMainThreadDispatcher mainThreadDispatcher)
+		//https://learn.microsoft.com/zh-tw/windows/win32/wic/-wic-native-image-format-metadata-queries
+		//private static readonly string[] _imageProperties = ["/appext", "/appext/Application", "/appext/Data", "/logscrdesc", "/logscrdesc/Signature", "/logscrdesc/Width", "/logscrdesc/Height", "/logscrdesc/GlobalColorTableFlag", "/logscrdesc/ColorResolution", "/logscrdesc/SortFlag", "/logscrdesc/GlobalColorTableSize", "/logscrdesc/BackgroundColorIndex", "/logscrdesc/PixelAspectRatio"];
+		//private static readonly string[] _frameProperties = ["/imgdesc", "/imgdesc/Left", "/imgdesc/Top", "/imgdesc/Width", "/imgdesc/Height", "/imgdesc/LocalColorTableFlag", "/imgdesc/InterlaceFlag", "/imgdesc/SortFlag", "/imgdesc/LocalColorTableSize", "/grctlext", "/grctlext/Delay", "/grctlext/Disposal", "/grctlext/UserInputFlag", "/grctlext/TransparencyFlag", "/grctlext/TransparentColorIndex"];
+		private static readonly Dictionary<string, BitmapTypedValue> _gifDefaultProperties = new()
+		{
+			{ "/appext/Application", new BitmapTypedValue(Encoding.UTF8.GetBytes("NETSCAPE2.0"), PropertyType.UInt8Array) }, // 此字段必须
+			{ "/appext/Data", new BitmapTypedValue(new byte[] { 3, 1, 0, 0 }, PropertyType.UInt8Array) }, // 表示循环播放
+		};
+
+		public static async Task<BitmapImage> ToBitmapImageAsync(this IAnimatedImage<BitmapHolder>[] animatedImages, IMainThreadDispatcher mainThreadDispatcher)
+		{
+			if (animatedImages == null || animatedImages.Length == 0)
+				return null;
+
+			BitmapImage bitmapImage = null;
+
+			await mainThreadDispatcher.PostAsync(async () =>
+			{
+				bitmapImage = await animatedImages.ToBitmapImage();
+			}).ConfigureAwait(false);
+
+			return bitmapImage;
+		}
+
+		private static async Task<BitmapImage> ToBitmapImage(this IAnimatedImage<BitmapHolder>[] animatedImages)
+		{
+			var imageStream = new InMemoryRandomAccessStream();
+			var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.GifEncoderId, imageStream);
+			await encoder.BitmapContainerProperties.SetPropertiesAsync(_gifDefaultProperties);
+			for (var i = 0; i < animatedImages.Length; i++)
+			{
+				var animatedImage = animatedImages[i];
+				var holder = animatedImage.Image;
+				var frameData = holder.PixelData;
+				var frameProperties = new Dictionary<string, BitmapTypedValue>()
+				{
+					{ "/grctlext/Delay", new BitmapTypedValue(animatedImage.Delay / 100, PropertyType.UInt16) }
+				};
+				await encoder.BitmapProperties.SetPropertiesAsync(frameProperties);
+				encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, (uint)holder.Width, (uint)holder.Height, 96, 96, frameData);
+				if (i != animatedImages.Length - 1)
+				{
+					await encoder.GoToNextFrameAsync();
+				}
+			}
+			await encoder.FlushAsync();
+			var bitmapImage = new BitmapImage();
+			bitmapImage.SetSource(imageStream);
+			return bitmapImage;
+		}
+
+		public static async Task<WriteableBitmap> ToBitmapImageAsync(this BitmapHolder holder, IMainThreadDispatcher mainThreadDispatcher)
         {
             if (holder == null || holder.PixelData == null)
                 return null;
@@ -41,103 +94,103 @@ namespace FFImageLoading.Extensions
             return writeableBitmap;
         }
 
-        public async static Task<WriteableBitmap> ToBitmapImageAsync(this Stream imageStream, IImageService imageService, double scale, Tuple<int, int> downscale, bool downscaleDipUnits, InterpolationMode mode, bool allowUpscale, ImageInformation imageInformation = null)
-        {
-            if (imageStream == null)
-                return null;
+		public async static Task<BitmapImage> ToBitmapImageAsync(this Stream imageStream, IImageService imageService, double scale, Tuple<int, int> downscale, bool downscaleDipUnits, InterpolationMode mode, bool allowUpscale, ImageInformation imageInformation = null)
+		{
+			if (imageStream == null)
+				return null;
 
 			//NO NEED TO FREE RandomAccessStream, OTHERWISE Bitmap WILL NOT SHOW
 			var image = imageStream.AsRandomAccessStream();
 			if (image != null)
 			{
-                if (downscale != null && (downscale.Item1 > 0 || downscale.Item2 > 0))
-                {
+				if (downscale != null && (downscale.Item1 > 0 || downscale.Item2 > 0))
+				{
 					var downscaledImage = await image.ResizeImage(imageService, scale, downscale.Item1, downscale.Item2, mode, downscaleDipUnits, allowUpscale, imageInformation).ConfigureAwait(false);
 					if (downscaledImage != null)
-                    {
-                        BitmapDecoder decoder = await BitmapDecoder.CreateAsync(downscaledImage);
-                        downscaledImage.Seek(0);
-                        WriteableBitmap resizedBitmap = null;
+					{
+						BitmapDecoder decoder = await BitmapDecoder.CreateAsync(downscaledImage);
+						downscaledImage.Seek(0);
+						BitmapImage resizedBitmap = null;
 
-                        await imageService.Dispatcher.PostAsync(async () =>
-                        {
-                            resizedBitmap = new WriteableBitmap((int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                            await resizedBitmap.SetSourceAsync(downscaledImage);
-                        }).ConfigureAwait(false);
+						await imageService.Dispatcher.PostAsync(async () =>
+						{
+							resizedBitmap = new BitmapImage();
+							await resizedBitmap.SetSourceAsync(downscaledImage);
+						}).ConfigureAwait(false);
 
-                        return resizedBitmap;
-                    }
-                }
-                else
-                {
-                    BitmapDecoder decoder = await BitmapDecoder.CreateAsync(image);
-                    image.Seek(0);
-                    WriteableBitmap bitmap = null;
+						return resizedBitmap;
+					}
+				}
+				else
+				{
+					BitmapDecoder decoder = await BitmapDecoder.CreateAsync(image);
+					image.Seek(0);
+					BitmapImage bitmap = null;
 
-                    if (imageInformation != null)
-                    {
-                        imageInformation.SetCurrentSize((int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                        imageInformation.SetOriginalSize((int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                    }
+					if (imageInformation != null)
+					{
+						imageInformation.SetCurrentSize((int)decoder.PixelWidth, (int)decoder.PixelHeight);
+						imageInformation.SetOriginalSize((int)decoder.PixelWidth, (int)decoder.PixelHeight);
+					}
 
-                    await imageService.Dispatcher.PostAsync(async () =>
-                    {
-                        bitmap = new WriteableBitmap((int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                        await bitmap.SetSourceAsync(image);
-                    }).ConfigureAwait(false);
+					await imageService.Dispatcher.PostAsync(async () =>
+					{
+						bitmap = new BitmapImage();
+						await bitmap.SetSourceAsync(image);
+					}).ConfigureAwait(false);
 
-                    return bitmap;
-                }
-            }
+					return bitmap;
+				}
+			}
 			return null;
-        }
+		}
 
-        public async static Task<BitmapHolder> ToBitmapHolderAsync(this Stream imageStream, IImageService imageService, double scale, Tuple<int, int> downscale, bool downscaleDipUnits, InterpolationMode mode, bool allowUpscale, ImageInformation imageInformation = null)
-        {
-            if (imageStream == null)
-                return null;
+		public async static Task<BitmapHolder> ToBitmapHolderAsync(this Stream imageStream, IImageService imageService, double scale, Tuple<int, int> downscale, bool downscaleDipUnits, InterpolationMode mode, bool allowUpscale, ImageInformation imageInformation = null)
+		{
+			if (imageStream == null)
+				return null;
 
 			//NO NEED TO FREE RandomAccessStream, OTHERWISE Bitmap WILL NOT SHOW
 			var image = imageStream.AsRandomAccessStream();
 			if (image != null)
 			{
-                if (downscale != null && (downscale.Item1 > 0 || downscale.Item2 > 0))
-                {
+				if (downscale != null && (downscale.Item1 > 0 || downscale.Item2 > 0))
+				{
 					var downscaledImage = await image.ResizeImage(imageService, scale, downscale.Item1, downscale.Item2, mode, downscaleDipUnits, allowUpscale, imageInformation).ConfigureAwait(false);
 					if (downscaledImage != null)
-                    {
-                        BitmapDecoder decoder = await BitmapDecoder.CreateAsync(downscaledImage);
-                        PixelDataProvider pixelDataProvider = await decoder.GetPixelDataAsync(
-                            BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, new BitmapTransform(),
-                            ExifOrientationMode.RespectExifOrientation, ColorManagementMode.DoNotColorManage);
+					{
+						BitmapDecoder decoder = await BitmapDecoder.CreateAsync(downscaledImage);
+						PixelDataProvider pixelDataProvider = await decoder.GetPixelDataAsync(
+							BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, new BitmapTransform(),
+							ExifOrientationMode.RespectExifOrientation, ColorManagementMode.DoNotColorManage);
 
-                        var bytes = pixelDataProvider.DetachPixelData();
+						var bytes = pixelDataProvider.DetachPixelData();
 
-                        return new BitmapHolder(bytes, (int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                    }
-                }
-                else
-                {
-                    BitmapDecoder decoder = await BitmapDecoder.CreateAsync(image);
-                    PixelDataProvider pixelDataProvider = await decoder.GetPixelDataAsync(
-                        BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, new BitmapTransform(), 
-                        ExifOrientationMode.RespectExifOrientation, ColorManagementMode.DoNotColorManage);
+						return new BitmapHolder(bytes, (int)decoder.PixelWidth, (int)decoder.PixelHeight);
+					}
+				}
+				else
+				{
+					BitmapDecoder decoder = await BitmapDecoder.CreateAsync(image);
+					PixelDataProvider pixelDataProvider = await decoder.GetPixelDataAsync(
+						BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, new BitmapTransform(),
+						ExifOrientationMode.RespectExifOrientation, ColorManagementMode.DoNotColorManage);
 
-                    if (imageInformation != null)
-                    {
-                        imageInformation.SetCurrentSize((int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                        imageInformation.SetOriginalSize((int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                    }
+					if (imageInformation != null)
+					{
+						imageInformation.SetCurrentSize((int)decoder.PixelWidth, (int)decoder.PixelHeight);
+						imageInformation.SetOriginalSize((int)decoder.PixelWidth, (int)decoder.PixelHeight);
+					}
 
-                    var bytes = pixelDataProvider.DetachPixelData();
+					var bytes = pixelDataProvider.DetachPixelData();
 
-                    return new BitmapHolder(bytes, (int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                }
-            }
+					return new BitmapHolder(bytes, (int)decoder.PixelWidth, (int)decoder.PixelHeight);
+				}
+			}
 			return null;
-        }
+		}
 
-        private static unsafe void CopyPixels(byte[] data, int[] pixels)
+		private static unsafe void CopyPixels(byte[] data, int[] pixels)
         {
             int length = pixels.Length;
 

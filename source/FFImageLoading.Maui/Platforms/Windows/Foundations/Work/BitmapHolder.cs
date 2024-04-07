@@ -8,27 +8,36 @@ namespace FFImageLoading.Work
 {
     public class BitmapHolder : IBitmap
     {
+		public BitmapHolder(BitmapImage bitmap)
+		{
+			BitmapImage = bitmap;
+		}
+
         public BitmapHolder(WriteableBitmap bitmap)
         {
             WriteableBitmap = bitmap;
         }
 
-        public BitmapHolder(byte[] pixels, int width, int height)
-        {
-            PixelData = pixels;
-            Width = width;
-            Height = height;
-        }
+		public BitmapHolder(byte[] pixels, int width, int height)
+		{
+			PixelData = pixels;
+			Width = width;
+			Height = height;
+		}
+
+		public bool HasBitmapImage => BitmapImage != null;
 
         public bool HasWriteableBitmap => WriteableBitmap != null;
 
-        public WriteableBitmap WriteableBitmap { get; private set; }
+		public BitmapImage BitmapImage { get; private set; }
 
-        public int Height { get; private set; }
+		public WriteableBitmap WriteableBitmap { get; private set; }
+
+		public int Height { get; private set; }
 
         public int Width { get; private set; }
 
-        public byte[] PixelData { get; private set; }
+		public byte[] PixelData { get; private set; }
 
         public int PixelCount { get { return PixelData == null ? 0 : (int)(PixelData.Length / 4); } }
 
@@ -64,14 +73,44 @@ namespace FFImageLoading.Work
             return GetPixel(pixelPos);
         }
 
-        public void FreePixels()
+		public void SetPixels(int[] pixels, int width, int height)
+		{
+			Width = width;
+			Height = height;
+			PixelData = new byte[width * height * 4];
+			for (int x = 0; x < width; x++)
+			{
+				for (int y = 0; y < height; y++)
+				{
+					var pos = y * width + x;
+					var colorHolder = ColorHolder.ArgbToColorHolder(pixels[pos]);
+					SetPixel(pos, colorHolder);
+				}
+			}
+		}
+
+		public void GetPixels(int[] pixels, int width, int height)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				for (int y = 0; y < height; y++)
+				{
+					var pos = y * width + x;
+					var colorHolder = GetPixel(x, y);
+					pixels[pos] = ColorHolder.FromColorHolder(colorHolder);
+				}
+			}
+		}
+
+		public void FreePixels()
         {
             PixelData = null;
+			BitmapImage = null;
             WriteableBitmap = null;
         }
-    }
+	}
 
-    public static class IBitmapExtensions
+	public static class IBitmapExtensions
     {
         public static BitmapHolder ToNative(this IBitmap bitmap)
         {

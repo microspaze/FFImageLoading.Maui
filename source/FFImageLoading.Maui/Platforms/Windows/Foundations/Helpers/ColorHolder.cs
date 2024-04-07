@@ -43,5 +43,35 @@ namespace FFImageLoading
         public readonly byte B;
 
         public static readonly ColorHolder Transparent = new ColorHolder(0, 0, 0, 0);
-    }
+
+		public static ColorHolder RgbaToColorHolder(int rgbaValue)
+		{
+			int r = (rgbaValue >> 24) & 0xFF;
+			int g = (rgbaValue >> 16) & 0xFF;
+			int b = (rgbaValue >> 8) & 0xFF;
+			int a = rgbaValue & 0xFF;
+
+			return new ColorHolder(a, r, g, b);
+		}
+
+		public static ColorHolder ArgbToColorHolder(int argbValue)
+		{
+			int a = (argbValue >> 24) & 0xFF;
+			int r = (argbValue >> 16) & 0xFF;
+			int g = (argbValue >> 8) & 0xFF;
+			int b = argbValue & 0xFF;
+
+			return new ColorHolder(a, r, g, b);
+		}
+
+		public static int FromColorHolder(ColorHolder colorHolder)
+		{
+			int r = colorHolder.R & 0xFF;
+			int g = colorHolder.G & 0xFF;
+			int b = colorHolder.B & 0xFF;
+			int a = colorHolder.A & 0xFF;
+
+			return (r << 24) + (g << 16) + (b << 8) + (a);
+		}
+	}
 }

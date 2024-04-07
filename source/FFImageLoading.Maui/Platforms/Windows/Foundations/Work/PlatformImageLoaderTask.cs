@@ -51,8 +51,8 @@ namespace FFImageLoading.Work
             switch (type)
             {
                 case ImageInformation.ImageType.GIF:
-                case ImageInformation.ImageType.WEBP:
-                    throw new NotImplementedException();
+					return new GifDecoder(ImageService);
+				case ImageInformation.ImageType.WEBP:
                 default:
                     return new BaseDecoder(ImageService);
             }
@@ -103,12 +103,15 @@ namespace FFImageLoading.Work
         {
             if (decoded.IsAnimated)
             {
-                throw new NotImplementedException();
-            }
+                return await decoded.AnimatedImages.ToBitmapImageAsync(ImageService.Dispatcher).ConfigureAwait(false);
+			}
             else
             {
                 try
                 {
+					if (decoded.Image.HasBitmapImage)
+						return decoded.Image.BitmapImage;
+
                     if (decoded.Image.HasWriteableBitmap)
                         return decoded.Image.WriteableBitmap;
 
