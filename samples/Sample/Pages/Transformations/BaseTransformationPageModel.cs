@@ -17,12 +17,12 @@ namespace Sample
 
 		[RelayCommand]
 		public void LoadAnother()
-			=> Reload();
+			=> Reload(useGif: false);
 
 		[RelayCommand]
-		public void Reload()
+		public void Reload(bool useGif = true)
 		{
-			ImageUrl = Helpers.GetRandomImageUrl();
+			ImageUrl = useGif ? "loadinggif.gif" : Helpers.GetRandomImageUrl();
 		}
 	}
 }

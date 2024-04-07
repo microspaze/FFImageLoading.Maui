@@ -8,9 +8,9 @@
     Title="Simple Gif">
     <ContentPage.Content>
         <ContentView HorizontalOptions="Center" VerticalOptions="Center">
-            <ffimageloading:CachedImage 
+            <ffimageloading:CachedImage
              Source="{Binding ImageUrl}">
-<!--            <ffimageloading:CachedImage.Transformations>
+            <!--<ffimageloading:CachedImage.Transformations>
                 <fftransformations:CircleTransformation/>
             </ffimageloading:CachedImage.Transformations>-->
             </ffimageloading:CachedImage>

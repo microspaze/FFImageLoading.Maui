@@ -8,7 +8,7 @@
     Title="CircleTransformation">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
+            <StackLayout BackgroundColor="Red">
 
                 <ffimageloading:CachedImage HorizontalOptions="Center" VerticalOptions="Center"
                     LoadingPlaceholder="loading.png" ErrorPlaceholder="error.png" DownsampleToViewSize="true"
