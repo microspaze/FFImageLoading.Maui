@@ -78,9 +78,11 @@ public static class MauiProgram
 
 ## Release Notes
 
-## 1.1.3
+## 1.1.5
 
 1.Broken CachedImage scaling on Android #22 (Sync to iOS/MacOs/Windows) (Thanks Reported by https://github.com/rafalka)
+
+2.Add GIF & Webp image support for Windows. (Transparent background GIF currently unsupported. HELP NEEDED!)
 
 ## 1.1.2
 
