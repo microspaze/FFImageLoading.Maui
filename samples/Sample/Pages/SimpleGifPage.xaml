@@ -7,13 +7,15 @@
     x:Class="Sample.SimpleGifPage"
     Title="Simple Gif">
     <ContentPage.Content>
-        <ContentView HorizontalOptions="Center" VerticalOptions="Center">
+        <StackLayout Spacing="20" BackgroundColor="Red">
             <ffimageloading:CachedImage
              Source="{Binding ImageUrl}">
             <!--<ffimageloading:CachedImage.Transformations>
                 <fftransformations:CircleTransformation/>
             </ffimageloading:CachedImage.Transformations>-->
             </ffimageloading:CachedImage>
-        </ContentView>
+
+            <Image WidthRequest="200" Source="{Binding ImageUrl}"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
