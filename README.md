@@ -78,9 +78,13 @@ public static class MauiProgram
 
 ## Release Notes
 
+## 1.1.6
+
+1.Fix Potential race condition during loading of image source and LoadingPlaceholder #24 (Android) (Thanks Reported by https://github.com/EvgenyMuryshkin)
+
 ## 1.1.5
 
-1.Broken CachedImage scaling on Android #22 (Sync to iOS/MacOs/Windows) (Thanks Reported by https://github.com/rafalka)
+1.Fix Broken CachedImage scaling on Android #22 (Sync to iOS/MacOs/Windows) (Thanks Reported by https://github.com/rafalka)
 
 2.Add GIF & Webp image support for Windows. (Transparent background GIF currently unsupported. HELP NEEDED!)
 
