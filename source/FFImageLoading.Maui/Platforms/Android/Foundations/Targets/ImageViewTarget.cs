@@ -81,12 +81,16 @@ namespace FFImageLoading.Targets
 		{
 			lock (_runningAnimations)
 			{
-				if (_runningAnimations.TryGetValue(imageView, out var timer))
+				if (_runningAnimations.TryGetValue(imageView, out var timer) && timer != null)
 				{
-					timer?.Stop();
+					timer.Stop();
 					_runningAnimations.Remove(imageView);
-					UpdateDrawableDisplayedState(timer.AnimatedDrawable as Drawable, false);
-					imageView.SetImageResource(Android.Resource.Color.Transparent);
+					if (timer.AnimatedDrawable is FFAnimatedDrawable animatedDrawable)
+					{
+						animatedDrawable.Clear();
+						UpdateDrawableDisplayedState(animatedDrawable, false);
+						imageView.SetImageResource(Android.Resource.Color.Transparent);
+					}
 				}
 			}
 		}

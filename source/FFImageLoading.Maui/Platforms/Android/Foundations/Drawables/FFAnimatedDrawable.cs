@@ -30,5 +30,14 @@ namespace FFImageLoading.Drawables
         }
 
         public IAnimatedImage<Bitmap>[] AnimatedImages { get; private set; }
+
+		public void Clear()
+		{
+			AnimatedImages = [];
+			if (Bitmap != null)
+			{
+				Bitmap = null;
+			}
+		}
     }
 }
