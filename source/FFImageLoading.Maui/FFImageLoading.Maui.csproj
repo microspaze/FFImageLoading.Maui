@@ -57,7 +57,14 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Svg.Skia" Version="1.0.0.10" />
+    <PackageReference Include="SkiaSharp.Svg" Version="1.60.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="Microsoft.Maui.Controls" Version="8.0.14" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.14" />
   </ItemGroup>
 </Project>
