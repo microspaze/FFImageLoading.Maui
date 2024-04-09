@@ -7,7 +7,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using FFImageLoading.Helpers;
-using Java.Util.Logging;
 
 namespace FFImageLoading.Targets
 {

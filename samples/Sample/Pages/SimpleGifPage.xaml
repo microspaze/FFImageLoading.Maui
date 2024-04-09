@@ -7,7 +7,7 @@
     x:Class="Sample.SimpleGifPage"
     Title="Simple Gif">
     <ContentPage.Content>
-        <StackLayout Spacing="20" BackgroundColor="Red">
+        <StackLayout Spacing="20" BackgroundColor="Green">
             <ffimageloading:CachedImage
              Source="{Binding ImageUrl}">
             <!--<ffimageloading:CachedImage.Transformations>
@@ -15,7 +15,7 @@
             </ffimageloading:CachedImage.Transformations>-->
             </ffimageloading:CachedImage>
 
-            <Image WidthRequest="200" Source="{Binding ImageUrl}"/>
+            <!--<Image WidthRequest="200" Source="{Binding ImageUrl}"/>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

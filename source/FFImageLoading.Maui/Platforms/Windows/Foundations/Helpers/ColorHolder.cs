@@ -22,7 +22,7 @@ namespace FFImageLoading
             {
                 R = 0;
                 G = 0;
-                B = 0;
+				B = 0;
             }
         }
 
@@ -42,7 +42,12 @@ namespace FFImageLoading
 
         public readonly byte B;
 
-        public static readonly ColorHolder Transparent = new ColorHolder(0, 0, 0, 0);
+		public bool Equals(ColorHolder colorHolder)
+		{
+			return (A == 0 && colorHolder.A == 0) || (A == colorHolder.A && R == colorHolder.R && G == colorHolder.G && B == colorHolder.B);
+		}
+
+		public static readonly ColorHolder Transparent = new ColorHolder(0, 0, 0, 0);
 
 		public static ColorHolder RgbaToColorHolder(int rgbaValue)
 		{

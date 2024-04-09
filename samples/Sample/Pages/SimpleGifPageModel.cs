@@ -7,7 +7,7 @@ namespace Sample
     {
         public void Reload()
         {
-			ImageUrl = "loadinggif.gif"; // "resource://Sample.tenor.gif";
+			ImageUrl = "loading2.gif"; // "resource://Sample.tenor.gif";
         }
 
         [ObservableProperty]

@@ -22,7 +22,7 @@ namespace Sample
 		[RelayCommand]
 		public void Reload(bool useGif = true)
 		{
-			ImageUrl = useGif ? "loadinggif.gif" : Helpers.GetRandomImageUrl();
+			ImageUrl = useGif ? "tenor.gif" : Helpers.GetRandomImageUrl();
 		}
 	}
 }
