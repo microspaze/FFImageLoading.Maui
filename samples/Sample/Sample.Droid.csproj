@@ -104,6 +104,8 @@
     <None Remove="Platforms\Android\Resources\drawable-xhdpi\lake3.webp" />
     <None Remove="Platforms\Android\Resources\drawable-xxhdpi\lake4.webp" />
     <None Remove="Platforms\Android\Resources\drawable-xxxhdpi\lake5.webp" />
+    <None Remove="Resources\Raw\svg001raw.svg" />
+    <None Remove="svg001.svg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Platforms\Android\Resources\drawable-hdpi\lake1.webp" />
@@ -127,6 +129,7 @@
   <ItemGroup>
     <EmbeddedResource Include="replace.svg" />
     <EmbeddedResource Include="sample.svg" />
+    <EmbeddedResource Include="svg001.svg" />
     <EmbeddedResource Include="tenor.gif" />
 
     <MauiImage Update="Resources/Images/error.png" Resize="False" />
