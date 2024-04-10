@@ -99,7 +99,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="FFImageLoading.Maui" Version="1.1.0" />
+    <PackageReference Include="FFImageLoading.Maui" Version="1.1.7" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
   </ItemGroup>
 
@@ -117,10 +117,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.Maui.Controls" Version="8.0.14" />
+    <PackageReference Update="Microsoft.Maui.Controls" Version="8.0.20" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.14" />
+    <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.20" />
   </ItemGroup>
 </Project>
