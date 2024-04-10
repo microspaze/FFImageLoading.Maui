@@ -97,7 +97,6 @@ namespace FFImageLoading
                     // Redefine these if they were provided only
                     configuration.HttpClient = configuration.HttpClient ?? _config.HttpClient;
                     configuration.SchedulerMaxParallelTasksFactory = configuration.SchedulerMaxParallelTasksFactory ?? _config.SchedulerMaxParallelTasksFactory;
-                    
                     configuration.MaxMemoryCacheSize = _config.MaxMemoryCacheSize;
                 }
 
@@ -123,9 +122,7 @@ namespace FFImageLoading
                     PlatformSpecificConfiguration(userDefinedConfig);
                 }
 
-                _config = userDefinedConfig;
-
-                var httpClient = userDefinedConfig.HttpClient ?? new HttpClient(new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate });
+                var httpClient = userDefinedConfig.HttpClient ?? new HttpClient(new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.All });
                 if (userDefinedConfig.HttpReadTimeout > 0)
                 {
                     try
@@ -141,8 +138,12 @@ namespace FFImageLoading
 					StaticLocks.DecodingLock = new SemaphoreSlim(userDefinedConfig.DecodingMaxParallelTasks, userDefinedConfig.DecodingMaxParallelTasks);
 
                 userDefinedConfig.HttpClient = httpClient;
+				//The Configuration is singletone, but it also can be created by new method and updated by InitializeIfNeeded
+				//So the HttpClient instance created by IC must be updated at the same time. 
+				_config.HttpClient = httpClient;
+				_config = userDefinedConfig;
 
-                _initialized = true;
+				_initialized = true;
                 _isInitializing = false;
             }
         }
