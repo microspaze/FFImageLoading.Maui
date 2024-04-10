@@ -99,7 +99,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="FFImageLoading.Maui" Version="1.1.7" />
+    <PackageReference Include="FFImageLoading.Maui" Version="1.1.8" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
   </ItemGroup>
 
