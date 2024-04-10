@@ -78,6 +78,10 @@ public static class MauiProgram
 
 ## Release Notes
 
+## 1.1.7
+
+1.Fix Customising the HttpClient does not seem to have any effect #26 (All Platforms) (Thanks Reported by https://github.com/apoorvadixit-ttc)
+
 ## 1.1.6
 
 1.Fix Potential race condition during loading of image source and LoadingPlaceholder #24 (Android) (Thanks Reported by https://github.com/EvgenyMuryshkin)
