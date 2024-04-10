@@ -140,8 +140,7 @@ namespace FFImageLoading
                 userDefinedConfig.HttpClient = httpClient;
 				//The Configuration is singletone, but it also can be created by new method and updated by InitializeIfNeeded
 				//So the HttpClient instance created by IC must be updated at the same time. 
-				_config.HttpClient = httpClient;
-				_config = userDefinedConfig;
+				_config.UpdateConfig(userDefinedConfig);
 
 				_initialized = true;
                 _isInitializing = false;

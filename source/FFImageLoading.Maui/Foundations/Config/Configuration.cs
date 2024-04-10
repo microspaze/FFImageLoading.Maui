@@ -221,6 +221,47 @@ namespace FFImageLoading.Config
 		/// </summary>
 		/// <value><c>true</c> if invalidate layout; otherwise, <c>false</c>.</value>
 		public bool InvalidateLayout { get; set; }
+
+		/// <summary>
+		/// Update IC Configuration instance's properties
+		/// </summary>
+		/// <param name="newConfig">custom config</param>
+		/// <returns></returns>
+		public bool UpdateConfig(IConfiguration newConfig)
+		{
+			if (this == newConfig)
+			{
+				return true;
+			}
+
+			BitmapOptimizations = newConfig.BitmapOptimizations;
+			FadeAnimationEnabled = newConfig.FadeAnimationEnabled;
+			FadeAnimationForCachedImages = newConfig.FadeAnimationForCachedImages;
+			FadeAnimationDuration = newConfig.FadeAnimationDuration;
+			TransformPlaceholders = newConfig.TransformPlaceholders;
+			DownsampleInterpolationMode = newConfig.DownsampleInterpolationMode;
+			HttpHeadersTimeout = newConfig.HttpHeadersTimeout;
+			HttpReadTimeout = newConfig.HttpReadTimeout;
+			HttpReadBufferSize = newConfig.HttpReadBufferSize;
+			HttpClient = newConfig.HttpClient;
+			HttpClient.Timeout = newConfig.HttpClient.Timeout;
+			VerbosePerformanceLogging = newConfig.VerbosePerformanceLogging;
+			VerboseMemoryCacheLogging = newConfig.VerboseMemoryCacheLogging;
+			VerboseLoadingCancelledLogging = newConfig.VerboseLoadingCancelledLogging;
+			VerboseLogging = newConfig.VerboseLogging;
+			DecodingMaxParallelTasks = newConfig.DecodingMaxParallelTasks;
+			SchedulerMaxParallelTasks = newConfig.SchedulerMaxParallelTasks;
+			DiskCacheDuration = newConfig.DiskCacheDuration;
+			TryToReadDiskCacheDurationFromHttpHeaders = newConfig.TryToReadDiskCacheDurationFromHttpHeaders;
+			ExecuteCallbacksOnUIThread = newConfig.ExecuteCallbacksOnUIThread;
+			StreamChecksumsAsKeys = newConfig.StreamChecksumsAsKeys;
+			AnimateGifs = newConfig.AnimateGifs;
+			DelayInMs = newConfig.DelayInMs;
+			ClearMemoryCacheOnOutOfMemory = newConfig.ClearMemoryCacheOnOutOfMemory;
+			InvalidateLayout = newConfig.InvalidateLayout;
+
+			return true;
+		}
 	}
 }
 

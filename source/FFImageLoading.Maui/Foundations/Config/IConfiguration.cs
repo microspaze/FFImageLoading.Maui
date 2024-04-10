@@ -34,5 +34,7 @@ namespace FFImageLoading.Config
 		bool VerboseLogging { get; set; }
 		bool VerboseMemoryCacheLogging { get; set; }
 		bool VerbosePerformanceLogging { get; set; }
+
+		bool UpdateConfig(IConfiguration newConfig);
 	}
 }
