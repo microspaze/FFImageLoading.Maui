@@ -6,6 +6,9 @@ using FFImageLoading.Helpers;
 using FFImageLoading.Extensions;
 using FFImageLoading.Config;
 using FFImageLoading.Helpers.Gif;
+using Windows.Graphics.Imaging;
+using Windows.Foundation;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace FFImageLoading.Decoders
 {
@@ -18,9 +21,16 @@ namespace FFImageLoading.Decoders
 
 		protected readonly IImageService ImageService;
 
-		public async Task<IDecodedImage<BitmapHolder>> DecodeAsync(Stream stream, string path, Work.ImageSourceType sourceType, ImageInformation imageInformation, TaskParameter parameters)
+		public async Task<IDecodedImage<BitmapHolder>> DecodeAsync(Stream imageData, string path, Work.ImageSourceType sourceType, ImageInformation imageInformation, TaskParameter parameters)
 		{
 			var result = new DecodedImage<BitmapHolder>();
+			if (parameters.DownSampleSize == null && (parameters.Transformations == null || parameters.Transformations.Count == 0))
+			{
+				//Use windows default GIF decoder
+				var bitmap = await imageData.ToBitmapImageAsync(ImageService, parameters.Scale, parameters.DownSampleSize, parameters.DownSampleUseDipUnits, parameters.DownSampleInterpolationMode, allowUpscale: false, imageInformation).ConfigureAwait(false);
+				result.Image = new BitmapHolder(bitmap);
+				return result;
+			}
 
 			using (var gifDecoder = new GifHelper())
 			{
@@ -38,11 +48,11 @@ namespace FFImageLoading.Decoders
 						downsampleWidth = ImageService.DpToPixels(downsampleWidth, parameters.Scale);
 						downsampleHeight = ImageService.DpToPixels(downsampleHeight, parameters.Scale);
 					}
-					await gifDecoder.ReadHeaderAsync(stream).ConfigureAwait(false);
+					await gifDecoder.ReadHeaderAsync(imageData).ConfigureAwait(false);
 					insampleSize = CalculateInSampleSize(gifDecoder.Width, gifDecoder.Height, downsampleWidth, downsampleHeight, false);
 				}
 
-				await gifDecoder.ReadAsync(stream, insampleSize).ConfigureAwait(false);
+				await gifDecoder.ReadAsync(imageData, insampleSize).ConfigureAwait(false);
 				gifDecoder.Advance();
 
 				imageInformation.SetOriginalSize(gifDecoder.Width, gifDecoder.Height);
@@ -52,45 +62,27 @@ namespace FFImageLoading.Decoders
 				else
 					imageInformation.SetCurrentSize(gifDecoder.Width, gifDecoder.Height);
 
+				//Build Animated Frames
 				result.IsAnimated = gifDecoder.FrameCount > 1 && ImageService.Configuration.AnimateGifs;
-
-				if (result.IsAnimated && ImageService.Configuration.AnimateGifs)
+				var frameCount = result.IsAnimated ? gifDecoder.FrameCount : 1;
+				result.AnimatedImages = new IAnimatedImage<BitmapHolder>[frameCount];
+				for (var i = 0; i < frameCount; i++)
 				{
-					result.AnimatedImages = new AnimatedImage<BitmapHolder>[gifDecoder.FrameCount];
-
-					for (var i = 0; i < gifDecoder.FrameCount; i++)
+					var animatedImage = new AnimatedImage<BitmapHolder>
 					{
-						var animatedImage = new AnimatedImage<BitmapHolder>
-						{
-							Delay = gifDecoder.GetDelay(i),
-							Image = await gifDecoder.GetNextFrameAsync().ConfigureAwait(false)
-						};
-						result.AnimatedImages[i] = animatedImage;
-
-						gifDecoder.Advance();
-					}
-				}
-				else
-				{
-					result.IsAnimated = false;
-					result.Image = await gifDecoder.GetNextFrameAsync().ConfigureAwait(false);
+						Delay = gifDecoder.GetDelay(i),
+						Image = await gifDecoder.GetNextFrameAsync().ConfigureAwait(false)
+					};
+					result.AnimatedImages[i] = animatedImage;
+					gifDecoder.Advance();
 				}
 
-				if (result.Image != null)
+				if (result.AnimatedImages != null
+					&& result.AnimatedImages.Length != 0
+					&& result.AnimatedImages[0].Image != null)
 				{
-					imageInformation.SetOriginalSize(result.Image.Width, result.Image.Height);
-					imageInformation.SetCurrentSize(result.Image.Width, result.Image.Height);
-				}
-				else if (result.AnimatedImages != null)
-				{
-					if (result.AnimatedImages.Length > 0)
-					{
-						if (result.AnimatedImages[0].Image != null)
-						{
-							imageInformation.SetOriginalSize(result.AnimatedImages[0].Image.Width, result.AnimatedImages[0].Image.Height);
-							imageInformation.SetCurrentSize(result.AnimatedImages[0].Image.Width, result.AnimatedImages[0].Image.Height);
-						}
-					}
+					imageInformation.SetOriginalSize(result.AnimatedImages[0].Image.Width, result.AnimatedImages[0].Image.Height);
+					imageInformation.SetCurrentSize(result.AnimatedImages[0].Image.Width, result.AnimatedImages[0].Image.Height);
 				}
 
 				return result;

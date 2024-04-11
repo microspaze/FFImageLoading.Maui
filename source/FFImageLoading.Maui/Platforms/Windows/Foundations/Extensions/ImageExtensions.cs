@@ -16,53 +16,124 @@ namespace FFImageLoading.Extensions
     public static class ImageExtensions
     {
 		//https://learn.microsoft.com/zh-tw/windows/win32/wic/-wic-native-image-format-metadata-queries
+		//https://giflib.sourceforge.net/whatsinagif/bits_and_bytes.html
+		//https://giflib.sourceforge.net/whatsinagif/animation_and_transparency.html
 		//private static readonly string[] _imageProperties = ["/appext", "/appext/Application", "/appext/Data", "/logscrdesc", "/logscrdesc/Signature", "/logscrdesc/Width", "/logscrdesc/Height", "/logscrdesc/GlobalColorTableFlag", "/logscrdesc/ColorResolution", "/logscrdesc/SortFlag", "/logscrdesc/GlobalColorTableSize", "/logscrdesc/BackgroundColorIndex", "/logscrdesc/PixelAspectRatio"];
 		//private static readonly string[] _frameProperties = ["/imgdesc", "/imgdesc/Left", "/imgdesc/Top", "/imgdesc/Width", "/imgdesc/Height", "/imgdesc/LocalColorTableFlag", "/imgdesc/InterlaceFlag", "/imgdesc/SortFlag", "/imgdesc/LocalColorTableSize", "/grctlext", "/grctlext/Delay", "/grctlext/Disposal", "/grctlext/UserInputFlag", "/grctlext/TransparencyFlag", "/grctlext/TransparentColorIndex"];
-		private static readonly Dictionary<string, BitmapTypedValue> _gifDefaultProperties = new()
+		private static readonly string _imgdescKey = "/imgdesc";
+		private static readonly string _grcelextDelayKey = "/grctlext/Delay";
+		private static readonly string _grcelextDisposalKey = "/grctlext/Disposal";
+		private static readonly string[] _framePropertyKeys = [ _imgdescKey, _grcelextDelayKey, _grcelextDisposalKey, "/grctlext/UserInputFlag", "/grctlext/TransparencyFlag", "/grctlext/TransparentColorIndex" ];
+		private static readonly BitmapPropertySet _appextProperties = new()
 		{
-			{ "/appext/Application", new BitmapTypedValue(Encoding.UTF8.GetBytes("NETSCAPE2.0"), PropertyType.UInt8Array) }, // 此字段必须
-			{ "/appext/Data", new BitmapTypedValue(new byte[] { 3, 1, 0, 0 }, PropertyType.UInt8Array) }, // 表示循环播放
+			{ "/appext/Application", new BitmapTypedValue(Encoding.UTF8.GetBytes("NETSCAPE2.0"), PropertyType.UInt8Array) }, //Required
+			{ "/appext/Data", new BitmapTypedValue(new byte[] { 3, 1, 0, 0 }, PropertyType.UInt8Array) }, //Loop
 		};
 
-		public static async Task<BitmapImage> ToBitmapImageAsync(this IAnimatedImage<BitmapHolder>[] animatedImages, IMainThreadDispatcher mainThreadDispatcher)
+		public static async Task<BitmapImage> ToAnimatedImageAsync(this IDecodedImage<BitmapHolder> decoded, IMainThreadDispatcher mainThreadDispatcher)
 		{
-			if (animatedImages == null || animatedImages.Length == 0)
+			if (decoded.AnimatedImages == null || decoded.AnimatedImages.Length == 0)
 				return null;
 
 			BitmapImage bitmapImage = null;
 
 			await mainThreadDispatcher.PostAsync(async () =>
 			{
-				bitmapImage = await animatedImages.ToBitmapImage();
+				bitmapImage = await decoded.ToAnimatedImage();
 			}).ConfigureAwait(false);
 
 			return bitmapImage;
 		}
 
-		private static async Task<BitmapImage> ToBitmapImage(this IAnimatedImage<BitmapHolder>[] animatedImages)
+		private static async Task<BitmapImage> ToAnimatedImage(this IDecodedImage<BitmapHolder> decoded)
 		{
+			var bitmapImage = new BitmapImage();
+			var animatedImages = decoded.AnimatedImages;
+			if (animatedImages == null || animatedImages.Length == 0)
+			{
+				return bitmapImage;
+			}
+			var frameCount = animatedImages.Length;
+			var frameDelays = new int[frameCount];
+
+			#region 1.Set Frame's Pixels
+
 			var imageStream = new InMemoryRandomAccessStream();
 			var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.GifEncoderId, imageStream);
-			await encoder.BitmapContainerProperties.SetPropertiesAsync(_gifDefaultProperties);
-			for (var i = 0; i < animatedImages.Length; i++)
+			await encoder.BitmapContainerProperties.SetPropertiesAsync(_appextProperties);
+			for (var i = 0; i < frameCount; i++)
 			{
 				var animatedImage = animatedImages[i];
-				var holder = animatedImage.Image;
-				var frameData = holder.PixelData;
-				var frameProperties = new Dictionary<string, BitmapTypedValue>()
-				{
-					{ "/grctlext/Delay", new BitmapTypedValue(animatedImage.Delay / 100, PropertyType.UInt16) }
-				};
-				await encoder.BitmapProperties.SetPropertiesAsync(frameProperties);
-				encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, (uint)holder.Width, (uint)holder.Height, 96, 96, frameData);
+				var frameDelay = animatedImage.Delay;
+				var frameHolder = animatedImage.Image;
+				var frameData = frameHolder.PixelData;
+				frameDelays[i] = frameDelay;
+				//WARNING:SET FRAME'S DELAY PROPERTY HERE WILL CAUSE DARK BACKGROUND AND NO TRANSPARENCY !!!
+				//var frameProperties = new Dictionary<string, BitmapTypedValue>() { { "/grctlext/Delay", new BitmapTypedValue(animatedImage.Delay / 10, PropertyType.UInt16) }};
+				//await encoder.BitmapProperties.SetPropertiesAsync(frameProperties);
+				encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, (uint)frameHolder.Width, (uint)frameHolder.Height, 96, 96, frameData);
 				if (i != animatedImages.Length - 1)
 				{
 					await encoder.GoToNextFrameAsync();
 				}
 			}
 			await encoder.FlushAsync();
-			var bitmapImage = new BitmapImage();
-			bitmapImage.SetSource(imageStream);
+
+			#endregion
+
+			#region 2.Update Frame's Delay & Disposal
+
+			imageStream.Seek(0);
+			var propertiesList = new BitmapPropertySet[frameCount];
+			var decoder = await BitmapDecoder.CreateAsync(imageStream);
+			for (int i = 0; i < frameCount; i++)
+			{
+				var frame = await decoder.GetFrameAsync((uint)i);
+				var frameProperties = await frame.BitmapProperties.GetPropertiesAsync(_framePropertyKeys);
+				if (frameProperties.TryGetValue(_grcelextDelayKey, out var grctlextDelayProperty))
+				{
+					var grctlextDelayTime = int.Parse(grctlextDelayProperty.Value.ToString());
+					if (grctlextDelayTime == 0)
+					{
+						frameProperties[_grcelextDelayKey] = new BitmapTypedValue(frameDelays[i] / 10, PropertyType.UInt16);
+					}
+				}
+				if (frameProperties.TryGetValue(_grcelextDisposalKey, out var _grcelextDisposalProperty))
+				{
+					var grctlextDisposalType = int.Parse(_grcelextDisposalProperty.Value.ToString());
+					if (grctlextDisposalType == 0)
+					{
+						frameProperties[_grcelextDisposalKey] = new BitmapTypedValue(2, PropertyType.UInt8);
+					}
+				}
+				propertiesList[i] = frameProperties;
+			}
+
+			#endregion
+
+			#region 3.Reencode Whole GIF
+
+			var reencodeStream = new InMemoryRandomAccessStream();
+			encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.GifEncoderId, reencodeStream);
+			await encoder.BitmapContainerProperties.SetPropertiesAsync(_appextProperties);
+			for (var i = 0; i < frameCount; i++)
+			{
+				var animatedImage = animatedImages[i];
+				var holder = animatedImage.Image;
+				var framePixels = holder.PixelData;
+				var frameProperties = propertiesList[i];
+				await encoder.BitmapProperties.SetPropertiesAsync(frameProperties);
+				encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, (uint)holder.Width, (uint)holder.Height, 96, 96, framePixels);
+				if (i != frameCount - 1)
+				{
+					await encoder.GoToNextFrameAsync();
+				}
+			}
+			await encoder.FlushAsync();
+			bitmapImage.SetSource(reencodeStream);
+
+			#endregion
+
 			return bitmapImage;
 		}
 

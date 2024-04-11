@@ -103,7 +103,7 @@ namespace FFImageLoading.Work
         {
             if (decoded.IsAnimated)
             {
-                return await decoded.AnimatedImages.ToBitmapImageAsync(ImageService.Dispatcher).ConfigureAwait(false);
+                return await decoded.ToAnimatedImageAsync(ImageService.Dispatcher).ConfigureAwait(false);
 			}
             else
             {

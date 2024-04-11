@@ -39,7 +39,7 @@ namespace FFImageLoading.Work
 
 		public byte[] PixelData { get; private set; }
 
-        public int PixelCount { get { return PixelData == null ? 0 : (int)(PixelData.Length / 4); } }
+		public int PixelCount { get { return PixelData == null ? 0 : (int)(PixelData.Length / 4); } }
 
         public void SetPixel(int x, int y, ColorHolder color)
         {
