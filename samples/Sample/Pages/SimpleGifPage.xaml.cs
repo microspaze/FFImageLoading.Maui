@@ -17,5 +17,10 @@ namespace Sample
 
             viewModel.Reload();
 		}
-	}
+
+		private void OnChangeClicked(object sender, EventArgs e)
+		{
+			viewModel.Reload();
+		}
+    }
 }

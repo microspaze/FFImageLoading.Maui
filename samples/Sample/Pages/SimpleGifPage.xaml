@@ -7,15 +7,22 @@
     x:Class="Sample.SimpleGifPage"
     Title="Simple Gif">
     <ContentPage.Content>
-        <StackLayout Spacing="20" BackgroundColor="Green">
-            <ffimageloading:CachedImage
-             Source="{Binding ImageUrl}">
-            <!--<ffimageloading:CachedImage.Transformations>
-                <fftransformations:CircleTransformation/>
-            </ffimageloading:CachedImage.Transformations>-->
+        <StackLayout Spacing="10" BackgroundColor="LightGray">
+            <Label Text="GIF without Transformations Render by Image and System" HorizontalOptions="Center" />
+            <Image WidthRequest="150" IsAnimationPlaying="True" Source="{Binding ImageUrl}"></Image>
+
+            <Label Text="GIF without Transformations Render by CachedImage and System" HorizontalOptions="Center" />
+            <ffimageloading:CachedImage WidthRequest="150" Source="{Binding ImageUrl}">
             </ffimageloading:CachedImage>
 
-            <!--<Image WidthRequest="200" Source="{Binding ImageUrl}"/>-->
+            <Label Text="GIF with DownSampleSize or Transformations Render by CachedImage and FFImageLoading.Maui" HorizontalOptions="Center" />
+            <ffimageloading:CachedImage WidthRequest="150" Source="{Binding ImageUrl}">
+                <ffimageloading:CachedImage.Transformations>
+                    <fftransformations:CircleTransformation/>
+                </ffimageloading:CachedImage.Transformations>
+            </ffimageloading:CachedImage>
+
+            <Button Text="Change GIF" Clicked="OnChangeClicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
