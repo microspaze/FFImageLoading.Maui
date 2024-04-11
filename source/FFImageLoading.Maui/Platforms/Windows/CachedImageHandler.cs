@@ -106,6 +106,10 @@ namespace FFImageLoading.Maui.Platform
 				if (!hasWidthRequest)
 				{
 					widthRequest = !double.IsInfinity(widthConstraint) && (isFill || isAspectFill) ? widthConstraint : _imageWidth;
+					if (widthRequest > widthConstraint && widthConstraint > 0)
+					{
+						widthRequest = widthConstraint;
+					}
 				}
 
 				if (!hasHeightRequest)
