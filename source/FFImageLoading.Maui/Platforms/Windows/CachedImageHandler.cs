@@ -215,6 +215,11 @@ namespace FFImageLoading.Maui.Platform
             if (Control == null || VirtualView == null || _isDisposed)
                 return;
             Control.Stretch = GetStretch(VirtualView.Aspect);
+			if (Control.Stretch == Microsoft.UI.Xaml.Media.Stretch.UniformToFill)
+			{
+				Control.HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center;
+				Control.VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center;
+			}
         }
 
         static Microsoft.UI.Xaml.Media.Stretch GetStretch(Aspect aspect)
