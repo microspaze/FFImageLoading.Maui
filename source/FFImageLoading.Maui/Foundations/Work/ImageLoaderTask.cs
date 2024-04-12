@@ -331,12 +331,12 @@ namespace FFImageLoading.Work
 
 					if (decoderContainer.IsAnimated)
 					{
-						for (var i = 0; i < decoderContainer.AnimatedImages.Length; i++)
+						Parallel.ForEach(decoderContainer.AnimatedImages, async animatedImage =>
 						{
-							decoderContainer.AnimatedImages[i].Image = await TransformAsync(
-								decoderContainer.AnimatedImages[i].Image,
+							animatedImage.Image = await TransformAsync(
+								animatedImage.Image,
 								transformations, path, sourceType, isPlaceholder).ConfigureAwait(false);
-						}
+						});
 					}
 					else
 					{

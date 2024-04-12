@@ -76,7 +76,7 @@ namespace FFImageLoading.Work
 
         protected override async Task<PImage> TransformAsync(PImage bitmap, IList<ITransformation> transformations, string path, ImageSourceType sourceType, bool isPlaceholder)
         {
-            await StaticLocks.DecodingLock.WaitAsync(CancellationTokenSource.Token).ConfigureAwait(false); // Applying transformations is both CPU and memory intensive
+            //await StaticLocks.DecodingLock.WaitAsync(CancellationTokenSource.Token).ConfigureAwait(false); // Applying transformations is both CPU and memory intensive
             ThrowIfCancellationRequested();
 
             try
@@ -109,7 +109,7 @@ namespace FFImageLoading.Work
             }
             finally
             {
-				StaticLocks.DecodingLock.Release();
+				//StaticLocks.DecodingLock.Release();
             }
 
             return bitmap;
