@@ -22,11 +22,24 @@ namespace FFImageLoading.Helpers
 			return service;
 		}
 
+		public static T GetRequiredService<T>() where T : class
+		{
+			var service = default(T);
+			var serviceProvider = GetServiceProvider();
+			if (serviceProvider != null)
+			{
+				service = serviceProvider.GetRequiredService<T>();
+			}
+
+			return service;
+		}
+
 		private static IServiceProvider GetServiceProvider()
 		{
-			if (_serviceProvider == null && Application.Current?.Handler?.MauiContext is not null)
+			if (_serviceProvider == null)
 			{
-				_serviceProvider = Application.Current.Handler.MauiContext.Services;
+				_serviceProvider = Application.Current.Handler?.MauiContext?.Services;
+				_serviceProvider ??= Application.Current.Windows.FirstOrDefault()?.Handler?.MauiContext.Services;
 			}
 
 			return _serviceProvider;

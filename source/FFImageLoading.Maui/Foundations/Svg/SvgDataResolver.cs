@@ -302,7 +302,7 @@ namespace FFImageLoading.Svg.Platform
                 canvas.Clear(SKColors.Transparent);
                 var scaleX = (float)sizeX / picture.CullRect.Width;
                 var scaleY = (float)sizeY / picture.CullRect.Height;
-                var matrix = SKMatrix.MakeScale(scaleX, scaleY);
+                var matrix = SKMatrix.CreateScale(scaleX, scaleY);
                 canvas.DrawPicture(picture, ref matrix, paint);
                 canvas.Flush();
 
