@@ -47,7 +47,7 @@ namespace FFImageLoading.Work
 
         protected override async Task<SharedEvasImage> TransformAsync(SharedEvasImage bitmap, IList<ITransformation> transformations, string path, ImageSource source, bool isPlaceholder)
         {
-            await StaticLocks.DecodingLock.WaitAsync(CancellationTokenSource.Token).ConfigureAwait(false); // Applying transformations is both CPU and memory intensive
+            //await StaticLocks.DecodingLock.WaitAsync(CancellationTokenSource.Token).ConfigureAwait(false); // Applying transformations is both CPU and memory intensive
             ThrowIfCancellationRequested();
 
             try
@@ -81,10 +81,10 @@ namespace FFImageLoading.Work
             }
             finally
             {
-				StaticLocks.DecodingLock.Release();
+				//StaticLocks.DecodingLock.Release();
             }
 
-            return bitmap;            
+            return await Task.FromResult(bitmap);
         }
 
         protected override Task<SharedEvasImage> GenerateImageFromDecoderContainerAsync(IDecodedImage<SharedEvasImage> decoded, ImageInformation imageInformation, bool isPlaceholder)

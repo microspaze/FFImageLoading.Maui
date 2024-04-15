@@ -96,7 +96,7 @@ namespace FFImageLoading.Work
 				//StaticLocks.DecodingLock.Release();
             }
 
-            return bitmap;
+            return await Task.FromResult(bitmap);
         }
 
         protected override async Task<BitmapSource> GenerateImageFromDecoderContainerAsync(IDecodedImage<BitmapHolder> decoded, ImageInformation imageInformation, bool isPlaceholder)

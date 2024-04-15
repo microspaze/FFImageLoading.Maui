@@ -180,7 +180,7 @@ namespace FFImageLoading
 				//StaticLocks.DecodingLock.Release();
             }
 
-            return bitmap;
+            return await Task.FromResult(bitmap);
         }
 
         protected override Task<SelfDisposingBitmapDrawable> GenerateImageFromDecoderContainerAsync(IDecodedImage<Bitmap> decoded, ImageInformation imageInformation, bool isPlaceholder)
