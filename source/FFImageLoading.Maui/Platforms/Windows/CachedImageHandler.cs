@@ -34,12 +34,9 @@ namespace FFImageLoading.Maui.Platform
     [Preserve(AllMembers = true)]
     public class CachedImageHandler : ViewHandler<CachedImage, Microsoft.UI.Xaml.Controls.Image>
 	{
-		private double _imageWidth = 0;
-		private double _imageHeight = 0;
-		private double _imageSizeRatio = 0;
+		private bool _isDisposed = false;
 		private IScheduledWork _currentTask;
         private ImageSourceBinding _lastImageSource;
-        private bool _isDisposed = false;
 
 		public CachedImageHandler() : base(ViewHandler.ViewMapper, ViewHandler.ViewCommandMapper)
 		{
@@ -48,7 +45,6 @@ namespace FFImageLoading.Maui.Platform
 		public CachedImageHandler(IPropertyMapper mapper, CommandMapper commandMapper = null) : base(mapper, commandMapper)
 		{
 		}
-
 
 		public Microsoft.UI.Xaml.Controls.Image Control { get; private set; }
 
@@ -61,12 +57,9 @@ namespace FFImageLoading.Maui.Platform
 			return Control;
 		}
 
-		IImageService ImageService => this.VirtualView.FindMauiContext()?.Services.GetRequiredService<IImageService>();
-
 		protected override void ConnectHandler(Microsoft.UI.Xaml.Controls.Image platformView)
 		{
 			VirtualView.PropertyChanged += VirtualView_PropertyChanged;
-
 			VirtualView.InternalReloadImage = new Action(ReloadImage);
 			VirtualView.InternalCancel = new Action(CancelIfNeeded);
 			VirtualView.InternalGetImageAsJPG = new Func<GetImageAsJpgArgs, Task<byte[]>>(GetImageAsJpgAsync);
@@ -92,51 +85,15 @@ namespace FFImageLoading.Maui.Platform
 			base.DisconnectHandler(platformView);
 		}
 
-		public override Size GetDesiredSize(double widthConstraint, double heightConstraint)
-		{
-			var widthRequest = VirtualView.WidthRequest;
-			var heightRequest = VirtualView.HeightRequest;
-			var hasWidthRequest = widthRequest >= 0;
-			var hasHeightRequest = heightRequest >= 0;
-			if (!hasWidthRequest || !hasHeightRequest)
-			{
-				var aspect = VirtualView.Aspect;
-				var isFill = aspect == Aspect.Fill;
-				var isAspectFill = aspect == Aspect.AspectFill;
-				if (!hasWidthRequest)
-				{
-					widthRequest = !double.IsInfinity(widthConstraint) && (isFill || isAspectFill) ? widthConstraint : _imageWidth;
-					if (widthRequest > widthConstraint && widthConstraint > 0)
-					{
-						widthRequest = widthConstraint;
-					}
-				}
-
-				if (!hasHeightRequest)
-				{
-					heightRequest = !double.IsInfinity(heightConstraint) ? heightConstraint : _imageHeight;
-					if (!isFill && !isAspectFill && _imageSizeRatio != 0)
-					{
-						heightRequest = widthRequest / _imageSizeRatio;
-					}
-				}
-
-				if (widthRequest < 0 || heightRequest < 0)
-				{
-					return base.GetDesiredSize(widthConstraint, heightConstraint);
-				}
-			}
-
-			return new Size(widthRequest, heightRequest);
-		}
-
 		void VirtualView_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == CachedImage.SourceProperty.PropertyName)
 			{
 				UpdateImage(Control, VirtualView, null);
 			}
-			else if (e.PropertyName == CachedImage.AspectProperty.PropertyName)
+			else if (e.PropertyName == CachedImage.AspectProperty.PropertyName
+				|| e.PropertyName == VisualElement.WidthRequestProperty.PropertyName
+				|| e.PropertyName == VisualElement.HeightRequestProperty.PropertyName)
 			{
 				UpdateAspect();
 			}
@@ -193,12 +150,6 @@ namespace FFImageLoading.Maui.Platform
 
                 imageLoader.Success((imageInformation, loadingResult) =>
 				{
-					if (imageInformation != null && imageInformation.OriginalHeight > 0)
-					{
-						_imageWidth = imageInformation.OriginalWidth;
-						_imageHeight = imageInformation.OriginalHeight;
-						_imageSizeRatio = _imageWidth / _imageHeight;
-					}
 					sucessAction?.Invoke(imageInformation, loadingResult);
                     _lastImageSource = ffSource;
                 });
@@ -206,7 +157,7 @@ namespace FFImageLoading.Maui.Platform
                 imageLoader.LoadingPlaceholderSet(() => ImageLoadingSizeChanged(image, true));
 
                 if (!_isDisposed)
-                    _currentTask = imageLoader.Into(imageView, ImageService);
+                    _currentTask = imageLoader.Into(imageView, ImageService.Instance);
             }
         }
 
@@ -220,7 +171,7 @@ namespace FFImageLoading.Maui.Platform
 				Control.HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center;
 				Control.VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center;
 			}
-        }
+		}
 
         static Microsoft.UI.Xaml.Media.Stretch GetStretch(Aspect aspect)
         {
