@@ -86,7 +86,7 @@ public static class MauiProgram
 
 3.Improve GIF image's loading performance by change for loop to Parallel.ForEach loop.
 
-4.Fix Transparent GIF images display with DARK background issue.
+4.Fix Transparent GIF images display with DARK background issue (Windows).
 
 ## 1.1.8
 
