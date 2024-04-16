@@ -20,7 +20,13 @@ namespace Sample
 
 		private void OnChangeClicked(object sender, EventArgs e)
 		{
+			//Console.Write(cachedImageView.ImageView.Width);
 			viewModel.Reload();
 		}
+
+		private void OnLoadSuccess(object sender, FFImageLoading.Maui.CachedImageEvents.SuccessEventArgs e)
+		{
+			Console.WriteLine("CachedImageView load success!");
+        }
     }
 }
