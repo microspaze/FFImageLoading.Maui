@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FFImageLoading.Helpers;
 using FFImageLoading.Maui.Args;
 using System.Windows.Input;
 using FFImageLoading.Cache;
@@ -10,7 +11,6 @@ using System.Runtime.CompilerServices;
 
 namespace FFImageLoading.Maui
 {
-
 	[Preserve(AllMembers = true)]
 	/// <summary>
 	/// CachedImage by Daniel Luberda
@@ -46,6 +46,7 @@ namespace FFImageLoading.Maui
 
 		internal static bool IsRendererInitialized { get; set; } = IsDesignModeEnabled;
 
+		private bool _isBordered;
 		private bool _reloadBecauseOfMissingSize;
 
 		protected IImageService ImageService { get; private set; }
@@ -64,32 +65,33 @@ namespace FFImageLoading.Maui
 				_visualProperty.SetValue(this, _visualMarkerProperty.GetValue(null));
 			}
 
-			ImageService = this.FindMauiContext()?.Services?.GetRequiredService<IImageService>();
-		}
-
-		internal IMauiContext FindMauiContext()
-		{
-			if (Handler?.MauiContext != null)
-				return Handler.MauiContext;
-
-			if (Window?.Handler?.MauiContext is not null)
-				return Window.Handler.MauiContext;
-
-			if (Application.Current?.Handler?.MauiContext is not null)
-				return Application.Current.Handler.MauiContext;
-			
-			return null;
+			ImageService = ServiceHelper.GetRequiredService<IImageService>();
 		}
 
 		protected override void OnHandlerChanged()
 		{
 			base.OnHandlerChanged();
 
+			if (Parent is CachedImageView cachedImageView)
+			{
+				_isBordered = true;
+			}
+
 			var serviceInvalid = ImageService == null;
-			ImageService = this.FindMauiContext()?.Services?.GetRequiredService<IImageService>();
+			ImageService = ServiceHelper.GetRequiredService<IImageService>();
 			if (ImageService != null && serviceInvalid)
 			{
 				ReloadImage();
+			}
+		}
+
+		private static readonly Type _cachedImageType = typeof(CachedImage);
+		public void SetValue(string propertyName, object newValue)
+		{
+			var propertyInfo = _cachedImageType.GetProperty(propertyName);
+			if (propertyInfo != null)
+			{
+				propertyInfo.SetValue(this, newValue, null);
 			}
 		}
 
@@ -624,9 +626,9 @@ namespace FFImageLoading.Maui
 		/// <param name="cacheType">Cache type.</param>
 		/// <param name = "removeSimilar">If set to <c>true</c> removes all image cache variants
 		/// (downsampling and transformations variants)</param>
-		public Task InvalidateCache(string key, CacheType cacheType, bool removeSimilar = false)
+		public async Task InvalidateCache(string key, CacheType cacheType, bool removeSimilar = false)
 		{
-			return ImageService.InvalidateCacheEntryAsync(key, cacheType, removeSimilar);
+			await ImageService.InvalidateCacheEntryAsync(key, cacheType, removeSimilar);
 		}
 
 		/// <summary>
@@ -658,6 +660,11 @@ namespace FFImageLoading.Maui
 			var successCommand = SuccessCommand;
 			if (successCommand != null && successCommand.CanExecute(e))
 				successCommand.Execute(e);
+
+			if (Parent is CachedImageView cachedImageView)
+			{
+				cachedImageView.OnSuccess(e);
+			}
 		}
 
 		/// <summary>
@@ -689,6 +696,11 @@ namespace FFImageLoading.Maui
 			var errorCommand = ErrorCommand;
 			if (errorCommand != null && errorCommand.CanExecute(e))
 				errorCommand.Execute(e);
+
+			if (Parent is CachedImageView cachedImageView)
+			{
+				cachedImageView.OnError(e);
+			}
 		}
 
 		/// <summary>
@@ -720,6 +732,11 @@ namespace FFImageLoading.Maui
 			var finishCommand = FinishCommand;
 			if (finishCommand != null && finishCommand.CanExecute(e))
 				finishCommand.Execute(e);
+
+			if (Parent is CachedImageView cachedImageView)
+			{
+				cachedImageView.OnFinish(e);
+			}
 		}
 
 
@@ -752,6 +769,11 @@ namespace FFImageLoading.Maui
 			var downloadStartedCommand = DownloadStartedCommand;
 			if (downloadStartedCommand != null && downloadStartedCommand.CanExecute(e))
 				downloadStartedCommand.Execute(e);
+
+			if (Parent is CachedImageView cachedImageView)
+			{
+				cachedImageView.OnDownloadStarted(e);
+			}
 		}
 
 		/// <summary>
@@ -783,6 +805,11 @@ namespace FFImageLoading.Maui
 			var downloadProgressCommand = DownloadProgressCommand;
 			if (downloadProgressCommand != null && downloadProgressCommand.CanExecute(e))
 				downloadProgressCommand.Execute(e);
+
+			if (Parent is CachedImageView cachedImageView)
+			{
+				cachedImageView.OnDownloadProgress(e);
+			}
 		}
 
 		/// <summary>
@@ -814,6 +841,11 @@ namespace FFImageLoading.Maui
 			var fileWriteFinishedCommand = FileWriteFinishedCommand;
 			if (fileWriteFinishedCommand != null && fileWriteFinishedCommand.CanExecute(e))
 				fileWriteFinishedCommand.Execute(e);
+
+			if (Parent is CachedImageView cachedImageView)
+			{
+				cachedImageView.OnFileWriteFinished(e);
+			}
 		}
 
 		/// <summary>
@@ -1065,6 +1097,14 @@ namespace FFImageLoading.Maui
 
 				ReloadImage();
 			}
+
+			//if (Parent is CachedImageView imageView)
+			//{
+			//	var parentWidth = width + imageView.Padding.HorizontalThickness + imageView.StrokeThickness * 2;
+			//	var parentHeight = height + imageView.Padding.VerticalThickness + imageView.StrokeThickness * 2;
+			//	imageView.WidthRequest = parentWidth; //Border's height can auto update, but not width.
+			//	imageView.Arrange(new Rect(0, 0, parentWidth, parentHeight));
+			//}
 		}
 	}
 }
