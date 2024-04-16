@@ -43,7 +43,6 @@ namespace FFImageLoading
 		public IDataResolverFactory DataResolverFactory { get; }
 		public IDiskCache DiskCache { get; }
 		public IWorkScheduler Scheduler { get; }
-		public IMD5Helper MD5Helper { get; }
 		public IDownloadCache DownloadCache { get; }
 
 		public abstract IMemoryCache<TImageContainer> MemoryCache { get; }
@@ -264,7 +263,7 @@ namespace FFImageLoading
 
             if (cacheType == CacheType.All || cacheType == CacheType.Disk)
             {
-                string hash = MD5Helper.MD5(key);
+                string hash = Md5Helper.MD5(key);
                 await DiskCache.RemoveAsync(hash).ConfigureAwait(false);
             }
         }
