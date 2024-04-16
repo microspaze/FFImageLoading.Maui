@@ -78,6 +78,16 @@ public static class MauiProgram
 
 ## Release Notes
 
+## 1.1.9
+
+1.Add new bordered CachedImage control CachedImageView (eg. Sample/SampleGifPage.xaml).
+
+2.Refine fix for issue #24 Android Potential race condition during loading of image source and LoadingPlaceholder (If placeholder is GIF and image is also GIF, then old fix will potential cause image load failed)
+
+3.Improve GIF image's loading performance by change for loop to Parallel.ForEach loop.
+
+4.Fix Transparent GIF images display with DARK background issue.
+
 ## 1.1.8
 
 1.Fix Customising the HttpClient does not seem to have any effect #26 (All Platforms) (Thanks Reported by https://github.com/apoorvadixit-ttc)
@@ -90,7 +100,7 @@ public static class MauiProgram
 
 1.Fix Broken CachedImage scaling on Android #22 (Sync to iOS/MacOs/Windows) (Thanks Reported by https://github.com/rafalka)
 
-2.Add GIF & Webp image support for Windows. (Transparent background GIF currently unsupported. HELP NEEDED!)
+2.Add GIF & Webp image support for Windows. (Transparent background GIF currently unsupported. HELP NEEDED! Resolved in 1.1.9)
 
 ## 1.1.2
 
