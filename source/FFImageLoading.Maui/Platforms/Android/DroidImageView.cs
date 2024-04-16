@@ -9,19 +9,19 @@ using AndroidX.AppCompat.Widget;
 namespace FFImageLoading.Maui.Platform
 {
     [Preserve(AllMembers = true)]
-    public class CachedImageView : AppCompatImageView
+    public class DroidImageView : AppCompatImageView
 	{
         bool _skipInvalidate;
 
-        public CachedImageView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+        public DroidImageView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
         }
 
-        public CachedImageView(Context context) : base(context)
+        public DroidImageView(Context context) : base(context)
         {
         }
 
-        public CachedImageView(Context context, IAttributeSet attrs): base(context, attrs)
+        public DroidImageView(Context context, IAttributeSet attrs): base(context, attrs)
         {
         }
 

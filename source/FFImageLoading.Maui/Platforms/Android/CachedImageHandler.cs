@@ -25,7 +25,7 @@ namespace FFImageLoading.Maui.Platform
     /// CachedImage Implementation
     /// </summary>
     [Preserve(AllMembers=true)]
-    public class CachedImageHandler : ViewHandler<CachedImage, CachedImageView>
+    public class CachedImageHandler : ViewHandler<CachedImage, DroidImageView>
     {
 		private bool _isDisposed;
 		private IScheduledWork _currentTask;
@@ -43,16 +43,16 @@ namespace FFImageLoading.Maui.Platform
 		{
 		}
 
-		IImageService ImageService => MauiContext.Services.GetRequiredService<IImageService>();
+		public DroidImageView Control { get; private set; }
 
-		protected override CachedImageView CreatePlatformView()
+		protected override DroidImageView CreatePlatformView()
 		{
-			var imageView = new CachedImageView(Context);
-			imageView.SetAdjustViewBounds(true);
-			return imageView;
+			Control = new DroidImageView(Context);
+			Control.SetAdjustViewBounds(true);
+			return Control;
 		}
 
-		protected override void ConnectHandler(CachedImageView platformView)
+		protected override void ConnectHandler(DroidImageView platformView)
 		{
 			VirtualView.InternalReloadImage = new Action(ReloadImage);
 			VirtualView.InternalCancel = new Action(CancelIfNeeded);
@@ -68,7 +68,7 @@ namespace FFImageLoading.Maui.Platform
 			base.ConnectHandler(platformView);
 		}
 
-		protected override void DisconnectHandler(CachedImageView platformView)
+		protected override void DisconnectHandler(DroidImageView platformView)
 		{
 			VirtualView.PropertyChanged -= VirtualView_PropertyChanged;
 
@@ -134,7 +134,7 @@ namespace FFImageLoading.Maui.Platform
 			}
         }
 
-        private void UpdateBitmap(CachedImageView imageView, CachedImage image, CachedImage previousImage)
+        private void UpdateBitmap(DroidImageView imageView, CachedImage image, CachedImage previousImage)
         {
             lock (_updateBitmapLock)
             {
@@ -184,15 +184,15 @@ namespace FFImageLoading.Maui.Platform
 					});
 
                     imageLoader.Success((imageInformation, loadingResult) =>
-                    {
-                        sucessAction?.Invoke(imageInformation, loadingResult);
+					{
+						sucessAction?.Invoke(imageInformation, loadingResult);
                         _lastImageSource = ffSource;
                     });
 
                     imageLoader.LoadingPlaceholderSet(() => ImageLoadingSizeChanged(image, true));
 
 					if (!_isDisposed)
-						_currentTask = imageLoader.Into(imageView, ImageService);
+						_currentTask = imageLoader.Into(imageView, ImageService.Instance);
 				}
             }
         }
@@ -202,7 +202,7 @@ namespace FFImageLoading.Maui.Platform
 			if (element == null || _isDisposed)
 				return;
 
-			await ImageService.Dispatcher.PostAsync(() =>
+			await ImageService.Instance.Dispatcher.PostAsync(() =>
 			{
 				if (element == null || _isDisposed)
 					return;
