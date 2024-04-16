@@ -43,6 +43,7 @@ namespace Sample
 		{
 			if (_imageService == ImageService.Instance)
 			{
+				await _imageService.InvalidateCacheEntryAsync("lake.webp", FFImageLoading.Cache.CacheType.All);
 				_imageService.InvalidateMemoryCache();
 				await _imageService.InvalidateDiskCacheAsync();
 			}

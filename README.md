@@ -78,6 +78,10 @@ public static class MauiProgram
 
 ## Release Notes
 
+## 1.2.0
+
+1.Fix InvalidateCacheEntryAsync gives a null pointer exception #27 (All Platforms) (Thanks Reported by https://github.com/apoorvadixit-ttc)
+
 ## 1.1.9
 
 1.Add new bordered CachedImage control CachedImageView (eg. Sample/SampleGifPage.xaml).
