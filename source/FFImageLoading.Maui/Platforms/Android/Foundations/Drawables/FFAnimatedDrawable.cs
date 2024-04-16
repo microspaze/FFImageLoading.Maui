@@ -33,7 +33,6 @@ namespace FFImageLoading.Drawables
 
 		public void Clear()
 		{
-			AnimatedImages = [];
 			if (Bitmap != null)
 			{
 				Bitmap = null;

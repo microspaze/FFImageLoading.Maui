@@ -76,7 +76,7 @@ namespace FFImageLoading.Targets
 			}
 		}
 
-		private static void StopAnimation(ImageView imageView)
+		private static void StopAnimation(ImageView imageView, Type nextDrawableType = null)
 		{
 			lock (_runningAnimations)
 			{
@@ -86,7 +86,11 @@ namespace FFImageLoading.Targets
 					_runningAnimations.Remove(imageView);
 					if (timer.AnimatedDrawable is FFAnimatedDrawable animatedDrawable)
 					{
-						animatedDrawable.Clear();
+						//Check next drawable's type if not equals current animation drawale's type, it need to clear bitmap.
+						if (nextDrawableType != null && nextDrawableType != animatedDrawable.GetType())
+						{
+							animatedDrawable.Clear();
+						}
 						UpdateDrawableDisplayedState(animatedDrawable, false);
 						imageView.SetImageResource(Android.Resource.Color.Transparent);
 					}
@@ -98,7 +102,7 @@ namespace FFImageLoading.Targets
 		{
 			lock (control)
 			{
-				StopAnimation(control);
+				StopAnimation(control, drawable.GetType());
 
 				if (drawable == null)
 				{
