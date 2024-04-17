@@ -199,7 +199,7 @@ namespace FFImageLoading.Maui
 		/// Gets or sets the aspect.
 		/// </summary>
 		/// <value>The aspect.</value>
-		public Brush Stroke
+		public new Brush Stroke
 		{
 			get => (Brush)GetValue(StrokeProperty);
 			set => SetValue(StrokeProperty, value);

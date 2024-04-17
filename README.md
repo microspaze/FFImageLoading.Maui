@@ -40,7 +40,7 @@ public static class MauiProgram
 ```
 
 3. Add `xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"` to your MAUI Xaml page references.
-4. Add `<ffimageloading:CachedImage Source="xxx.jpg"></ffimageloading:CachedImage>` to display image.
+4. Add `<ffimageloading:CachedImage Source="xxx.jpg"></ffimageloading:CachedImage>` to display image. Or add `<ffimageloading:CachedImageView Source="xxx.jpg" Stroke="Red" StrokeThickness="1"></ffimageloading:CachedImageView>` to display image with border.
 
 
 ## Support platforms
