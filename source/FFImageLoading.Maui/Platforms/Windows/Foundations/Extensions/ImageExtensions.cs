@@ -18,6 +18,7 @@ namespace FFImageLoading.Extensions
 		//https://learn.microsoft.com/zh-tw/windows/win32/wic/-wic-native-image-format-metadata-queries
 		//https://giflib.sourceforge.net/whatsinagif/bits_and_bytes.html
 		//https://giflib.sourceforge.net/whatsinagif/animation_and_transparency.html
+		//https://www.matthewflickinger.com/lab/whatsinagif/gif_explorer.asp
 		//private static readonly string[] _imageProperties = ["/appext", "/appext/Application", "/appext/Data", "/logscrdesc", "/logscrdesc/Signature", "/logscrdesc/Width", "/logscrdesc/Height", "/logscrdesc/GlobalColorTableFlag", "/logscrdesc/ColorResolution", "/logscrdesc/SortFlag", "/logscrdesc/GlobalColorTableSize", "/logscrdesc/BackgroundColorIndex", "/logscrdesc/PixelAspectRatio"];
 		//private static readonly string[] _frameProperties = ["/imgdesc", "/imgdesc/Left", "/imgdesc/Top", "/imgdesc/Width", "/imgdesc/Height", "/imgdesc/LocalColorTableFlag", "/imgdesc/InterlaceFlag", "/imgdesc/SortFlag", "/imgdesc/LocalColorTableSize", "/grctlext", "/grctlext/Delay", "/grctlext/Disposal", "/grctlext/UserInputFlag", "/grctlext/TransparencyFlag", "/grctlext/TransparentColorIndex"];
 		private static readonly string _imgdescKey = "/imgdesc";
