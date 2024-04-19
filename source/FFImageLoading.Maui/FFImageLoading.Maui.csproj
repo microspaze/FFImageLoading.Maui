@@ -14,11 +14,11 @@
 
     <AssemblyName>FFImageLoading.Maui</AssemblyName>
     <Version>1.2.0</Version>
-    <Authors>Microspaze, Redth, Daniel Luberda</Authors>
-    <Company>Microspaze, Redth, Daniel Luberda</Company>
-    <Product>FFImageLoading.Maui</Product>
-    <PackageId>FFImageLoading.Maui</PackageId>
-    <PackageTags>Maui;FFImageLoading;FFImageLoading.Maui;FFImageLoading Maui;Image Cache;Image Loading;Webp Image;</PackageTags>
+    <Authors>Bharat Aghera</Authors>
+    <Company>Bharat Aghera</Company>
+    <Product>FFImageLoading.Net.Ios.Android</Product>
+    <PackageId>FFImage.Loading.Net.Ios.Android</PackageId>
+    <PackageTags>Maui;FFImageLoading;FFImageLoading.Maui;FFImageLoading Maui;Image Cache;Image Loading;Webp Image;FFImageLoading.Net.Ios;FFImageLoading.Net.Android;</PackageTags>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>
     <NeutralLanguage>en</NeutralLanguage>
@@ -36,8 +36,8 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
     <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU;Device;Simulator</Platforms>
-    <PackageProjectUrl>https://github.com/microspaze/FFImageLoading.Maui</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/microspaze/FFImageLoading.Maui</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/bharataghera90/FFImageLoading.Maui</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/bharataghera90/FFImageLoading.Maui</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>

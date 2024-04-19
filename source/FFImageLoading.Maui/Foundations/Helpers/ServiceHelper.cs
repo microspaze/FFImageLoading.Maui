@@ -34,6 +34,11 @@ namespace FFImageLoading.Helpers
 			return service;
 		}
 
+		public static void Init(IServiceProvider serviceProvider)
+		{
+			_serviceProvider = serviceProvider;
+		}
+
 		private static IServiceProvider GetServiceProvider()
 		{
 			if (_serviceProvider == null)
