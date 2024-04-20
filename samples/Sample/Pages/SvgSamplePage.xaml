@@ -18,11 +18,11 @@
         <ScrollView>
             <VerticalStackLayout>
                 <Label Text="svg001raw.svg From Resource/Raw folder" />
-                <ffimageloading:SvgCachedImage WidthRequest="200" HeightRequest="200"
+                <ffimageloading:SvgCachedImage WidthRequest="60" HeightRequest="60"
                                     Source="svg001raw.svg"/>
 
                 <Label Text="svg001.svg From Web" />
-                <ffimageloading:SvgCachedImage WidthRequest="200" HeightRequest="200" 
+                <ffimageloading:SvgCachedImage WidthRequest="60" HeightRequest="60" 
                                     HorizontalOptions="Center" VerticalOptions="Center"
                                     Aspect="AspectFit"
                                     Source = "https://muslimpillarsapp.blob.core.windows.net/reciters-photo/001.svg">

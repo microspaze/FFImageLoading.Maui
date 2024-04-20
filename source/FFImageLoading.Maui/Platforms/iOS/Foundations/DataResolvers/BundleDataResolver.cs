@@ -91,11 +91,11 @@ namespace FFImageLoading.DataResolvers
 						if (bundle != null)
 						{
 							file = tmpFile;
+							parameters.Scale = scale;
 							break;
 						}
 						scale--;
 					}
-					parameters.Scale = scale;
 				}
 
 				token.ThrowIfCancellationRequested();
