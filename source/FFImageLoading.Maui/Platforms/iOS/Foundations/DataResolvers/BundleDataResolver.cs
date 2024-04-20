@@ -22,6 +22,7 @@ namespace FFImageLoading.DataResolvers
 {
 	public class BundleDataResolver : IDataResolver
 	{
+		private const string _svgExtension = "svg";
 		private readonly string[] _fileTypes = { null, "png", "jpg", "jpeg", "webp", "gif" };
 
 		public BundleDataResolver(IMainThreadDispatcher mainThreadDispatcher)
@@ -62,6 +63,7 @@ namespace FFImageLoading.DataResolvers
 			var filenamePath = string.IsNullOrWhiteSpace(tmpPath) ? null : tmpPath + "/";
 			var hasExtension = !string.IsNullOrWhiteSpace(ext);
 
+			var isSvgFile = hasExtension && ext == _svgExtension;
 			var fileTypes = hasExtension ? new[] { ext } : _fileTypes;
 
 			foreach (var fileType in fileTypes)
@@ -91,10 +93,14 @@ namespace FFImageLoading.DataResolvers
 						if (bundle != null)
 						{
 							file = tmpFile;
-							parameters.Scale = scale;
 							break;
 						}
 						scale--;
+					}
+
+					if (!isSvgFile)
+					{
+						parameters.Scale = scale;
 					}
 				}
 
