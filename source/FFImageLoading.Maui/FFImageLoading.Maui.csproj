@@ -13,7 +13,7 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 
     <AssemblyName>FFImageLoading.Maui</AssemblyName>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Authors>Microspaze, Redth, Daniel Luberda</Authors>
     <Company>Microspaze, Redth, Daniel Luberda</Company>
     <Product>FFImageLoading.Maui</Product>

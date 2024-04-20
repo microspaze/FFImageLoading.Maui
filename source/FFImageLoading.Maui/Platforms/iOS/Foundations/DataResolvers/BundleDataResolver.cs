@@ -63,7 +63,7 @@ namespace FFImageLoading.DataResolvers
 			var filenamePath = string.IsNullOrWhiteSpace(tmpPath) ? null : tmpPath + "/";
 			var hasExtension = !string.IsNullOrWhiteSpace(ext);
 
-			var isSvgFile = hasExtension && ext == _svgExtension;
+			var isSvgFile = hasExtension && _svgExtension.Equals(ext, StringComparison.OrdinalIgnoreCase);
 			var fileTypes = hasExtension ? new[] { ext } : _fileTypes;
 
 			foreach (var fileType in fileTypes)

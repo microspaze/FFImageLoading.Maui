@@ -78,6 +78,10 @@ public static class MauiProgram
 
 ## Release Notes
 
+## 1.2.1
+
+1.Fix SVGs on iOS are blurry #31 (iOS) (Thanks Reported by https://github.com/PavloLukianets)
+
 ## 1.2.0
 
 1.Fix InvalidateCacheEntryAsync gives a null pointer exception #27 (All Platforms) (Thanks Reported by https://github.com/apoorvadixit-ttc)
