@@ -76,6 +76,11 @@ public static class MauiProgram
 
 [Maui]https://github.com/Redth/FFImageLoading.Compat
 
+
+## License
+The MIT License (MIT) see [License file](LICENSE.md)
+
+
 ## Thanks
 Thank JetBrains for providing DEV tools in developing. (Especially on MacOS)
 
