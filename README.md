@@ -156,3 +156,6 @@ public static class MauiProgram
 
 1.Fix App Reloading Bug.
 
+## Thanks
+Thank JetBrains for providing DEV tools in developing.
+![avatar](samples/Sample/Resources/Images/jetbrains_logo.png)
