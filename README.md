@@ -76,6 +76,11 @@ public static class MauiProgram
 
 [Maui]https://github.com/Redth/FFImageLoading.Compat
 
+## Thanks
+Thank JetBrains for providing DEV tools in developing. (Especially on MacOS)
+
+![avatar](samples/Sample/Resources/Images/jetbrains_logo.png)
+
 ## Release Notes
 
 ## 1.2.1
@@ -155,7 +160,3 @@ public static class MauiProgram
 ## 1.0.1
 
 1.Fix App Reloading Bug.
-
-## Thanks
-Thank JetBrains for providing DEV tools in developing.
-![avatar](samples/Sample/Resources/Images/jetbrains_logo.png)
