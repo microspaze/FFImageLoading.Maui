@@ -10,9 +10,10 @@
         <ScrollView>
             <VerticalStackLayout>
 
-                <ffimageloading:CachedImage x:Name="image"
+                <ffimageloading:CachedImage x:Name="image" BackgroundColor="Aqua"
                     LoadingPlaceholder="loading.png" ErrorPlaceholder="error.png"
-                    Aspect="AspectFit" Source="{Binding ImageUrl}"
+                    Aspect="AspectFill" Source="{Binding ImageUrl}"
+                    WidthRequest="300" HeightRequest="300"
                     Transformations="{Binding Transformations}" CacheType="Disk">
 
                     <ffimageloading:CachedImage.GestureRecognizers>
@@ -25,6 +26,33 @@
                 <Label Text="CropTransformation" HorizontalTextAlignment="Center"/>
                 <Label Text="Use pan or pinch gestures to crop" HorizontalTextAlignment="Center" FontSize="8"/>
 
+                <HorizontalStackLayout>
+                    <Label Text="ZoomFactor:" HorizontalTextAlignment="Start"/>
+                    <Label Text="{Binding CurrentZoomFactor}" HorizontalTextAlignment="End"/>
+                </HorizontalStackLayout>
+                
+                <HorizontalStackLayout>
+                    <Label Text="XOffset:" HorizontalTextAlignment="Start"/>
+                    <Label Text="{Binding CurrentXOffset}" HorizontalTextAlignment="End"/>
+                </HorizontalStackLayout>
+                
+                <HorizontalStackLayout>
+                    <Label Text="YOffset:" HorizontalTextAlignment="Start"/>
+                    <Label Text="{Binding CurrentYOffset}" HorizontalTextAlignment="End"/>
+                </HorizontalStackLayout>
+                
+                <Button Text="Test PNG" Clicked="OnTestPngClicked" ></Button>
+                
+                <HorizontalStackLayout>
+                    <Label Text="Original Size:" HorizontalTextAlignment="Start"/>
+                    <Label Text="{Binding OriginalSize}" HorizontalTextAlignment="End"/>
+                </HorizontalStackLayout>
+                
+                <HorizontalStackLayout>
+                    <Label Text="Cropped Size:" HorizontalTextAlignment="Start"/>
+                    <Label Text="{Binding CroppedSize}" HorizontalTextAlignment="End"/>
+                </HorizontalStackLayout>
+                <Button Text="Test Crop Size" Clicked="TestCropSize" ></Button>
             </VerticalStackLayout>
         </ScrollView>
     </ContentPage.Content>
