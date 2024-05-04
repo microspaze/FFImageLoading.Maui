@@ -8,6 +8,7 @@ namespace Sample
 {
 	public partial class CropTransformationPage : ContentPage
 	{
+		private bool _imageToggle = true;
 		private readonly IImageService _imageService = ServiceHelper.GetService<IImageService>();
 
 		CropTransformationPageModel viewModel;
@@ -42,17 +43,17 @@ namespace Sample
 			viewModel.ReloadImage();
 		}
 
-		private void OnTestPngClicked(object sender, EventArgs e)
+		private void OnToggleButtonClicked(object sender, EventArgs e)
 		{
-			viewModel.ImageUrl = "no_avatar.png";
+			_imageToggle = !_imageToggle;
+			viewModel.ImageUrl =  _imageToggle ? "no_avatar.png" : "maui_beach.jpg";
 			viewModel.ReloadImage();
 		}
 
 		private async void TestCropSize(object sender, EventArgs e)
 		{
 			if (_imageService == null) return;
-
-			var imagePath = "maui_beach.jpg";
+			var imagePath = _imageToggle ? "no_avatar.png" : "maui_beach.jpg";
 			var original = await _imageService.LoadFile(imagePath).AsJPGStreamAsync(_imageService, 100);
 			var jpgStream = await _imageService
 				.LoadFile(imagePath)

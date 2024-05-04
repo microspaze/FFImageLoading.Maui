@@ -41,7 +41,7 @@
                     <Label Text="{Binding CurrentYOffset}" HorizontalTextAlignment="End"/>
                 </HorizontalStackLayout>
                 
-                <Button Text="Test PNG" Clicked="OnTestPngClicked" ></Button>
+                <Button Text="Toggle Local Image" Clicked="OnToggleButtonClicked" ></Button>
                 
                 <HorizontalStackLayout>
                     <Label Text="Original Size:" HorizontalTextAlignment="Start"/>
