@@ -88,6 +88,10 @@ Thank JetBrains for providing DEV tools in developing. (Especially on MacOS)
 
 ## Release Notes
 
+## 1.2.2
+
+1.Fix CropTransformation makes the image bigger #32 (iOS) (Thanks Reported by https://github.com/eddieyanez)
+
 ## 1.2.1
 
 1.Fix SVGs on iOS are blurry #31 (iOS) (Thanks Reported by https://github.com/PavloLukianets)
