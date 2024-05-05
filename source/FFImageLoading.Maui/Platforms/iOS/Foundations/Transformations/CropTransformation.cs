@@ -56,7 +56,7 @@ namespace FFImageLoading.Transformations
             double desiredWidth = sourceWidth;
             double desiredHeight = sourceHeight;
 
-            double desiredRatio = cropWidthRatio * sourceWidth / (cropHeightRatio * sourceHeight);
+            double desiredRatio = cropWidthRatio / cropHeightRatio;
             double currentRatio = sourceWidth / sourceHeight;
 
             if (currentRatio > desiredRatio)
