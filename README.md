@@ -88,6 +88,10 @@ Thank JetBrains for providing DEV tools in developing. (Especially on MacOS)
 
 ## Release Notes
 
+## 1.2.4
+
+1.Fix Android app crashes when using using multiple CachedImage for showing multiple gifs #35 (Thanks Reported by https://github.com/Th3L0x)
+
 ## 1.2.3
 
 1.Fix CropTransformation makes the image bigger #32 (iOS) (Thanks Reported by https://github.com/eddieyanez)
