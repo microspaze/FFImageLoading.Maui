@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace FFImageLoading
 {
@@ -14,8 +15,9 @@ namespace FFImageLoading
                     return true;
                 }
             }
-            catch (ObjectDisposedException)
+            catch (Exception ex)
             {
+				Debug.WriteLine(ex.Message);
             }
 
             return false;

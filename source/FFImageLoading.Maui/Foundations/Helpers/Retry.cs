@@ -20,8 +20,8 @@ namespace FFImageLoading
                 }
                 catch (Exception ex)
                 {
-                    if (ex is OperationCanceledException || ex is DownloadException)
-                        throw;
+                    //if (ex is OperationCanceledException || ex is DownloadException)
+                        //throw;
 
                     if (ex is DownloadHttpStatusCodeException statusCodeException)
                     {
