@@ -28,16 +28,11 @@ namespace FFImageLoading
                         switch (statusCodeException.HttpStatusCode)
                         {
                             case System.Net.HttpStatusCode.BadRequest:
-                            case System.Net.HttpStatusCode.Conflict:
                             case System.Net.HttpStatusCode.ExpectationFailed:
                             case System.Net.HttpStatusCode.Forbidden:
-                            case System.Net.HttpStatusCode.Gone:
                             case System.Net.HttpStatusCode.HttpVersionNotSupported:
                             case System.Net.HttpStatusCode.InternalServerError:
                             case System.Net.HttpStatusCode.MethodNotAllowed:
-                            case System.Net.HttpStatusCode.Moved:
-                            case System.Net.HttpStatusCode.NoContent:
-                            case System.Net.HttpStatusCode.NotFound:
                             case System.Net.HttpStatusCode.PaymentRequired:
                             case System.Net.HttpStatusCode.PreconditionFailed:
                             case System.Net.HttpStatusCode.ProxyAuthenticationRequired:
@@ -50,7 +45,12 @@ namespace FFImageLoading
                             case System.Net.HttpStatusCode.UseProxy:
                                 throw;
 
-                            default:
+							case System.Net.HttpStatusCode.Conflict:
+							case System.Net.HttpStatusCode.Gone:
+							case System.Net.HttpStatusCode.Moved:
+							case System.Net.HttpStatusCode.NoContent:
+							case System.Net.HttpStatusCode.NotFound:
+							default:
                                 break;
                         }
                     }
