@@ -88,6 +88,10 @@ Thank JetBrains for providing DEV tools in developing. (Especially on MacOS)
 
 ## Release Notes
 
+## 1.2.5
+
+1.Fix retry image download is not working. #36 (Thanks Reported by https://github.com/BoungSeokKim)
+
 ## 1.2.4
 
 1.Fix Android app crashes when using using multiple CachedImage for showing multiple gifs #35 (Thanks Reported by https://github.com/Th3L0x)
