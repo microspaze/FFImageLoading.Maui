@@ -88,6 +88,10 @@ Thank JetBrains for providing DEV tools in developing. (Especially on MacOS)
 
 ## Release Notes
 
+## 1.2.6
+
+1.Fix Unit Test Error XFC0000 Cannot resolve type "clr-namespace:...fftransformations:GrayscaleTransformation" when targets to pure .net framework #33 (Thanks Reported by https://github.com/VegardAaberge)
+
 ## 1.2.5
 
 1.Fix retry image download is not working. #36 (Thanks Reported by https://github.com/BoungSeokKim)
