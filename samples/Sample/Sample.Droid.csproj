@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0-android</TargetFrameworks>
-    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0;net8.0-android</TargetFrameworks>
+    <OutputType Condition="'$(TargetFramework)' != 'net8.0'">Exe</OutputType>
     <RootNamespace>Sample</RootNamespace>
     <UseMaui>true</UseMaui>
     <SingleProject>true</SingleProject>
