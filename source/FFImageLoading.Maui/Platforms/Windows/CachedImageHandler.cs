@@ -106,9 +106,19 @@ namespace FFImageLoading.Maui.Platform
             if (image == null || imageView == null || _isDisposed)
                 return;
 
-			var scale = VirtualView?.GetVisualElementWindow()?.RequestDisplayDensity()
+            double scale;
+            
+            try
+            {
+                scale = VirtualView?.GetVisualElementWindow()?.RequestDisplayDensity()
 					?? (float)DeviceDisplay.MainDisplayInfo.Density;
-
+            } 
+            catch (InvalidOperationException ex) 
+            {
+                // This can happen if the window has been closed. We can avoid propagating the exception for the main application.
+                return;
+            }
+			 
 			var ffSource = await ImageSourceBinding.GetImageSourceBinding(image.Source, image).ConfigureAwait(false);
             if (ffSource == null)
             {
