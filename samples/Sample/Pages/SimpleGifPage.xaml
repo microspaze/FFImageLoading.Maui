@@ -42,6 +42,17 @@
                     <fftransformations:CircleTransformation/>
                 </ffimageloading:CachedImage.Transformations>
             </ffimageloading:CachedImage>-->
+            
+            <Label Text="GIF with Transformations Render by CachedImag" HorizontalOptions="Center" />
+            <ffimageloading:CachedImage
+                Source="mortalkombat.gif"
+                HeightRequest="200"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a race car number eight">
+                <ffimageloading:CachedImage.Transformations>
+                    <fftransformations:CircleTransformation BorderSize="20" BorderHexColor="#DDDDDD"></fftransformations:CircleTransformation>
+                </ffimageloading:CachedImage.Transformations>
+            </ffimageloading:CachedImage>  
         </StackLayout>
     </ScrollView>
     </ContentPage.Content>

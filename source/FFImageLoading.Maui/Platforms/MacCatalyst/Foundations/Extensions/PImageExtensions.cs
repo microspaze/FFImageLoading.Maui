@@ -34,6 +34,7 @@ namespace FFImageLoading.Extensions
             var aspectWidth = image.Size.Width * scaleRatio;
             var aspectHeight = image.Size.Height * scaleRatio;
 
+            if (aspectWidth == 0 || aspectHeight == 0) return null;
             var newSize = new CGSize(aspectWidth, aspectHeight);
 #if __MACOS__
             var resizedImage = new PImage(newSize);

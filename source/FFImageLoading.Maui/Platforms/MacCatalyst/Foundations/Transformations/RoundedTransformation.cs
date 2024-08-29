@@ -73,6 +73,7 @@ namespace FFImageLoading.Transformations
             else
                 rad = (nfloat)(rad * (desiredWidth + desiredHeight) / 2 / 500);
 
+            if (desiredWidth == 0 || desiredHeight == 0) return null;
             UIGraphics.BeginImageContextWithOptions(new CGSize(desiredWidth, desiredHeight), false, (nfloat)0.0);
 
             try

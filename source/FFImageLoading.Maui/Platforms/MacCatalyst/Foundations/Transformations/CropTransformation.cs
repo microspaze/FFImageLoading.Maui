@@ -85,6 +85,7 @@ namespace FFImageLoading.Transformations
             if (cropY + desiredHeight > sourceHeight)
                 cropY = (float)(sourceHeight - desiredHeight);
 
+            if (desiredWidth == 0 || desiredHeight == 0) return null;
             UIGraphics.BeginImageContextWithOptions(new CGSize(desiredWidth, desiredHeight), false, (nfloat)0.0);
 
             try
