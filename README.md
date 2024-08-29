@@ -88,6 +88,16 @@ Thank JetBrains for providing DEV tools in developing. (Especially on MacOS)
 
 ## Release Notes
 
+## 1.2.7
+
+1.Fix iOS & Mac ColorSpaceTransformation cause app crush bug.
+
+2.Fix #44 Windows CachedImage handler is failing when application is being closed. (Thanks PR by https://github.com/pedroafsouza) 
+
+3.Fix #47 NSInternalInconsistencyException when loading certain animated images and applying a transform. (Thanks Reported by https://github.com/kpespisa)
+
+4.Fix #48 OnLoadingPlaceholderSet Memory Leak. (Thanks PR by https://github.com/MichaelFrenkel) 
+
 ## 1.2.6
 
 1.Fix Unit Test Error XFC0000 Cannot resolve type "clr-namespace:...fftransformations:GrayscaleTransformation" when targets to pure .net framework #33 (Thanks Reported by https://github.com/VegardAaberge)
