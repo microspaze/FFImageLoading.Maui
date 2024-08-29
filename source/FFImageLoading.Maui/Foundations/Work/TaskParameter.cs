@@ -604,6 +604,7 @@ namespace FFImageLoading.Work
                 OnDownloadStarted = null;
                 OnDownloadProgress = null;
                 OnFileWriteFinished = null;
+                OnLoadingPlaceholderSet = null;
                 Transformations = null;
                 Stream = null;
                 StreamRead.TryDispose();

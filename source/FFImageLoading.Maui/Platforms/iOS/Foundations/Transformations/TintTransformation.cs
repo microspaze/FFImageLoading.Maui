@@ -79,6 +79,7 @@ namespace FFImageLoading.Transformations
         {
             CGRect drawRect = new CGRect(0.0, 0.0, imageSource.Size.Width, imageSource.Size.Height);
 
+            if (imageSource.Size.Width == 0 || imageSource.Size.Height == 0) return null;
             UIGraphics.BeginImageContextWithOptions(imageSource.Size, false, 0.0f);
             using (var context = UIGraphics.GetCurrentContext())
             {

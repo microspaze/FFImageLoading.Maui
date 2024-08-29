@@ -54,6 +54,7 @@ namespace FFImageLoading.Transformations
             if (resize && (degrees % 180 != 0))
                 boundingRect = GetBoundingRectAfterRotation(new CGRect(0, 0, source.Size.Width, source.Size.Height), degrees);
 
+            if (boundingRect.Size.Width == 0 || boundingRect.Size.Height == 0) return null;
             UIGraphics.BeginImageContextWithOptions(new CGSize(boundingRect.Size.Width, boundingRect.Size.Height), false, (nfloat)0.0);
 
             try

@@ -105,8 +105,7 @@ namespace FFImageLoading.Transformations
             using (var context = CIContext.FromOptions(new CIContextOptions { UseSoftwareRenderer = false }))
             using (var inputImage = CIImage.FromCGImage(source.CGImage))
             {
-				
-                //filter.OutputImage = inputImage;
+	            filter.SetValueForKey(inputImage, new NSString("inputImage"));
                 using (var resultImage = context.CreateCGImage(filter.OutputImage, inputImage.Extent))
                 {
                     return new UIImage(resultImage);
