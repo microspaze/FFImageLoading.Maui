@@ -35,7 +35,7 @@ namespace FFImageLoading
 		{
 		}
 
-        public override IMemoryCache<MockBitmap> MemoryCache => new MockImageCache();
+        public override IMemoryCache<MockBitmap> MemoryCache => MockImageCache.Instance;
 
         public static IImageLoaderTask CreateTask<TImageView>(TaskParameter parameters, ITarget<MockBitmap, TImageView> target) where TImageView : class
         {
