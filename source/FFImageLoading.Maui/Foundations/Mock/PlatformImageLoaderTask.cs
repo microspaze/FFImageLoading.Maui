@@ -13,6 +13,7 @@ namespace FFImageLoading.Work
         public PlatformImageLoaderTask(ITarget<MockBitmap, TImageView> target, TaskParameter parameters, IImageService imageService)
             : base(imageService, target, parameters)
         {
+			MemoryCache = MockImageCache.Instance;
         }
 
         protected override int DpiToPixels(int size, double scale)
