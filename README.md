@@ -89,6 +89,10 @@ Thank JetBrains for providing DEV tools in developing. (Especially on MacOS)
 
 ## Release Notes
 
+## 1.2.8
+
+1.Add .NET 9 support.
+
 ## 1.2.7
 
 1.Fix iOS & Mac ColorSpaceTransformation cause app crush bug.

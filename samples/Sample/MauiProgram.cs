@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using FFImageLoading.Maui;
+﻿using FFImageLoading.Maui;
 
 namespace Sample
 {
@@ -10,16 +9,12 @@ namespace Sample
 			var builder = MauiApp.CreateBuilder();
 			builder
 				.UseMauiApp<App>()
+				.UseFFImageLoading()
 				.ConfigureFonts(fonts =>
 				{
 					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 					fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-				})
-				.UseFFImageLoading();
-
-#if DEBUG
-			builder.Logging.AddDebug();
-#endif
+				});
 
 			App = builder.Build();
 

@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net8.0-ios</TargetFrameworks>
-    <OutputType Condition="'$(TargetFramework)' != 'net8.0'">Exe</OutputType>
+    <TargetFrameworks>net9.0;net9.0-ios</TargetFrameworks>
+    <OutputType Condition="'$(TargetFramework)' != 'net9.0'">Exe</OutputType>
     <RootNamespace>Sample</RootNamespace>
     <UseMaui>true</UseMaui>
     <SingleProject>true</SingleProject>
@@ -10,7 +10,7 @@
     <UseInterpreter>true</UseInterpreter>
 
     <!-- Display name -->
-    <ApplicationTitle>Sample</ApplicationTitle>
+    <ApplicationTitle>FFImage</ApplicationTitle>
 
     <!-- App Identifier -->
     <ApplicationId>com.i7chi.ffimagesample</ApplicationId>
