@@ -89,6 +89,10 @@ Thank JetBrains for providing DEV tools in developing. (Especially on MacOS)
 
 ## Release Notes
 
+## 1.2.9
+
+1.Update Svg.Skia lib to 2.0.0.8
+
 ## 1.2.8
 
 1.Add .NET 9 support.

@@ -13,7 +13,7 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 
     <AssemblyName>FFImageLoading.Maui</AssemblyName>
-    <Version>1.2.8</Version>
+    <Version>1.2.9</Version>
     <Authors>Microspaze, Redth, Daniel Luberda</Authors>
     <Company>Microspaze, Redth, Daniel Luberda</Company>
     <Product>FFImageLoading.Maui</Product>
@@ -43,7 +43,7 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
 
@@ -58,6 +58,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Svg.Skia" Version="1.0.0.10" />
+    <PackageReference Include="Svg.Skia" Version="2.0.0.8" />
   </ItemGroup>
 </Project>
