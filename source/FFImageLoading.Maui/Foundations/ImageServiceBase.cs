@@ -64,7 +64,7 @@ namespace FFImageLoading
         {
             get
             {
-                InitializeIfNeeded();
+                InitializeIfNeeded(_config);
                 return _config;
             }
         }
@@ -81,7 +81,7 @@ namespace FFImageLoading
             lock (_initializeLock)
             {
                 _initialized = false;
-                InitializeIfNeeded();
+                InitializeIfNeeded(_config);
             }
         }
 
