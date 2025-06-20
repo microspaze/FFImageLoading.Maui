@@ -10,11 +10,11 @@
 
         <ListView
             ItemSelected="ListView_ItemSelected"
-            HasUnevenRows="true"
+            HasUnevenRows="False"
+            RowHeight="50"
             GroupDisplayBinding="{Binding Key}"
             IsGroupingEnabled="true"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemsSource="{Binding Items}">
-
 
             <ListView.ItemTemplate>
                 <DataTemplate>
