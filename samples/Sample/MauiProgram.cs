@@ -36,14 +36,16 @@ namespace Sample
 
 	public static class Helpers
 	{
+		private static readonly bool _useBingImage = true;
+
 		public static string GetImageUrl(int key, int width = 600, int height = 600)
 		{
-			return $"https://picsum.photos/seed/nature{key}/{width}/{height}";
+			return _useBingImage ? $"https://bing.img.run/rand_1366x768.php?tag=nature{key}" :  $"https://picsum.photos/seed/nature{key}/{width}/{height}";
 		}
 
 		public static string GetRandomImageUrl(int width = 600, int height = 600)
 		{
-			return $"https://picsum.photos/seed/nature{Guid.NewGuid()}/{width}/{height}";
+			return _useBingImage ? $"https://bing.img.run/rand_1366x768.php?tag=nature{Guid.NewGuid()}" : $"https://picsum.photos/seed/nature{Guid.NewGuid()}/{width}/{height}";
 		}
 	}
 }
