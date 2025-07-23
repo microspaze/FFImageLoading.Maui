@@ -30,12 +30,12 @@ namespace Sample
 	{
 		public static string GetImageUrl(int key, int width = 600, int height = 600)
 		{
-			return $"https://loremflickr.com/{width}/{height}/nature?random={key}";
+			return $"https://picsum.photos/seed/nature{key}/{width}/{height}";
 		}
 
 		public static string GetRandomImageUrl(int width = 600, int height = 600)
 		{
-			return $"https://loremflickr.com/{width}/{height}/nature?random={Guid.NewGuid()}";
+			return $"https://picsum.photos/seed/nature{Guid.NewGuid()}/{width}/{height}";
 		}
 	}
 }
