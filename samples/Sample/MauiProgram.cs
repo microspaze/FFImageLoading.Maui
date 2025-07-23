@@ -16,6 +16,14 @@ namespace Sample
 					fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 				});
 
+			// Set FFImageLoading Global Configuration
+			// Note: If you want to update the configuration later, you can follow the example in BasicPage.xaml.cs
+			var ffilConfig = new FFImageLoading.Config.Configuration()
+			{
+				HttpClient = new HttpClient(new AuthenticatedHttpImageClientHandler(() => "xxxxxx")),
+			};
+			builder.Services.AddSingleton<FFImageLoading.Config.IConfiguration>(ffilConfig);
+
 			App = builder.Build();
 
 			return App;
