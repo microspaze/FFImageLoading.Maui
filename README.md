@@ -89,6 +89,10 @@ Thank JetBrains for providing DEV tools in developing. (Especially on MacOS)
 
 ## Release Notes
 
+## 1.3.2
+
+1.Merge PR Fix Windows PlatformView Crash #75 (Thanks PR by https://github.com/reid-kirkpatrick)
+
 ## 1.3.1
 
 1.Update Svg.Skia lib to 3.0.4 to support Android 16K page size.
