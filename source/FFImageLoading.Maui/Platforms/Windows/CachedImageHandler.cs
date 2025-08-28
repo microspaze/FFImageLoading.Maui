@@ -214,7 +214,7 @@ namespace FFImageLoading.Maui.Platform
 					return;
 				
 				// Wonky situation where you need the parent to remeasure to affect the actual image control
-				(PlatformView?.Parent as FrameworkElement)?.InvalidateMeasure();
+				(((ViewHandler)this).PlatformView?.Parent as FrameworkElement)?.InvalidateMeasure();
 
 				if (!isLoading)
 					element.SetIsLoading(isLoading);
